@@ -16,7 +16,7 @@ class camera {
 
 class perspective_camera : public camera {
     public:
-        GLfloat fovy    = 90.0f;
+        GLfloat fovy    = 60.0f;
         GLfloat zNear   = 0.01f;
         GLfloat zFar    = 1000.0f;
 
