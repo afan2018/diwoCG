@@ -3,10 +3,12 @@
 
 #include <GL/glu.h>
 #include <GL/glut.h>
+#include "scene_graph.h"
 
 class control {
     public:
         virtual void update() {}
+        virtual ray get_ray() {}
 };
 
 class orbit_control : public control {
@@ -37,6 +39,7 @@ class orbit_control : public control {
     public:
         orbit_control();
         virtual void update();
+        virtual ray get_ray();
 };
 
 #endif

@@ -79,3 +79,14 @@ void orbit_control::update() {
     glRotatef(alpha, 0.0f, 1.0f, 0.0f);
     glTranslatef(-x, -y, -z);
 }
+
+ray orbit_control::get_ray() {
+    float alpha_rad = alpha / 180.0f * M_PI;
+    float beta_rad = beta / 180.0f * M_PI;
+    return ray(
+        x, y, z,
+        +1.0f * sin(alpha_rad) * cos(beta_rad),
+        -1.0f                  * sin(beta_rad),
+        -1.0f * cos(alpha_rad) * cos(beta_rad)
+    );
+}

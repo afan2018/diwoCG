@@ -19,7 +19,8 @@ void redraw() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     ctrl -> update();
-    sg.render();
+    ray r = ctrl -> get_ray();
+    sg.render(r);
 
     glutSwapBuffers();
 }

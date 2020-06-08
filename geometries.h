@@ -14,7 +14,7 @@ class box : public node {
             // TODO: read parameters and render, you might want
             // to rewrite glutSolidCube()
             glColor3fv(color);
-            glutSolidCube(0.5f);
+            glutSolidCube(1.0f);
         }
 };
 

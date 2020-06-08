@@ -21,7 +21,7 @@ void init() {
 		p -> translate[0] = d_pos(rng);
 		p -> translate[1] = d_pos(rng);
 		p -> translate[2] = d_pos(rng);
-		p -> scale[0] = p -> scale[1] = p -> scale[2] = d_size(rng);
+		p -> scale[0] = p -> scale[1] = p -> scale[2] = d_size(rng) / 2.0f;
 		sg.nodes.push_back(std::move(p));
 
 	}
