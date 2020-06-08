@@ -8,7 +8,8 @@ class box : public node {
     public:
         void render() {
             transform();
-            glutSolidCube(0.5);
+            glColor3f(1.0f, 0.0f, 0.0f);
+            glutSolidCube(0.5f);
         }
 };
 

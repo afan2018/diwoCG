@@ -7,6 +7,7 @@
 #include <GL/glu.h>
 
 #include "scene_graph.h"
+#include "control.h"
 
 class camera {
     public:
@@ -25,8 +26,10 @@ class perspective_camera : public camera {
         }
 };
 
-extern camera *c;
+extern camera *cam;
+extern control *ctrl;
 extern scene_graph sg;
 extern void init();
+extern void update();
 
 #endif

@@ -1,20 +1,24 @@
 #include "engine.h"
 
-camera *c;
+camera *cam;
+control *ctrl;
 scene_graph sg;
 
 void reshape(int width, int height) {
-    if (height = 0) height = 1;
+    if (height == 0) height = 1;
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    c -> transform(width, height);
+    cam -> transform(width, height);
 }
 
 void redraw() {
+    update();
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+    ctrl -> update();
     sg.render();
 
     glutSwapBuffers();

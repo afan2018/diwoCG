@@ -2,6 +2,7 @@
 #define SCENE_GREAPH_H
 
 #include <vector>
+#include <memory>
 #include <GL/gl.h>
 
 class aabb {
@@ -27,7 +28,7 @@ class node {
         GLfloat translate[3]      = { 0.0f, 0.0f, 0.0f };
         GLfloat scale[3]          = { 1.0f, 1.0f, 1.0f };
         GLfloat rotate_angle      = 0.0f;
-        GLfloat rotate_axis[3]    = { 0.0f, 0.0f, 1.0f };
+        GLfloat rotate_axis[3]    = { 0.0f, 1.0f, 0.0f };
         GLint   texId             = 0;
         
         aabb get_aabb() {
@@ -46,13 +47,13 @@ class node {
 
 class scene_graph {
     public:
-        std::vector<node> nodes;
+        std::vector<std::unique_ptr<node>> nodes;
         scene_graph() = default;
 
         render() {
-            for (node& n : nodes) {
+            for (auto& n : nodes) {
                 glPushMatrix();
-                n.render();
+                n -> render();
                 glPopMatrix();
             }
         }
