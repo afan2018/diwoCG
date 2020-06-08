@@ -31,6 +31,7 @@ void idle() {
 int main(int argc, char **argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
+    // TODO: enable configuration
     glutInitWindowSize(480, 480);
     glutCreateWindow("Simple GLUT App");
 
@@ -40,6 +41,7 @@ int main(int argc, char **argv) {
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glEnable(GL_DEPTH_TEST);
+    // TODO: more initialization operations
 
     init();
 

@@ -10,7 +10,12 @@ class control {
 
 class orbit_control : public control {
     public:
+        orbit_control() {
+            // TODO: register glut event listeners
+        }
+
         virtual void update() {
+            // TODO: update directions and gluLookAt()
             gluLookAt(
                 0, 0, -2,
                 0, 0, 0,
