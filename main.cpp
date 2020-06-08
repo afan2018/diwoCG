@@ -1,8 +1,8 @@
-#include <stdlib.h>
 #include <windows.h>
+#include <cstdlib>
 #include <cstdio>
-#include "glut.h"
-#include "glext.h"
+#include <GL/glut.h>
+#include <GL/glext.h>
 
 float fTranslate;
 float fRotate;
