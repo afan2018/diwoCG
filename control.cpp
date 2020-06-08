@@ -1,5 +1,7 @@
 #include "control.h"
 
+#include <cmath>
+
 orbit_control* instance;
 
 void orbit_control::motion_static(int x, int y) {
@@ -8,6 +10,14 @@ void orbit_control::motion_static(int x, int y) {
 
 void orbit_control::mouse_static(int button, int state, int x, int y) {
     if (instance) instance -> mouse(button, state, x, y);
+}
+
+void orbit_control::keyboard_static(unsigned char key, int x, int y) {
+    if (instance) instance -> keyboard(key, x, y);
+}
+
+void orbit_control::keyboard_up_static(unsigned char key, int x, int y) {
+    if (instance) instance -> keyboard_up(key, x, y);
 }
 
 void orbit_control::motion(int x, int y) {
@@ -26,14 +36,46 @@ void orbit_control::mouse(int button, int state, int x, int y) {
     down_beta = beta;
 }
 
+void orbit_control::keyboard(unsigned char key, int x, int y) {
+    switch (key) {
+        case 'w': w_down = true; break;
+        case 's': s_down = true; break;
+        case 'a': a_down = true; break;
+        case 'd': d_down = true; break;
+    }
+}
+
+void orbit_control::keyboard_up(unsigned char key, int x, int y) {
+    switch (key) {
+        case 'w': w_down = false; break;
+        case 's': s_down = false; break;
+        case 'a': a_down = false; break;
+        case 'd': d_down = false; break;
+    }
+}
+
 orbit_control::orbit_control() {
     // TODO: register glut event listeners
     instance = this;
     glutMotionFunc(&motion_static);
     glutMouseFunc(&mouse_static);
+    glutKeyboardFunc(&keyboard_static);
+    glutKeyboardUpFunc(&keyboard_up_static);
+    glutIgnoreKeyRepeat(true);
+}
+
+void orbit_control::move(float angle, float dist) {
+    float rad = (angle - alpha) / 180.0f * M_PI;
+    x += dist * cos(rad);
+    z -= dist * sin(rad);
 }
 
 void orbit_control::update() {
+    if (w_down) move( 90.0f, 0.1f);
+    if (s_down) move(270.0f, 0.1f);
+    if (a_down) move(180.0f, 0.1f);
+    if (d_down) move(  0.0f, 0.1f);
     glRotatef(beta, 1.0f, 0.0f, 0.0f);
     glRotatef(alpha, 0.0f, 1.0f, 0.0f);
+    glTranslatef(-x, -y, -z);
 }
