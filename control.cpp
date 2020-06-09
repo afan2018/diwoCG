@@ -1,6 +1,10 @@
 #include "control.h"
 
 #include <cmath>
+#ifndef M_PI
+#define M_PI 3.1415926535
+#endif // !M_PI
+
 
 orbit_control* instance;
 

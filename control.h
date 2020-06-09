@@ -1,6 +1,7 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
+#include <windows.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
 #include "scene_graph.h"
@@ -8,7 +9,7 @@
 class control {
     public:
         virtual void update() {}
-        virtual ray get_ray() {}
+        virtual ray get_ray() = 0;
 };
 
 class orbit_control : public control {
