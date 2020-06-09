@@ -2,6 +2,7 @@
 #define GEOMETRIES_H
 
 #include "scene_graph.h"
+#include <windows.h>
 #include <GL/glut.h>
 
 class box : public node {

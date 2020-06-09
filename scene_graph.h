@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <cmath>
+#include <windows.h>
 #include <GL/gl.h>
 
 class ray {
@@ -100,7 +101,7 @@ class scene_graph {
         std::vector<std::unique_ptr<node>> nodes;
         scene_graph() = default;
 
-        render(ray &r) {
+        void render(ray &r) {
             glColor3f(1.0f, 0.0f, 0.0f);
             glBegin(GL_LINES);
             glVertex3f(r.x0, r.y0, r.z0);
