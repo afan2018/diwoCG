@@ -9,7 +9,7 @@
 class control {
     public:
         virtual void update() {}
-        virtual ray get_ray() = 0 {}
+        virtual ray get_ray() = 0;
 };
 
 class orbit_control : public control {
