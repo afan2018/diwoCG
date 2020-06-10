@@ -1,15 +1,20 @@
 #include "engine.h"
 #include "scene_graph.h"
 #include "geometries.h"
-// #include "control.h"
+#include "control.h"
 
+#include <iostream>
 #include <memory>
 #include <random>
 
 void init() {
-	cam = new perspective_camera();
-	ctrl = new orbit_control();
-	ss = new screenshot();
+	cam = std::make_shared<perspective_camera>();
+	ctrl = std::make_shared<orbit_control>();
+	ss = std::make_shared<screenshot>();
+
+	listeners.push_back(std::weak_ptr<listener>(ss));
+	listeners.push_back(std::weak_ptr<listener>(ctrl));
+
 	std::default_random_engine rng;
 	std::uniform_real_distribution<float> d_color(0.0f, 1.0f);
 	std::uniform_real_distribution<float> d_pos(-10.0f, 10.0f);

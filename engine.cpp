@@ -1,20 +1,27 @@
 #include "engine.h"
 
-camera *cam;
-control *ctrl;
+#include <windows.h>
+#include <GL/glut.h>
+
+std::vector<std::weak_ptr<listener>> listeners;
+std::shared_ptr<camera> cam;
+std::shared_ptr<control> ctrl;
+std::shared_ptr<screenshot> ss;
 scene_graph sg;
-screenshot *ss;
 
 int w_width, w_height;
 
-void reshape(int width, int height) {
-    if (height == 0) height = 1;
+void reshape(int width, int height)
+{
+    if (height == 0)
+        height = 1;
     glViewport(0, 0, width, height);
     w_width = width;
     w_height = height;
 }
 
-void redraw() {
+void redraw()
+{
     update();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -24,18 +31,19 @@ void redraw() {
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    cam -> transform(w_width, w_height);
+    cam->transform(w_width, w_height);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glPushMatrix();
-    ctrl -> update();
-    ray r = ctrl -> get_ray();
-    sg.render(r, !ss -> get_ss_mode());
+    ctrl->update();
+    ray r = ctrl->get_ray();
+    sg.render(r, !ss->get_ss_mode());
     glPopMatrix();
 
     // cross
-    if (!ss->get_ss_mode()) {
+    if (!ss->get_ss_mode())
+    {
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         glOrtho(0, w_width, 0, w_height, -1, 1);
@@ -54,7 +62,9 @@ void redraw() {
         glVertex2f(w_width / 2, w_height / 2 + 10.0f);
         glEnd();
         glDisable(GL_BLEND);
-    } else {
+    }
+    else
+    {
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         glOrtho(0, w_width, 0, w_height, -1, 1);
@@ -64,35 +74,45 @@ void redraw() {
     glutSwapBuffers();
 }
 
-void idle() {
+void idle()
+{
     glutPostRedisplay();
 }
 
-void motion(int x, int y) {
-    for (auto l : vlistener) {
-        l->motion(x, y);
+void motion(int x, int y)
+{
+    for (auto l : listeners)
+    {
+        if (l.lock()->motion(x, y)) break;
     }
 }
 
-void mouse(int button, int state, int x, int y) {
-    for (auto l : vlistener) {
-        l->mouse(button, state, x, y);
+void mouse(int button, int state, int x, int y)
+{
+    for (auto l : listeners)
+    {
+        if (l.lock()->mouse(button, state, x, y)) break;
     }
 }
 
-void keyboard(unsigned char key, int x, int y) {
-    for (auto l : vlistener) {
-        l->keyboard(key, x, y);
+void keyboard(unsigned char key, int x, int y)
+{
+    for (auto l : listeners)
+    {
+        if (l.lock()->keyboard(key, x, y)) break;
     }
 }
 
-void keyboard_up(unsigned char key, int x, int y) {
-    for (auto l : vlistener) {
-        l->keyboard_up(key, x, y);
+void keyboard_up(unsigned char key, int x, int y)
+{
+    for (auto l : listeners)
+    {
+        if (l.lock()->keyboard_up(key, x, y)) break;
     }
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
     // TODO: enable configuration

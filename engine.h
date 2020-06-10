@@ -1,11 +1,11 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
-#include <windows.h>
-#include <GL/glut.h>
+#include <memory>
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+#include "listener.h"
 #include "scene_graph.h"
 #include "control.h"
 #include "screenshot.h"
@@ -27,10 +27,10 @@ class perspective_camera : public camera {
         }
 };
 
-extern camera *cam;
-extern control *ctrl;
-extern screenshot *ss;
-extern std::vector<listener*> vlistener;
+extern std::vector<std::weak_ptr<listener>> listeners;
+extern std::shared_ptr<camera> cam;
+extern std::shared_ptr<control> ctrl;
+extern std::shared_ptr<screenshot> ss;
 extern scene_graph sg;
 extern void init();
 extern void update();

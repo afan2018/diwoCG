@@ -3,74 +3,44 @@
 #include <utility>
 #ifndef M_PI
 #define M_PI 3.1415926535
-#endif // !M_PI
+#endif
 
-
-std::vector<listener*> vlistener;
-
-listener::listener() {
-    vlistener.push_back(this);
-}
-
-orbit_control* instance;
-
-void orbit_control::motion_static(int x, int y) {
-    if (instance) instance -> motion(x, y);
-}
-
-void orbit_control::mouse_static(int button, int state, int x, int y) {
-    if (instance) instance -> mouse(button, state, x, y);
-}
-
-void orbit_control::keyboard_static(unsigned char key, int x, int y) {
-    if (instance) instance -> keyboard(key, x, y);
-}
-
-void orbit_control::keyboard_up_static(unsigned char key, int x, int y) {
-    if (instance) instance -> keyboard_up(key, x, y);
-}
-
-void orbit_control::motion(int x, int y) {
-    if (other_down) return;
+bool orbit_control::motion(int x, int y) {
     int dx = x - down_x;
     int dy = y - down_y;
     alpha = down_alpha + dx * -0.23f;
     beta = down_beta + dy * -0.23f;
     if (beta < -90.0f) beta = -90.0f;
     if (beta > +90.0f) beta = +90.0f;
+    return false;
 }
 
-void orbit_control::mouse(int button, int state, int x, int y) {
-    if (other_down) return;
+bool orbit_control::mouse(int button, int state, int x, int y) {
     down_x = x;
     down_y = y;
     down_alpha = alpha;
     down_beta = beta;
+    return false;
 }
 
-void orbit_control::keyboard(unsigned char key, int x, int y) {
+bool orbit_control::keyboard(unsigned char key, int x, int y) {
     switch (key) {
         case 'w': w_down = true; break;
         case 's': s_down = true; break;
         case 'a': a_down = true; break;
         case 'd': d_down = true; break;
-        default: other_down = true; break;
     }
+    return false;
 }
 
-void orbit_control::keyboard_up(unsigned char key, int x, int y) {
+bool orbit_control::keyboard_up(unsigned char key, int x, int y) {
     switch (key) {
         case 'w': w_down = false; break;
         case 's': s_down = false; break;
         case 'a': a_down = false; break;
         case 'd': d_down = false; break;
-        default: other_down = false; break;
     }
-}
-
-orbit_control::orbit_control() {
-    // TODO: register glut event listeners
-    instance = this;
+    return false;
 }
 
 void orbit_control::move(float angle, float dist) {

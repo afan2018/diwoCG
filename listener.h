@@ -1,13 +1,16 @@
-#pragma once
-#include "engine.h"
+#ifndef LISTENER_H
+#define LISTENER_H
 
-class listener {
+#include <memory>
+
+class listener : public std::enable_shared_from_this<listener>
+{
 public:
-    listener();
-    virtual void motion(int x, int y) {}
-    virtual void mouse(int button, int state, int x, int y) {}
-    virtual void keyboard(unsigned char key, int x, int y) {}
-    virtual void keyboard_up(unsigned char key, int x, int y) {}
+    listener() = default;
+    virtual bool motion(int x, int y) { return false; }
+    virtual bool mouse(int button, int state, int x, int y) { return false; }
+    virtual bool keyboard(unsigned char key, int x, int y) { return false; }
+    virtual bool keyboard_up(unsigned char key, int x, int y) { return false; }
 };
 
-extern std::vector<listener*> vlistener;
+#endif

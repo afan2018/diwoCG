@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 #include <cmath>
-#include <windows.h>
+#include <GL/glut.h>
 #include <GL/gl.h>
 
 class ray {
