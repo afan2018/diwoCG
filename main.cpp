@@ -1,9 +1,6 @@
 #include "engine.h"
-#include "scene_graph.h"
 #include "geometries.h"
-#include "control.h"
 
-#include <iostream>
 #include <memory>
 #include <random>
 

@@ -1,9 +1,10 @@
-#ifndef SCENE_GREAPH_H
-#define SCENE_GREAPH_H
+#ifndef SCENE_GRAPH_H
+#define SCENE_GRAPH_H
 
 #include <vector>
 #include <memory>
 #include <cmath>
+
 #include <GL/glut.h>
 #include <GL/gl.h>
 

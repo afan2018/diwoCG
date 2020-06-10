@@ -1,6 +1,5 @@
 #include "control.h"
 #include <cmath>
-#include <utility>
 #ifndef M_PI
 #define M_PI 3.1415926535
 #endif
@@ -29,6 +28,7 @@ bool orbit_control::keyboard(unsigned char key, int x, int y) {
         case 's': s_down = true; break;
         case 'a': a_down = true; break;
         case 'd': d_down = true; break;
+        case ' ': space_down = true; break;
     }
     return false;
 }
@@ -39,6 +39,7 @@ bool orbit_control::keyboard_up(unsigned char key, int x, int y) {
         case 's': s_down = false; break;
         case 'a': a_down = false; break;
         case 'd': d_down = false; break;
+        case ' ': space_down = false; break;
     }
     return false;
 }
@@ -54,6 +55,7 @@ void orbit_control::update() {
     if (s_down) move(270.0f, 0.1f);
     if (a_down) move(180.0f, 0.1f);
     if (d_down) move(  0.0f, 0.1f);
+    if (space_down) y += 0.1f;
     glRotatef(beta, 1.0f, 0.0f, 0.0f);
     glRotatef(alpha, 0.0f, 1.0f, 0.0f);
     glTranslatef(-x, -y, -z);

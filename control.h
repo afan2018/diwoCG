@@ -2,8 +2,9 @@
 #define CONTROL_H
 
 #include <windows.h>
-#include <GL/glu.h>
 #include <GL/glut.h>
+#include <GL/glu.h>
+
 #include "scene_graph.h"
 #include "listener.h"
 
@@ -21,7 +22,7 @@ class orbit_control : public control {
         bool s_down = false;
         bool a_down = false;
         bool d_down = false;
-        bool other_down = false;
+        bool space_down = false;
 
         float alpha = 0.0f;
         float beta = 0.0f;
