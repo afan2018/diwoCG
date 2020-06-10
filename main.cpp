@@ -1,7 +1,7 @@
 #include "engine.h"
 #include "scene_graph.h"
 #include "geometries.h"
-#include "control.h"
+// #include "control.h"
 
 #include <memory>
 #include <random>
@@ -9,6 +9,7 @@
 void init() {
 	cam = new perspective_camera();
 	ctrl = new orbit_control();
+	ss = new screenshot();
 	std::default_random_engine rng;
 	std::uniform_real_distribution<float> d_color(0.0f, 1.0f);
 	std::uniform_real_distribution<float> d_pos(-10.0f, 10.0f);

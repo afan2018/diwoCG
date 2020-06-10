@@ -1,13 +1,11 @@
 #include "engine.h"
-#include "screenshot.h"
 
 camera *cam;
-orbit_control *ctrl;
+control *ctrl;
 scene_graph sg;
-screenshot ss;
+screenshot *ss;
 
 int w_width, w_height;
-bool in_screenshot_mode;
 
 void reshape(int width, int height) {
     if (height == 0) height = 1;
@@ -33,11 +31,11 @@ void redraw() {
     glPushMatrix();
     ctrl -> update();
     ray r = ctrl -> get_ray();
-    sg.render(r, !in_screenshot_mode);
+    sg.render(r, !ss -> get_ss_mode());
     glPopMatrix();
 
     // cross
-    if (!in_screenshot_mode) {
+    if (!ss->get_ss_mode()) {
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         glOrtho(0, w_width, 0, w_height, -1, 1);
@@ -60,7 +58,7 @@ void redraw() {
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         glOrtho(0, w_width, 0, w_height, -1, 1);
-        ss.drawRect(w_height);
+        ss->drawRect(w_height);
     }
 
     glutSwapBuffers();
@@ -71,48 +69,26 @@ void idle() {
 }
 
 void motion(int x, int y) {
-    if (in_screenshot_mode) {
-        ss.motion(x, y);    
-    } else {
-        ctrl -> motion(x, y);
+    for (auto l : vlistener) {
+        l->motion(x, y);
     }
 }
 
 void mouse(int button, int state, int x, int y) {
-    if (in_screenshot_mode) {
-        ss.setheight(w_height);
-        ss.mouse(button, state, x, y);
-    } else {
-        ctrl -> mouse(button, state, x, y);
+    for (auto l : vlistener) {
+        l->mouse(button, state, x, y);
     }
 }
 
 void keyboard(unsigned char key, int x, int y) {
-    switch (key) {
-        case 'w':
-        case 's':
-        case 'a':
-        case 'd':
-            ctrl -> keyboard(key, x, y);
-            break;
-        case 'p':
-            in_screenshot_mode = true;
-            break;
+    for (auto l : vlistener) {
+        l->keyboard(key, x, y);
     }
 }
 
 void keyboard_up(unsigned char key, int x, int y) {
-    switch (key) {
-        case 'w':
-        case 's':
-        case 'a':
-        case 'd':
-            ctrl -> keyboard_up(key, x, y);
-            break;
-        case 'p':
-            ss.clear();
-            in_screenshot_mode = false;
-            break;
+    for (auto l : vlistener) {
+        l->keyboard_up(key, x, y);
     }
 }
 

@@ -8,6 +8,7 @@
 
 #include "scene_graph.h"
 #include "control.h"
+#include "screenshot.h"
 
 class camera {
     public:
@@ -27,7 +28,9 @@ class perspective_camera : public camera {
 };
 
 extern camera *cam;
-extern orbit_control *ctrl;
+extern control *ctrl;
+extern screenshot *ss;
+extern std::vector<listener*> vlistener;
 extern scene_graph sg;
 extern void init();
 extern void update();

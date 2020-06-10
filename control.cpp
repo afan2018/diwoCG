@@ -1,10 +1,16 @@
 #include "control.h"
-
 #include <cmath>
+#include <utility>
 #ifndef M_PI
 #define M_PI 3.1415926535
 #endif // !M_PI
 
+
+std::vector<listener*> vlistener;
+
+listener::listener() {
+    vlistener.push_back(this);
+}
 
 orbit_control* instance;
 
@@ -25,6 +31,7 @@ void orbit_control::keyboard_up_static(unsigned char key, int x, int y) {
 }
 
 void orbit_control::motion(int x, int y) {
+    if (other_down) return;
     int dx = x - down_x;
     int dy = y - down_y;
     alpha = down_alpha + dx * -0.23f;
@@ -34,6 +41,7 @@ void orbit_control::motion(int x, int y) {
 }
 
 void orbit_control::mouse(int button, int state, int x, int y) {
+    if (other_down) return;
     down_x = x;
     down_y = y;
     down_alpha = alpha;
@@ -46,6 +54,7 @@ void orbit_control::keyboard(unsigned char key, int x, int y) {
         case 's': s_down = true; break;
         case 'a': a_down = true; break;
         case 'd': d_down = true; break;
+        default: other_down = true; break;
     }
 }
 
@@ -55,6 +64,7 @@ void orbit_control::keyboard_up(unsigned char key, int x, int y) {
         case 's': s_down = false; break;
         case 'a': a_down = false; break;
         case 'd': d_down = false; break;
+        default: other_down = false; break;
     }
 }
 

@@ -6,14 +6,20 @@
 #include <GL/glut.h>
 #include "scene_graph.h"
 
-class control {
+class listener {
+public:
+    listener();
+    virtual void update() {}
+    virtual void motion(int x, int y) {}
+    virtual void mouse(int button, int state, int x, int y) {}
+    virtual void keyboard(unsigned char key, int x, int y) {}
+    virtual void keyboard_up(unsigned char key, int x, int y) {}
+};
+
+class control : public listener{
     public:
         virtual void update() {}
         virtual ray get_ray() = 0;
-        virtual void motion(int x, int y) = 0;
-        virtual void mouse(int button, int state, int x, int y) = 0;
-        virtual void keyboard(unsigned char key, int x, int y) = 0;
-        virtual void keyboard_up(unsigned char key, int x, int y) = 0;
 };
 
 class orbit_control : public control {
@@ -29,6 +35,7 @@ class orbit_control : public control {
         bool s_down = false;
         bool a_down = false;
         bool d_down = false;
+        bool other_down = false;
 
         float alpha = 0.0f;
         float beta = 0.0f;
