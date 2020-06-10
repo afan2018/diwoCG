@@ -61,11 +61,6 @@ void orbit_control::keyboard_up(unsigned char key, int x, int y) {
 orbit_control::orbit_control() {
     // TODO: register glut event listeners
     instance = this;
-    glutMotionFunc(&motion_static);
-    glutMouseFunc(&mouse_static);
-    glutKeyboardFunc(&keyboard_static);
-    glutKeyboardUpFunc(&keyboard_up_static);
-    glutIgnoreKeyRepeat(true);
 }
 
 void orbit_control::move(float angle, float dist) {

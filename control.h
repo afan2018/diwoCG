@@ -10,18 +10,18 @@ class control {
     public:
         virtual void update() {}
         virtual ray get_ray() = 0;
+        virtual void motion(int x, int y) = 0;
+        virtual void mouse(int button, int state, int x, int y) = 0;
+        virtual void keyboard(unsigned char key, int x, int y) = 0;
+        virtual void keyboard_up(unsigned char key, int x, int y) = 0;
 };
 
 class orbit_control : public control {
     private:
         static void motion_static(int x, int y);
         static void mouse_static(int button, int state, int x, int y);
-        static void keyboard_static(unsigned char key, int x, int y);\
+        static void keyboard_static(unsigned char key, int x, int y);
         static void keyboard_up_static(unsigned char key, int x, int y);
-        void motion(int x, int y);
-        void mouse(int button, int state, int x, int y);
-        void keyboard(unsigned char key, int x, int y);
-        void keyboard_up(unsigned char key, int x, int y);
 
         int down_x, down_y;
         float down_alpha, down_beta;
@@ -41,6 +41,9 @@ class orbit_control : public control {
         orbit_control();
         virtual void update();
         virtual ray get_ray();
+        virtual void motion(int x, int y);
+        virtual void mouse(int button, int state, int x, int y);
+        virtual void keyboard(unsigned char key, int x, int y);
+        virtual void keyboard_up(unsigned char key, int x, int y);
 };
-
 #endif
