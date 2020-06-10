@@ -19,7 +19,7 @@ public:
     bool get_ss_mode();
     void clear();
     virtual void keyboard(unsigned char key, int x, int y);
-    virtual void keyboardup(unsigned char key, int x, int y);
+    virtual void keyboard_up(unsigned char key, int x, int y);
     void mouse(int button, int state, int x, int y);
     void motion(int x, int y);
     void drawRect(int height);

@@ -6,3 +6,4 @@ Makefile
 .vscode
 Debug/
 *.vcx*
+Screenshot*.bmp

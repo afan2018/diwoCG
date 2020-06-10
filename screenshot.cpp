@@ -35,7 +35,7 @@ void screenshot::keyboard(unsigned char key, int x, int y) {
     }
 }
 
-void screenshot::keyboardup(unsigned char key, int x, int y) {
+void screenshot::keyboard_up(unsigned char key, int x, int y) {
     if (key == 'p') {
         in_ss_mode = false;
     }
