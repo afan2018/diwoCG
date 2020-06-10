@@ -8,3 +8,5 @@ Debug/
 *.vcx*
 Screenshot*.bmp
 /build/
+/diwoCG.cbp
+/.idea/
