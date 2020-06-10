@@ -33,11 +33,11 @@ void redraw() {
     glPushMatrix();
     ctrl -> update();
     ray r = ctrl -> get_ray();
-    sg.render(r, not in_screenshot_mode);
+    sg.render(r, !in_screenshot_mode);
     glPopMatrix();
 
     // cross
-    if (not in_screenshot_mode) {
+    if (!in_screenshot_mode) {
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         glOrtho(0, w_width, 0, w_height, -1, 1);
