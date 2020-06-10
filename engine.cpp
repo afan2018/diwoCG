@@ -3,6 +3,7 @@
 camera *cam;
 control *ctrl;
 scene_graph sg;
+screenshot *ss;
 
 int w_width, w_height;
 
@@ -27,35 +28,68 @@ void redraw() {
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+    glPushMatrix();
     ctrl -> update();
     ray r = ctrl -> get_ray();
-    sg.render(r);
+    sg.render(r, !ss -> get_ss_mode());
+    glPopMatrix();
 
     // cross
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0, w_width, 0, w_height, -1, 1);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    if (!ss->get_ss_mode()) {
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(0, w_width, 0, w_height, -1, 1);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
 
-    glEnable(GL_BLEND);
-    glDisable(GL_DEPTH_TEST);
-    
-    glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    glBegin(GL_LINES);
-    glVertex2f(w_width / 2 - 10.0f, w_height / 2);
-    glVertex2f(w_width / 2 + 10.0f, w_height / 2);
-    glVertex2f(w_width / 2, w_height / 2 - 10.0f);
-    glVertex2f(w_width / 2, w_height / 2 + 10.0f);
-    glEnd();
-    glDisable(GL_BLEND);
+        glEnable(GL_BLEND);
+        glDisable(GL_DEPTH_TEST);
+
+        glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        glBegin(GL_LINES);
+        glVertex2f(w_width / 2 - 10.0f, w_height / 2);
+        glVertex2f(w_width / 2 + 10.0f, w_height / 2);
+        glVertex2f(w_width / 2, w_height / 2 - 10.0f);
+        glVertex2f(w_width / 2, w_height / 2 + 10.0f);
+        glEnd();
+        glDisable(GL_BLEND);
+    } else {
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(0, w_width, 0, w_height, -1, 1);
+        ss->drawRect(w_height);
+    }
 
     glutSwapBuffers();
 }
 
 void idle() {
     glutPostRedisplay();
+}
+
+void motion(int x, int y) {
+    for (auto l : vlistener) {
+        l->motion(x, y);
+    }
+}
+
+void mouse(int button, int state, int x, int y) {
+    for (auto l : vlistener) {
+        l->mouse(button, state, x, y);
+    }
+}
+
+void keyboard(unsigned char key, int x, int y) {
+    for (auto l : vlistener) {
+        l->keyboard(key, x, y);
+    }
+}
+
+void keyboard_up(unsigned char key, int x, int y) {
+    for (auto l : vlistener) {
+        l->keyboard_up(key, x, y);
+    }
 }
 
 int main(int argc, char **argv) {
@@ -74,6 +108,12 @@ int main(int argc, char **argv) {
     // TODO: more initialization operations
 
     init();
+
+    glutMotionFunc(motion);
+    glutMouseFunc(mouse);
+    glutKeyboardFunc(&keyboard);
+    glutKeyboardUpFunc(&keyboard_up);
+    glutIgnoreKeyRepeat(true);
 
     glutMainLoop();
 

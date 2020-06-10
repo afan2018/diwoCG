@@ -101,7 +101,7 @@ class scene_graph {
         std::vector<std::unique_ptr<node>> nodes;
         scene_graph() = default;
 
-        void render(ray &r) {
+        void render(ray &r, bool need_box) {
             glColor3f(1.0f, 0.0f, 0.0f);
             glBegin(GL_LINES);
             glVertex3f(r.x0, r.y0, r.z0);
@@ -121,7 +121,7 @@ class scene_graph {
                     t_min = t;
                 }
             }
-            if (!std::isnan(t_min)) {
+            if (!std::isnan(t_min) && need_box) {
                 glPushMatrix();
                 box_min.render(0.04f);
                 glPopMatrix();

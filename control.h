@@ -6,7 +6,17 @@
 #include <GL/glut.h>
 #include "scene_graph.h"
 
-class control {
+class listener {
+public:
+    listener();
+    virtual void update() {}
+    virtual void motion(int x, int y) {}
+    virtual void mouse(int button, int state, int x, int y) {}
+    virtual void keyboard(unsigned char key, int x, int y) {}
+    virtual void keyboard_up(unsigned char key, int x, int y) {}
+};
+
+class control : public listener{
     public:
         virtual void update() {}
         virtual ray get_ray() = 0;
@@ -16,12 +26,8 @@ class orbit_control : public control {
     private:
         static void motion_static(int x, int y);
         static void mouse_static(int button, int state, int x, int y);
-        static void keyboard_static(unsigned char key, int x, int y);\
+        static void keyboard_static(unsigned char key, int x, int y);
         static void keyboard_up_static(unsigned char key, int x, int y);
-        void motion(int x, int y);
-        void mouse(int button, int state, int x, int y);
-        void keyboard(unsigned char key, int x, int y);
-        void keyboard_up(unsigned char key, int x, int y);
 
         int down_x, down_y;
         float down_alpha, down_beta;
@@ -29,6 +35,7 @@ class orbit_control : public control {
         bool s_down = false;
         bool a_down = false;
         bool d_down = false;
+        bool other_down = false;
 
         float alpha = 0.0f;
         float beta = 0.0f;
@@ -41,6 +48,9 @@ class orbit_control : public control {
         orbit_control();
         virtual void update();
         virtual ray get_ray();
+        virtual void motion(int x, int y);
+        virtual void mouse(int button, int state, int x, int y);
+        virtual void keyboard(unsigned char key, int x, int y);
+        virtual void keyboard_up(unsigned char key, int x, int y);
 };
-
 #endif
