@@ -84,7 +84,14 @@ nurbs::nurbs(GLfloat* cpts, GLfloat* knotsx, GLfloat* knotsy, int r, int c, int 
     for (int k = 0; k < 3; ++k) {
         center[k] = (border[k * 2] + border[k * 2 + 1]) / 2;
     }
-    base_aabb = {border[0], border[1], border[2], border[3], border[4], border[5]};
+    base_aabb = {
+            border[0] - center[0],
+            border[1] - center[0],
+            border[2] - center[1],
+            border[3] - center[1],
+            border[4] - center[2],
+            border[5] - center[2]
+    };
 }
 
 void nurbs::render() {
