@@ -1,5 +1,6 @@
 #include "engine.h"
 #include "geometries.h"
+#include "obj_mesh.h"
 
 #include <memory>
 #include <random>
@@ -26,8 +27,12 @@ void init() {
 		p -> translate[2] = d_pos(rng);
 		p -> scale[0] = p -> scale[1] = p -> scale[2] = d_size(rng) / 2.0f;
 		sg.nodes.push_back(std::move(p));
-
 	}
+
+	auto p = std::make_unique<obj_mesh>("teddy.obj");
+	p -> translate[2] = -5.0f;
+	p -> scale[0] = p -> scale[1] = p -> scale[2] =  0.05f;
+	sg.nodes.push_back(std::move(p));
 }
 
 void update() {

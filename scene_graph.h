@@ -4,9 +4,9 @@
 #include <vector>
 #include <memory>
 #include <cmath>
-
-#include <GL/glut.h>
+#include <windows.h>
 #include <GL/gl.h>
+#include <gl/glut.h>
 
 class ray {
     public:

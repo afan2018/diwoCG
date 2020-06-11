@@ -1,4 +1,5 @@
 #pragma once
+#include <windows.h>
 #include <GL/gl.h>
 #include <GL/glut.h>
 #include <algorithm>
