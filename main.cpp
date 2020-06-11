@@ -1,6 +1,6 @@
 #include "engine.h"
 #include "geometries.h"
-#include "objloader.h"
+#include "obj_mesh.h"
 
 #include <memory>
 #include <random>

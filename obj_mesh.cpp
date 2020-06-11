@@ -1,4 +1,4 @@
-#include "objloader.h"
+#include "obj_mesh.h"
 
 #include <GL/gl.h>
 #include <iostream>
