@@ -36,12 +36,8 @@ class aabb {
     public: 
         GLfloat x0, x1, y0, y1, z0, z1;
         aabb() = default;
-        aabb(
-            GLfloat x0, GLfloat x1, GLfloat y0,
-            GLfloat y1, GLfloat z0, GLfloat z1
-        ) : x0(x0), x1(x1), y0(y0), y1(y1), z0(z0), z1(z1) {}
 
-        float intersects(ray& r) {
+    float intersects(ray& r) const {
             float t_min = NAN;
             INTERSECT_FACE(x0, x0, xd, y0, y1, yd, z0, z1, zd);
             INTERSECT_FACE(x1, x0, xd, y0, y1, yd, z0, z1, zd);
@@ -52,7 +48,7 @@ class aabb {
             return t_min;
         }
 
-        void render(float extend) {
+        void render(float extend) const {
             GLfloat xc = (x0 + x1) / 2;
             GLfloat yc = (y0 + y1) / 2;
             GLfloat zc = (z0 + z1) / 2;
@@ -84,14 +80,14 @@ class node {
         GLint   texId             = 0;
         
         aabb get_aabb() {
-            return aabb(
+            return {
                 base_aabb.x0 * scale[0] + translate[0],
                 base_aabb.x1 * scale[0] + translate[0],
                 base_aabb.y0 * scale[1] + translate[1],
                 base_aabb.y1 * scale[1] + translate[1],
                 base_aabb.z0 * scale[2] + translate[2],
                 base_aabb.z1 * scale[2] + translate[2]
-            );
+            };
         }
 
         virtual void render() {};
@@ -99,32 +95,34 @@ class node {
 
 class scene_graph {
     public:
-        std::vector<std::unique_ptr<node>> nodes;
+        std::vector<std::shared_ptr<node>> nodes;
+        std::shared_ptr<node> selected;
         scene_graph() = default;
 
         void render(ray &r, bool need_box) {
-            glColor3f(1.0f, 0.0f, 0.0f);
-            glBegin(GL_LINES);
-            glVertex3f(r.x0, r.y0, r.z0);
-            glVertex3f(r.x0 + r.xd * 10, r.y0 + r.yd * 10, r.z0 + r.zd * 10);
-            glEnd();
-
-            aabb box_min;
+            // update selection
+            selected = nullptr;
             float t_min = NAN;
             for (auto& n : nodes) {
-                glPushMatrix();
-                n -> render();
-                glPopMatrix();
-                aabb box = n -> get_aabb();
+                aabb box = n->get_aabb();
                 float t = box.intersects(r);
                 if (!std::isnan(t) && !(t >= t_min)) {
-                    box_min = box;
+                    selected = n;
                     t_min = t;
                 }
             }
-            if (!std::isnan(t_min) && need_box) {
+
+            // render nodes
+            for (auto& n : nodes) {
                 glPushMatrix();
-                box_min.render(0.04f);
+                n->render();
+                glPopMatrix();
+            }
+
+            // render selection
+            if (selected && need_box) {
+                glPushMatrix();
+                selected->get_aabb().render(0.04f);
                 glPopMatrix();
             }
         }

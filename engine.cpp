@@ -3,12 +3,11 @@
 #include <windows.h>
 #include <GL/glut.h>
 
-std::vector<std::weak_ptr<listener>> listeners;
+std::vector<std::shared_ptr<listener>> listeners;
 std::shared_ptr<camera> cam;
 std::shared_ptr<control> ctrl;
 std::shared_ptr<screenshot> ss;
 scene_graph sg;
-
 int w_width, w_height;
 
 void reshape(int width, int height)
@@ -81,33 +80,33 @@ void idle()
 
 void motion(int x, int y)
 {
-    for (auto l : listeners)
+    for (const auto& l : listeners)
     {
-        if (l.lock()->motion(x, y)) break;
+        if (l->motion(x, y)) break;
     }
 }
 
 void mouse(int button, int state, int x, int y)
 {
-    for (auto l : listeners)
+    for (const auto& l : listeners)
     {
-        if (l.lock()->mouse(button, state, x, y)) break;
+        if (l->mouse(button, state, x, y)) break;
     }
 }
 
 void keyboard(unsigned char key, int x, int y)
 {
-    for (auto l : listeners)
+    for (const auto& l : listeners)
     {
-        if (l.lock()->keyboard(key, x, y)) break;
+        if (l->keyboard(key, x, y)) break;
     }
 }
 
 void keyboard_up(unsigned char key, int x, int y)
 {
-    for (auto l : listeners)
+    for (const auto& l : listeners)
     {
-        if (l.lock()->keyboard_up(key, x, y)) break;
+        if (l->keyboard_up(key, x, y)) break;
     }
 }
 
