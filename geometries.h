@@ -13,7 +13,7 @@ class box : public node {
     public:
         GLfloat color[3] = { 1.0f, 1.0f, 1.0f };
 
-        void render() {
+        void render() override {
             transform();
             glColor3fv(color);
             drawBox(1.0f);
@@ -24,7 +24,7 @@ class sphere : public node {
 	public:
 		GLfloat color[3] = { 1.0f, 1.0f, 1.0f };
 
-		void render() {
+		void render() override {
 			transform();
 			glColor3fv(color);
 			glutSolidSphere(1.0f, 40, 50);
@@ -37,7 +37,7 @@ class cylinder : public node {
 		GLfloat radius = 1.0;
 		bool lid = false;
 		
-		void render() {
+		void render() override {
 			transform();
 			glColor3fv(color);
 			GLUquadricObj *objCylinder = gluNewQuadric();
@@ -60,7 +60,7 @@ class cone : public node {
 		GLfloat radius = 1.0;
 		bool lid = false;
 
-		void render() {
+		void render() override {
 			transform();
 			glColor3fv(color);
 			GLUquadricObj *objCylinder = gluNewQuadric();
@@ -82,12 +82,11 @@ class prism : public node {
 	public:
 		GLfloat color[3] = { 1.0f, 1.0f, 1.0f };
 
-		void render() {
+		void render() override {
 			transform();
 			glColor3fv(color);
 			drawPrism();
 		}
 };
-
 
 #endif
