@@ -121,6 +121,7 @@ void obj_mesh::render() {
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
+    glColor3f(1.0f, 1.0f, 1.0f);
     glVertexPointer(3, GL_FLOAT, 0, vertices);
     glNormalPointer(GL_FLOAT, 0, normals);
     glDrawArrays(GL_TRIANGLES, 0, nTriangles);
