@@ -126,6 +126,7 @@ obj_mesh::~obj_mesh() {
 
 void obj_mesh::render() {
     transform();
+    colorize();
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);

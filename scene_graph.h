@@ -70,6 +70,18 @@ class node {
             glTranslatef(translate[0], translate[1], translate[2]);
             glRotatef(rotate_angle, rotate_axis[0], rotate_axis[1], rotate_axis[2]);
             glScalef(scale[0], scale[1], scale[2]);
+            glTranslatef(-center[0], -center[1], -center[2]);
+        }
+
+        void colorize() {
+            if (texId == 0) {
+                glDisable(GL_TEXTURE_2D);
+                glColor3fv(color);
+            } else {
+                glEnable(GL_TEXTURE_2D);
+                glBindTexture(GL_TEXTURE_2D, texId);
+                glColor3f(1.0f, 1.0f, 1.0f);
+            }
         }
 
     public:
@@ -77,7 +89,9 @@ class node {
         GLfloat scale[3]          = { 1.0f, 1.0f, 1.0f };
         GLfloat rotate_angle      = 0.0f;
         GLfloat rotate_axis[3]    = { 0.0f, 1.0f, 0.0f };
-        GLint   texId             = 0;
+        GLuint  texId             = 0;
+        GLfloat color[3]          = { 1.0f, 1.0f, 1.0f };
+        GLfloat center[3]         = { 0.0f, 0.0f, 0.0f };
         
         aabb get_aabb() {
             return {
