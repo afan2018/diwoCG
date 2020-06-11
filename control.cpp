@@ -35,6 +35,20 @@ bool orbit_control::keyboard(unsigned char key, int mx, int my) {
         case 'd': d_down = true; break;
         case 'c': c_down = true; break;
         case 'z': z_down = true; break;
+        case 'g': {
+            g_down = true;
+            down_node = sg.selected;
+            if (down_node) {
+                down_ray = get_ray();
+                down_mat = down_node->rotate_mat;
+                down_pos[0] = down_node->translate[0];
+                down_pos[1] = down_node->translate[1];
+                down_pos[2] = down_node->translate[2];
+                g_down_alpha = alpha;
+                g_down_beta = beta;
+            }
+            break;
+        }
     }
     return false;
 }
@@ -62,6 +76,7 @@ bool orbit_control::keyboard_up(unsigned char key, int mx, int my) {
             z = (a.z0 + a.z1) / 2 - r.zd * dist;
             break;
         }
+        case 'g': g_down = false; break;
     }
     return false;
 }
@@ -79,6 +94,26 @@ void orbit_control::update() {
     if (d_down) move(  0.0f, 0.1f);
     if (c_down) y += 0.1f;
     if (z_down) y -= 0.1f;
+
+    if (g_down && down_node) {
+        ray r = get_ray();
+        // world -> ray
+        auto ro = mat3::rotate(g_down_beta, 1.0f, 0.0f, 0.0f) * mat3::rotate(g_down_alpha, 0.0f, 1.0f, 0.0f);
+        auto rn = mat3::rotate(beta, 1.0f, 0.0f, 0.0f) * mat3::rotate(alpha, 0.0f, 1.0f, 0.0f);
+        // dp in world
+        vec3 dpo = {
+                down_pos[0] - down_ray.x0,
+                down_pos[1] - down_ray.y0,
+                down_pos[2] - down_ray.z0
+        };
+        vec3 dpn = ~rn * ro * dpo;
+        // back to node
+        down_node->translate[0] = r.x0 + dpn.data[0];
+        down_node->translate[1] = r.y0 + dpn.data[1];
+        down_node->translate[2] = r.z0 + dpn.data[2];
+        down_node->rotate_mat = (~rn * ro) * down_mat;
+    }
+
     glRotatef(beta, 1.0f, 0.0f, 0.0f);
     glRotatef(alpha, 0.0f, 1.0f, 0.0f);
     glTranslatef(-x, -y, -z);

@@ -26,6 +26,8 @@ GLuint tex_load(const std::string& filename) {
                  data);
 
     stbi_image_free(data);
+
+    return texId;
 }
 
 #endif

@@ -46,9 +46,9 @@ void init() {
         p->translate[1] = d_pos(rng);
         p->translate[2] = d_pos(rng);
         p->scale[0] = p->scale[1] = p->scale[2] = d_size(rng) / 2.0f;
-        p->rotate_axis[0] = d_rot(rng);
-        p->rotate_axis[1] = d_rot(rng);
-        p->rotate_axis[2] = d_rot(rng);
+//        p->rotate_axis[0] = d_rot(rng);
+//        p->rotate_axis[1] = d_rot(rng);
+//        p->rotate_axis[2] = d_rot(rng);
         p->texId = d_has_tex(rng) > 0.9 ? texId : 0;
         sg.nodes.push_back(std::move(p));
     }
@@ -85,7 +85,7 @@ void init() {
 }
 
 void update() {
-    for (auto &p : sg.nodes) {
-        p->rotate_angle += 0.5f;
-    }
+//    for (auto &p : sg.nodes) {
+//        p->rotate_angle += 0.5f;
+//    }
 }

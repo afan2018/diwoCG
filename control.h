@@ -2,6 +2,7 @@
 #define CONTROL_H
 
 #include <windows.h>
+#include <memory>
 #include <GL/glut.h>
 #include <GL/glu.h>
 
@@ -20,12 +21,20 @@ class orbit_control : public control {
         int down_y{};
         float down_alpha{};
         float down_beta{};
+        std::shared_ptr<node> down_node;
+        ray down_ray;
+        mat3 down_mat;
+        float down_pos[3];
+        float g_down_alpha{};
+        float g_down_beta{};
+
         bool w_down = false;
         bool s_down = false;
         bool a_down = false;
         bool d_down = false;
         bool z_down = false;
         bool c_down = false;
+        bool g_down = false;
 
         float alpha = 0.0f;
         float beta = 0.0f;

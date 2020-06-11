@@ -8,14 +8,12 @@
 #include <GL/gl.h>
 #include <gl/glut.h>
 
+#include "mat.h"
+
 class ray {
     public:
         GLfloat x0, y0, z0;
         GLfloat xd, yd, zd;
-        ray(
-            GLfloat x0, GLfloat y0, GLfloat z0,
-            GLfloat xd, GLfloat yd, GLfloat zd
-        ) : x0(x0), y0(y0), z0(z0), xd(xd), yd(yd), zd(zd) {}
 };
 
 #define INTERSECT_FACE(X0, X1, XD, Y0, Y1, YD, Z0, Z1, ZD) \
@@ -68,7 +66,14 @@ class node {
 
         void transform() {
             glTranslatef(translate[0], translate[1], translate[2]);
-            glRotatef(rotate_angle, rotate_axis[0], rotate_axis[1], rotate_axis[2]);
+//            glRotatef(rotate_angle, rotate_axis[0], rotate_axis[1], rotate_axis[2]);
+            GLfloat mat[] = {
+                    rotate_mat.data[0], rotate_mat.data[3], rotate_mat.data[6], 0.0f,
+                    rotate_mat.data[1], rotate_mat.data[4], rotate_mat.data[7], 0.0f,
+                    rotate_mat.data[2], rotate_mat.data[5], rotate_mat.data[8], 0.0f,
+                                  0.0f,               0.0f,               0.0f, 1.0f
+            };
+            glMultMatrixf(mat);
             glScalef(scale[0], scale[1], scale[2]);
             glTranslatef(-center[0], -center[1], -center[2]);
         }
@@ -87,11 +92,12 @@ class node {
     public:
         GLfloat translate[3]      = { 0.0f, 0.0f, 0.0f };
         GLfloat scale[3]          = { 1.0f, 1.0f, 1.0f };
-        GLfloat rotate_angle      = 0.0f;
-        GLfloat rotate_axis[3]    = { 0.0f, 1.0f, 0.0f };
+//        GLfloat rotate_angle      = 0.0f;
+//        GLfloat rotate_axis[3]    = { 0.0f, 1.0f, 0.0f };
         GLuint  texId             = 0;
         GLfloat color[3]          = { 1.0f, 1.0f, 1.0f };
         GLfloat center[3]         = { 0.0f, 0.0f, 0.0f };
+        mat3    rotate_mat        = mat3::identity();
         
         aabb get_aabb() {
             return {
