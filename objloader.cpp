@@ -6,14 +6,12 @@
 #include <fstream>
 #include <cmath>
 
+#define POINTS_PER_VERTEX 3
+#define TOTAL_FLOATS_IN_TRIANGLE 9;
+
 using namespace std;
 
-Model_OBJ::Model_OBJ() {
-    this->TotalConnectedTriangles = 0;
-    this->TotalConnectedPoints = 0;
-}
-
-void calculateNormal(float norm[], float *coord1, float *coord2, float *coord3) {
+void calculateNormal(float norm[], float *coord1, const float *coord2, const float *coord3) {
     float va[3], vb[3], vr[3], val;
     va[0] = coord1[0] - coord2[0];
     va[1] = coord1[1] - coord2[1];
@@ -34,7 +32,7 @@ void calculateNormal(float norm[], float *coord1, float *coord2, float *coord3) 
     norm[2] = vr[2] / val;
 }
 
-int Model_OBJ::load(const char *filename) {
+void obj_mesh::load() {
     string line;
     ifstream objFile(filename);
     if (objFile.is_open()) {
@@ -108,17 +106,23 @@ int Model_OBJ::load(const char *filename) {
     } else {
         cout << "Unable to open file";
     }
-    return 0;
 }
 
-void Model_OBJ::release() {
+obj_mesh::obj_mesh(const char *filename) : filename(filename) {
+    this->TotalConnectedTriangles = 0;
+    this->TotalConnectedPoints = 0;
+    load();
+}
+
+obj_mesh::~obj_mesh() {
     free(this->Faces_Triangles);
     free(this->normals);
     free(this->vertexBuffer);
 }
 
-void Model_OBJ::draw() {
-    glScalef(scale, scale, scale);
+void obj_mesh::render() {
+    transform();
+
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
     glVertexPointer(3, GL_FLOAT, 0, Faces_Triangles);

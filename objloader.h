@@ -1,26 +1,24 @@
 #ifndef OBJLOADER_H
 #define OBJLOADER_H
 
-class Model_OBJ
-{
+#include "scene_graph.h"
+
+class obj_mesh : public node {
+private:
+    const char *filename;
+    float *normals;                             // Stores the normals
+    float *Faces_Triangles;                     // Stores the triangles
+    float *vertexBuffer;                        // Stores the points which make the object
+    long TotalConnectedPoints       = 0;        // Stores the total number of connected vertices
+    long TotalConnectedTriangles    = 0;        // Stores the total number of connected triangles
+
+    void load();
+
 public:
-	Model_OBJ();
-	int load(const char *filename);	// Loads the model
-	void draw();					// Draws the model on the screen
-	void release();				// Release the model
+    obj_mesh(const char *filename);
+    ~obj_mesh();
 
-	float* normals;							// Stores the normals
-	float* Faces_Triangles;					// Stores the triangles
-	float* vertexBuffer;					// Stores the points which make the object
-	long TotalConnectedPoints;				// Stores the total number of connected verteces
-	long TotalConnectedTriangles;			// Stores the total number of connected triangles
-
-	float scale;
+    void render() override;
 };
 
-
-#define POINTS_PER_VERTEX 3
-#define TOTAL_FLOATS_IN_TRIANGLE 9;
-
-extern Model_OBJ obj;
 #endif
