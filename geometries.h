@@ -14,7 +14,7 @@ private:
 public:
     void render() override {
         transform();
-        glColor3fv(color);
+        colorize();
         drawBox(1.0f);
     }
 };
@@ -23,7 +23,7 @@ class sphere : public node {
 public:
     void render() override {
         transform();
-        glColor3fv(color);
+        colorize();
         glutSolidSphere(0.5f, 40, 50);
     }
 };
@@ -38,7 +38,7 @@ public:
 
     void render() override {
         transform();
-        glColor3fv(color);
+        colorize();
 
         const GLfloat radius = 0.5f;
 
@@ -66,7 +66,7 @@ public:
 
     void render() override {
         transform();
-        glColor3fv(color);
+        colorize();
 
         const GLfloat radius = 0.5f;
 
@@ -93,7 +93,7 @@ public:
 
     void render() override {
         transform();
-        glColor3fv(color);
+        colorize();
         drawPrism();
     }
 };
