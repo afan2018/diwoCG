@@ -99,32 +99,34 @@ class node {
 
 class scene_graph {
     public:
-        std::vector<std::unique_ptr<node>> nodes;
+        std::vector<std::shared_ptr<node>> nodes;
+        std::shared_ptr<node> selected;
         scene_graph() = default;
 
         void render(ray &r, bool need_box) {
-            glColor3f(1.0f, 0.0f, 0.0f);
-            glBegin(GL_LINES);
-            glVertex3f(r.x0, r.y0, r.z0);
-            glVertex3f(r.x0 + r.xd * 10, r.y0 + r.yd * 10, r.z0 + r.zd * 10);
-            glEnd();
-
-            aabb box_min;
+            // update selection
+            selected = nullptr;
             float t_min = NAN;
             for (auto& n : nodes) {
-                glPushMatrix();
-                n -> render();
-                glPopMatrix();
-                aabb box = n -> get_aabb();
+                aabb box = n->get_aabb();
                 float t = box.intersects(r);
                 if (!std::isnan(t) && !(t >= t_min)) {
-                    box_min = box;
+                    selected = n;
                     t_min = t;
                 }
             }
-            if (!std::isnan(t_min) && need_box) {
+
+            // render nodes
+            for (auto& n : nodes) {
                 glPushMatrix();
-                box_min.render(0.04f);
+                n->render();
+                glPopMatrix();
+            }
+
+            // render selection
+            if (selected && need_box) {
+                glPushMatrix();
+                selected->get_aabb().render(0.04f);
                 glPopMatrix();
             }
         }
