@@ -10,8 +10,10 @@
 bool orbit_control::motion(int mx, int my) {
     int dx = mx - down_x;
     int dy = my - down_y;
-    alpha = down_alpha + (float)dx * -0.23f;
-    beta  = down_beta  + (float)dy * -0.23f;
+    float sx = 110.0f / (float)w_width;
+    float sy = 110.0f / (float)w_height;
+    alpha = down_alpha - (float)dx * sx;
+    beta  = down_beta  - (float)dy * sy;
     if (beta < -90.0f) beta = -90.0f;
     if (beta > +90.0f) beta = +90.0f;
     return false;
