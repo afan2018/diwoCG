@@ -1,6 +1,7 @@
 #include "engine.h"
 #include "geometries.h"
 #include "obj_mesh.h"
+#include "nurbs_mesh.h"
 #include "texture.h"
 
 #include <memory>
@@ -56,6 +57,31 @@ void init() {
     p->translate[2] = -5.0f;
     p->scale[0] = p->scale[1] = p->scale[2] = 0.05f;
     sg.nodes.push_back(std::move(p));
+	
+	std::uniform_real_distribution<GLfloat> altitude(-0.05f, 0.05f);
+	GLfloat cpts[5 * 5 * 4]; // n = m = 4
+	GLfloat knotsx[5 + 4], knotsy[5 + 4]; // p = q = 3
+	for (int i = 0; i <= 3; ++i) {
+		knotsx[i] = knotsy[i] = 0;
+	}
+	knotsx[4] = knotsy[4] = 0.5;
+	for (int i = 5; i <= 8; ++i) {
+		knotsx[i] = knotsy[i] = 1;
+	}
+	for (int i = 0, k = 0; i < 5; i++) {
+		for (int j = 0; j < 5; j++, k += 4) {
+			cpts[k] = -1 + i * 0.02;
+			cpts[k + 1] = altitude(rng);
+			// cpts[k + 1] = ((i - 2) * (i - 2) + (j - 2) * (j - 2)) / 30.0f;
+			cpts[k + 2] = -1 + j * 0.02;
+			cpts[k + 3] = 1.0f / 25;
+		}
+	}
+	auto p_test_urbs = std::make_unique<nurbs>(cpts, knotsx, knotsy, 4, 4, 3, 3, 0.05f, 0.05f);
+	p_test_urbs->translate[0] = d_pos(rng);
+	p_test_urbs->translate[1] = d_pos(rng);
+	p_test_urbs->translate[2] = d_pos(rng);
+	sg.nodes.push_back(std::move(p_test_urbs));
 }
 
 void update() {
