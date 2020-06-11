@@ -129,7 +129,7 @@ class scene_graph {
                 glPopMatrix();
             }
 			glPushMatrix();
-			obj.Draw();
+			obj.draw();
 			glPopMatrix();
         }
 };
