@@ -22,7 +22,8 @@ class orbit_control : public control {
         bool s_down = false;
         bool a_down = false;
         bool d_down = false;
-        bool space_down = false;
+        bool z_down = false;
+        bool c_down = false;
 
         float alpha = 0.0f;
         float beta = 0.0f;
