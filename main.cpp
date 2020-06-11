@@ -29,6 +29,7 @@ void init() {
     std::uniform_real_distribution<float> d_pos(-10.0f, 10.0f);
     std::uniform_real_distribution<float> d_size(0.5f, 2.0f);
     std::uniform_int_distribution<int> d_fn(0, fns.size() - 1);
+    std::uniform_real_distribution<float> d_rot(-1.0f, 1.0f);
     for (int i = 0; i < 200; ++i) {
         auto p = fns[d_fn(rng)]();
         p->color[0] = d_color(rng);
@@ -38,6 +39,9 @@ void init() {
         p->translate[1] = d_pos(rng);
         p->translate[2] = d_pos(rng);
         p->scale[0] = p->scale[1] = p->scale[2] = d_size(rng) / 2.0f;
+        p->rotate_axis[0] = d_rot(rng);
+        p->rotate_axis[1] = d_rot(rng);
+        p->rotate_axis[2] = d_rot(rng);
         sg.nodes.push_back(std::move(p));
     }
 
@@ -48,5 +52,7 @@ void init() {
 }
 
 void update() {
-    // sg.nodes[0] -> rotate_angle += 0.5f;
+    for (auto &p : sg.nodes) {
+        p->rotate_angle += 0.5f;
+    }
 }
