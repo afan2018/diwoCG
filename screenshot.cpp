@@ -9,11 +9,11 @@ void screenshot::savepic()
     sprintf(filename, "Screenshot_at_%d_%d_%d_%d_%d%d.bmp", t->tm_year + 1900,
             t->tm_mon + 1, t->tm_mday, t->tm_hour, t->tm_min, t->tm_sec); //, ctime(&now));
     static unsigned char pic[480 * 480 * 4];
-    int lx = std::min(sx, tx), rx = std::max(sx, tx);
-    int ly = std::min(sy, ty), ry = std::max(sy, ty);
+    int lx = (std::min)(sx, tx), rx = (std::max)(sx, tx);
+    int ly = (std::min)(sy, ty), ry = (std::max)(sy, ty);
     int w = rx - lx, h = ry - ly;
-    w = std::max(w - 1, 0);
-    h = std::max(h - 1, 0);
+    w = (std::max)(w - 1, 0);
+    h = (std::max)(h - 1, 0);
     glReadPixels(lx, height - ry, w, h, GL_RGBA, GL_UNSIGNED_BYTE, pic);
     stbi_write_bmp(filename, w, h, 4, pic);
 }
@@ -81,8 +81,8 @@ void screenshot::drawRect(int height)
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     glBegin(GL_POLYGON);
-    int lx = std::min(sx, tx), rx = std::max(sx, tx);
-    int ly = std::min(sy, ty), ry = std::max(sy, ty);
+    int lx = (std::min)(sx, tx), rx = (std::max)(sx, tx);
+    int ly = (std::min)(sy, ty), ry = (std::max)(sy, ty);
     glVertex2d(lx, height - ly);
     glVertex2d(lx, height - ry);
     glVertex2d(rx, height - ry);

@@ -54,7 +54,7 @@ bool orbit_control::keyboard_up(unsigned char key, int mx, int my) {
             float dx = a.x1 - a.x0;
             float dy = a.y1 - a.y0;
             float dz = a.z1 - a.z0;
-            float size = std::max(dx, std::max(dy, dz));
+            float size = (std::max)(dx, (std::max)(dy, dz));
             float dist = size * 2.6f;
             ray r = get_ray();
             x = (a.x0 + a.x1) / 2 - r.xd * dist;

@@ -81,12 +81,12 @@ obj_mesh::obj_mesh(const std::string& filename) {
                 vertices[triangle_index + tCounter + 1] = vertexBuffer[3 * vertexNumber[i] + 1];
                 vertices[triangle_index + tCounter + 2] = vertexBuffer[3 * vertexNumber[i] + 2];
 
-                base_aabb.x0 = std::min(base_aabb.x0, vertices[triangle_index + tCounter + 0]);
-                base_aabb.y0 = std::min(base_aabb.y0, vertices[triangle_index + tCounter + 1]);
-                base_aabb.z0 = std::min(base_aabb.z0, vertices[triangle_index + tCounter + 2]);
-                base_aabb.x1 = std::max(base_aabb.x1, vertices[triangle_index + tCounter + 0]);
-                base_aabb.y1 = std::max(base_aabb.y1, vertices[triangle_index + tCounter + 1]);
-                base_aabb.z1 = std::max(base_aabb.z1, vertices[triangle_index + tCounter + 2]);
+                base_aabb.x0 = (std::min)(base_aabb.x0, vertices[triangle_index + tCounter + 0]);
+                base_aabb.y0 = (std::min)(base_aabb.y0, vertices[triangle_index + tCounter + 1]);
+                base_aabb.z0 = (std::min)(base_aabb.z0, vertices[triangle_index + tCounter + 2]);
+                base_aabb.x1 = (std::max)(base_aabb.x1, vertices[triangle_index + tCounter + 0]);
+                base_aabb.y1 = (std::max)(base_aabb.y1, vertices[triangle_index + tCounter + 1]);
+                base_aabb.z1 = (std::max)(base_aabb.z1, vertices[triangle_index + tCounter + 2]);
             }
 
             float coord1[3] = {vertices[triangle_index],
