@@ -2,6 +2,7 @@
 #define ENGINE_H
 
 #include <memory>
+#include <windows.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
 
