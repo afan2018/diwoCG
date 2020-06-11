@@ -8,85 +8,94 @@
 #include <GL/glut.h>
 
 class box : public node {
-	private:
-		void drawBox(GLfloat size);
-    public:
-        GLfloat color[3] = { 1.0f, 1.0f, 1.0f };
+private:
+    void drawBox(GLfloat size);
 
-        void render() override {
-            transform();
-            glColor3fv(color);
-            drawBox(1.0f);
-        }
+public:
+    void render() override {
+        transform();
+        glColor3fv(color);
+        drawBox(1.0f);
+    }
 };
 
 class sphere : public node {
-	public:
-		GLfloat color[3] = { 1.0f, 1.0f, 1.0f };
-
-		void render() override {
-			transform();
-			glColor3fv(color);
-			glutSolidSphere(1.0f, 40, 50);
-		}
+public:
+    void render() override {
+        transform();
+        glColor3fv(color);
+        glutSolidSphere(0.5f, 40, 50);
+    }
 };
 
 class cylinder : public node {
-	public:
-		GLfloat color[3] = { 1.0f, 1.0f, 1.0f };
-		GLfloat radius = 1.0;
-		bool lid = false;
-		
-		void render() override {
-			transform();
-			glColor3fv(color);
-			GLUquadricObj *objCylinder = gluNewQuadric();
-			gluCylinder(objCylinder, radius, radius, 1.0, 40, 50);
-			if (lid) {
-				GLUquadricObj *objDiskBottom = gluNewQuadric();
-				gluDisk(objDiskBottom, 0, radius, 40, 50);
-				glPushMatrix();
-				GLUquadricObj *objDiskTop = gluNewQuadric();
-				glTranslatef(0, 0, 1.0);
-				gluDisk(objDiskTop, 0, radius, 40, 50);
-				glPopMatrix();
-			}
-		}
+public:
+    bool lid = true;
+
+    cylinder() {
+        center[2] = 0.5f;
+    }
+
+    void render() override {
+        transform();
+        glColor3fv(color);
+
+        const GLfloat radius = 0.5f;
+
+        GLUquadricObj *objCylinder = gluNewQuadric();
+        gluCylinder(objCylinder, radius, radius, 1.0, 40, 50);
+        if (lid) {
+            GLUquadricObj *objDiskBottom = gluNewQuadric();
+            gluDisk(objDiskBottom, 0, radius, 40, 50);
+            glPushMatrix();
+            GLUquadricObj *objDiskTop = gluNewQuadric();
+            glTranslatef(0, 0, 1.0);
+            gluDisk(objDiskTop, 0, radius, 40, 50);
+            glPopMatrix();
+        }
+    }
 };
 
 class cone : public node {
-	public:
-		GLfloat color[3] = { 1.0f, 1.0f, 1.0f };
-		GLfloat radius = 1.0;
-		bool lid = false;
+public:
+    bool lid = true;
 
-		void render() override {
-			transform();
-			glColor3fv(color);
-			GLUquadricObj *objCylinder = gluNewQuadric();
-			gluCylinder(objCylinder, 0, radius, 1.0, 40, 50);
-			if (lid) {
-				glPushMatrix();
-				GLUquadricObj *objDiskTop = gluNewQuadric();
-				glTranslatef(0, 0, 1.0);
-				gluDisk(objDiskTop, 0, radius, 40, 50);
-				glPopMatrix();
-			}
-		}
+    cone() {
+        center[2] = 0.5f;
+    }
+
+    void render() override {
+        transform();
+        glColor3fv(color);
+
+        const GLfloat radius = 0.5f;
+
+        GLUquadricObj *objCylinder = gluNewQuadric();
+        gluCylinder(objCylinder, 0, radius, 1.0, 40, 50);
+        if (lid) {
+            glPushMatrix();
+            GLUquadricObj *objDiskTop = gluNewQuadric();
+            glTranslatef(0, 0, 1.0);
+            gluDisk(objDiskTop, 0, radius, 40, 50);
+            glPopMatrix();
+        }
+    }
 };
 
 class prism : public node {
-	private:
-		void drawPrism();
+private:
+    void drawPrism();
 
-	public:
-		GLfloat color[3] = { 1.0f, 1.0f, 1.0f };
+public:
+    prism() {
+        center[0] = center[1] = center[2] = 0.5f;
+    }
 
-		void render() override {
-			transform();
-			glColor3fv(color);
-			drawPrism();
-		}
+    void render() override {
+        transform();
+        glColor3fv(color);
+        drawPrism();
+    }
 };
 
 #endif
