@@ -33,6 +33,7 @@ extern std::shared_ptr<camera> cam;
 extern std::shared_ptr<control> ctrl;
 extern std::shared_ptr<screenshot> ss;
 extern scene_graph sg;
+extern int w_width, w_height;
 extern void init();
 extern void update();
 

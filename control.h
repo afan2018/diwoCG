@@ -16,8 +16,10 @@ class control : public listener {
 
 class orbit_control : public control {
     private:
-        int down_x, down_y;
-        float down_alpha, down_beta;
+        int down_x{};
+        int down_y{};
+        float down_alpha{};
+        float down_beta{};
         bool w_down = false;
         bool s_down = false;
         bool a_down = false;
@@ -37,8 +39,8 @@ class orbit_control : public control {
         void update() override;
         ray get_ray() override;
 
-        bool motion(int x, int y) override;
-        bool mouse(int button, int state, int x, int y) override;
+        bool motion(int mx, int my) override;
+        bool mouse(int button, int state, int mx, int my) override;
         bool keyboard(unsigned char key, int x, int y) override;
         bool keyboard_up(unsigned char key, int x, int y) override;
 };

@@ -36,12 +36,8 @@ class aabb {
     public: 
         GLfloat x0, x1, y0, y1, z0, z1;
         aabb() = default;
-        aabb(
-            GLfloat x0, GLfloat x1, GLfloat y0,
-            GLfloat y1, GLfloat z0, GLfloat z1
-        ) : x0(x0), x1(x1), y0(y0), y1(y1), z0(z0), z1(z1) {}
 
-        float intersects(ray& r) {
+    float intersects(ray& r) const {
             float t_min = NAN;
             INTERSECT_FACE(x0, x0, xd, y0, y1, yd, z0, z1, zd);
             INTERSECT_FACE(x1, x0, xd, y0, y1, yd, z0, z1, zd);
@@ -52,7 +48,7 @@ class aabb {
             return t_min;
         }
 
-        void render(float extend) {
+        void render(float extend) const {
             GLfloat xc = (x0 + x1) / 2;
             GLfloat yc = (y0 + y1) / 2;
             GLfloat zc = (z0 + z1) / 2;
@@ -84,14 +80,14 @@ class node {
         GLint   texId             = 0;
         
         aabb get_aabb() {
-            return aabb(
+            return {
                 base_aabb.x0 * scale[0] + translate[0],
                 base_aabb.x1 * scale[0] + translate[0],
                 base_aabb.y0 * scale[1] + translate[1],
                 base_aabb.y1 * scale[1] + translate[1],
                 base_aabb.z0 * scale[2] + translate[2],
                 base_aabb.z1 * scale[2] + translate[2]
-            );
+            };
         }
 
         virtual void render() {};
