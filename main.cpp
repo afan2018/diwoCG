@@ -26,8 +26,9 @@ void init() {
 		p -> translate[2] = d_pos(rng);
 		p -> scale[0] = p -> scale[1] = p -> scale[2] = d_size(rng) / 2.0f;
 		sg.nodes.push_back(std::move(p));
-
 	}
+	obj.Load("teddy.obj");
+	obj.scale = 0.05;
 }
 
 void update() {

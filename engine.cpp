@@ -8,6 +8,7 @@ std::shared_ptr<camera> cam;
 std::shared_ptr<control> ctrl;
 std::shared_ptr<screenshot> ss;
 scene_graph sg;
+Model_OBJ obj;
 
 int w_width, w_height;
 

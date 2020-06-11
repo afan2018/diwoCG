@@ -4,9 +4,10 @@
 #include <vector>
 #include <memory>
 #include <cmath>
-
-#include <GL/glut.h>
+#include <windows.h>
 #include <GL/gl.h>
+#include <gl/glut.h>
+#include "objloader.h"
 
 class ray {
     public:
@@ -127,6 +128,9 @@ class scene_graph {
                 box_min.render(0.04f);
                 glPopMatrix();
             }
+			glPushMatrix();
+			obj.Draw();
+			glPopMatrix();
         }
 };
 
