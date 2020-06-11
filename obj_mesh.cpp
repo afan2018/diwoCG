@@ -2,7 +2,6 @@
 
 #include <GL/gl.h>
 #include <iostream>
-#include <sstream>
 #include <fstream>
 #include <cmath>
 
@@ -33,6 +32,9 @@ void calculateNormal(float norm[], const float *coord1, const float *coord2, con
 }
 
 obj_mesh::obj_mesh(const std::string& filename) {
+    base_aabb = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+
+    // load OBJ file
     string line;
 
     ifstream objFile(filename);
@@ -74,11 +76,17 @@ obj_mesh::obj_mesh(const std::string& filename) {
             vertexNumber[2] -= 1;
 
             int tCounter = 0;
-            for (int i = 0; i < POINTS_PER_VERTEX; i++) {
+            for (int i = 0; i < POINTS_PER_VERTEX; i++, tCounter += POINTS_PER_VERTEX) {
                 vertices[triangle_index + tCounter] = vertexBuffer[3 * vertexNumber[i]];
                 vertices[triangle_index + tCounter + 1] = vertexBuffer[3 * vertexNumber[i] + 1];
                 vertices[triangle_index + tCounter + 2] = vertexBuffer[3 * vertexNumber[i] + 2];
-                tCounter += POINTS_PER_VERTEX;
+
+                base_aabb.x0 = std::min(base_aabb.x0, vertices[triangle_index + tCounter + 0]);
+                base_aabb.y0 = std::min(base_aabb.y0, vertices[triangle_index + tCounter + 1]);
+                base_aabb.z0 = std::min(base_aabb.z0, vertices[triangle_index + tCounter + 2]);
+                base_aabb.x1 = std::max(base_aabb.x1, vertices[triangle_index + tCounter + 0]);
+                base_aabb.y1 = std::max(base_aabb.y1, vertices[triangle_index + tCounter + 1]);
+                base_aabb.z1 = std::max(base_aabb.z1, vertices[triangle_index + tCounter + 2]);
             }
 
             float coord1[3] = {vertices[triangle_index],
