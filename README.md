@@ -19,3 +19,6 @@ main.exe
 - Hold `P` and drag to take screenshot (of a section of the screen)
 - Hit `R` while selection to zoom to fit
 - FPS is written to console output, once per second
+- Hit `K` (globally) to enable/disable lighting
+- Hit `L` while selecting a light source (which will appear as a bright white sphere) to enable/disable the light
+- Be careful! The scene will be totally black if you disable all lights!
