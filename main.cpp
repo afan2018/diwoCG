@@ -17,7 +17,8 @@ std::vector<std::shared_ptr<node>(*)()> fns = {
         &create<sphere>,
         &create<cylinder>,
         &create<cone>,
-        &create<prism>
+        &create<prism>,
+        &create<frustum>
 };
 
 void init() {
