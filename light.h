@@ -13,22 +13,29 @@
 
 class light : public node {
 public:
-    GLfloat ambient [3] = { 1.0f, 1.0f, 0.0f };
-    GLfloat diffuse [3] = { 1.0f, 1.0f, 1.0f };
-    GLfloat specular[3] = { 0.0f, 0.0f, 0.0f };
+    GLfloat ambient [4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    GLfloat diffuse [4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    GLfloat specular[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
     GLenum lightId{};
-    bool is_on = false;
+    bool is_on = true;
+
+    light() {
+        scale[0] = 0.1f;
+        scale[1] = 0.1f;
+        scale[2] = 0.1f;
+    }
 
     void render() override {
         transform();
         colorize();
-        glutSolidTeapot(0.2);
+        glutSolidSphere(0.5f, 8, 6);
     }
 
     void update() override {
         if (is_on) glEnable(lightId);
         else glDisable(lightId);
-        glLightfv(lightId, GL_POSITION, translate);
+        GLfloat position[] = { translate[0], translate[1], translate[2], 1.0f };
+        glLightfv(lightId, GL_POSITION, position);
         glLightfv(lightId, GL_AMBIENT, ambient);
         glLightfv(lightId, GL_DIFFUSE, diffuse);
         glLightfv(lightId, GL_SPECULAR, specular);
@@ -50,15 +57,26 @@ public:
 };
 
 class point_light : public light {
+public:
+    point_light() {
+        diffuse[0] = 0.0f;
+        diffuse[1] = 0.0f;
+        diffuse[2] = 0.0f;
+        emission[0] = 1.0f;
+        emission[1] = 1.0f;
+        emission[2] = 1.0f;
+    }
 };
 
 class light_env : public node, public listener {
 private:
-    bool lights_on = false;
+    bool lights_on = true;
     std::vector<std::shared_ptr<light>> lights;
 
 public:
-    light_env() = default;
+    light_env() {
+        interactive = false;
+    }
 
     bool keyboard_up(unsigned char key, int x, int y) override {
         switch (key) {

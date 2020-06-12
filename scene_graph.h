@@ -90,6 +90,7 @@ class node {
             glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
             glMaterialf(GL_FRONT, GL_SHININESS, shininess);
             glMaterialfv(GL_FRONT, GL_EMISSION, emission);
+
             if (texId == 0) {
                 glDisable(GL_TEXTURE_2D);
                 glColor3fv(color);
@@ -106,15 +107,17 @@ class node {
         GLuint  texId             = 0;
         GLfloat color[3]          = { 1.0f, 1.0f, 1.0f };
         GLfloat center[3]         = { 0.0f, 0.0f, 0.0f };
-        bool is_lighted           = false;
         GLfloat ambient[4]        = { 0.2f, 0.2f, 0.2f, 1.0f };
         GLfloat diffuse[4]        = { 0.8f, 0.8f, 0.8f, 1.0f };
         GLfloat specular[4]       = { 0.0f, 0.0f, 0.0f, 0.0f };
         GLfloat emission[4]       = { 0.0f, 0.0f, 0.0f, 1.0f };
         GLfloat shininess         = 0.0f;
         mat3    rotate_mat        = mat3::identity();
+        bool is_lighted           = false;
 
-        bool selected = false;
+        bool selected             = false;
+        bool interactive          = true;
+        bool visible              = true;
         std::function<void(node&)> ctrl = [](auto& t){};
 
         aabb get_aabb() {
@@ -146,6 +149,7 @@ class scene_graph {
             hovered = nullptr;
             float t_min = NAN;
             for (auto& n : nodes) {
+                if (!n->interactive) continue;
                 aabb box = n->get_aabb();
                 float t = box.intersects(r);
                 if (!std::isnan(t) && !(t >= t_min)) {
@@ -167,6 +171,7 @@ class scene_graph {
 
             // render nodes
             for (auto& n : nodes) {
+                if (!n->visible) continue;
                 glPushMatrix();
                 n->render();
                 glPopMatrix();

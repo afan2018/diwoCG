@@ -118,14 +118,9 @@ void orbit_control::update() {
         down_node->rotate_mat = (~rn * ro) * down_mat;
     }
 
-    glMatrixMode(GL_PROJECTION);
-    // no load identity! we transform directly on the projection matrix generated
-    // by gluPerspective(), in order to make lighting operate in world coordinates correctly.
     glRotatef(beta, 1.0f, 0.0f, 0.0f);
     glRotatef(alpha, 0.0f, 1.0f, 0.0f);
     glTranslatef(-x, -y, -z);
-
-    glMatrixMode(GL_MODELVIEW);
 }
 
 ray orbit_control::get_ray() {

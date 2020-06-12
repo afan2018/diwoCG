@@ -101,13 +101,27 @@ void init() {
     p_test_nurbs->translate[2] = d_pos(rng);
 	sg.nodes.push_back(std::move(p_test_nurbs));
 
-    auto lp = std::make_shared<point_light>();
-    GLfloat ambient[] = { 1.0f, 0.0f, 1.0f };
-    GLfloat position[] = { -1.0f, 1.0f, -1.0f };
-    memcpy(lp->ambient, ambient, sizeof(GLfloat) * 3);
-    memcpy(lp->translate, position, sizeof(GLfloat) * 3);
-    lights->add_light(lp);
-    sg.nodes.push_back(std::move(lp));
+    {
+        auto lp = std::make_shared<point_light>();
+        lp->ambient[0] = 0.5f;
+        lp->ambient[1] = 0.0f;
+        lp->ambient[2] = 0.5f;
+        lp->visible = false;
+        lights->add_light(lp);
+        sg.nodes.push_back(std::move(lp));
+    }
+
+    {
+        auto lp = std::make_shared<point_light>();
+        lp->diffuse[0] = 0.8f;
+        lp->diffuse[1] = 0.8f;
+        lp->diffuse[2] = 0.8f;
+        lp->translate[0] = 6.0f;
+        lp->translate[1] = 4.0f;
+        lp->translate[2] = -8.0f;
+        lights->add_light(lp);
+        sg.nodes.push_back(std::move(lp));
+    }
 }
 
 void update() {
