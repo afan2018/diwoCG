@@ -8,6 +8,9 @@
 
 using namespace std;
 #define IDX(a, b) ((a * 3) + b)
+#ifndef M_PI
+#define M_PI 3.1415926535
+#endif
 
 class vec3 {
 public:

@@ -70,14 +70,14 @@ nurbs::nurbs(GLfloat* cpts, GLfloat* knotsx, GLfloat* knotsy, int r, int c, int 
     
     calc_mesh();
     GLfloat border[6];
-    border[0] = border[2] = border[4] = std::numeric_limits<GLfloat>::max();
-    border[1] = border[3] = border[5] = -std::numeric_limits<GLfloat>::max();
+    border[0] = border[2] = border[4] = (std::numeric_limits<GLfloat>::max)();
+    border[1] = border[3] = border[5] = -(std::numeric_limits<GLfloat>::max)();
     for (int i = 0; i < meshsize[0]; i++) {
         for (int j = 0; j < meshsize[1]; j++) {
             for (int k = 0; k < 3; ++k) {
                 mesh[i][j][k] /= mesh[i][j][3];
-                border[k * 2] = std::min(border[k * 2], mesh[i][j][k]);
-                border[k * 2 + 1] = std::max(border[k * 2 + 1], mesh[i][j][k]);
+                border[k * 2] = (std::min)(border[k * 2], mesh[i][j][k]);
+                border[k * 2 + 1] = (std::max)(border[k * 2 + 1], mesh[i][j][k]);
             }
         }
     }
