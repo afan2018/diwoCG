@@ -2,14 +2,13 @@
 #define FPS_H
 
 #include <iostream>
-#include <sys/time.h>
+#include <windows.h>
+#include <gl/glut.h>
 
 class fps {
 private:
     static long long time() {
-        timeval tv{};
-        gettimeofday(&tv, nullptr);
-        return (((long long) tv.tv_sec) * 1000) + (tv.tv_usec / 1000);
+		return glutGet(GLUT_ELAPSED_TIME);
     }
 
     long long last_time;
@@ -23,9 +22,9 @@ public:
     void update() {
         ++frames;
         auto t = time();
-        if (t > last_time + 1000) {
+        if (t - last_time >= 1000) {
             std::cout << frames << std::endl;
-            last_time += 1000LL;
+            last_time = t;
             frames = 0;
         }
     }
