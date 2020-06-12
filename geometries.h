@@ -20,21 +20,48 @@ public:
 };
 
 class sphere : public node {
+private:
+	GLUquadricObj *objSphere;
 public:
+	sphere() {
+		objSphere = gluNewQuadric();
+	}
+
+	~sphere() {
+		gluDeleteQuadric(objSphere);
+	}
+
     void render() override {
         transform();
         colorize();
-        glutSolidSphere(0.5f, 40, 50);
+		
+		gluQuadricDrawStyle(objSphere, GLU_FILL);
+		gluQuadricTexture(objSphere, GL_TRUE);
+		gluQuadricNormals(objSphere, GLU_SMOOTH);
+
+		gluSphere(objSphere, 0.5, 40, 50);
     }
 };
 
 class cylinder : public node {
-public:
-    bool lid = true;
+private:
+	GLUquadricObj *objCylinder;
+	GLUquadricObj *objDiskBottom;
+	GLUquadricObj *objDiskTop;
 
+public:
     cylinder() {
         center[2] = 0.5f;
+		objCylinder = gluNewQuadric();
+		objDiskBottom = gluNewQuadric();
+		objDiskTop = gluNewQuadric();
     }
+
+	~cylinder() {
+		gluDeleteQuadric(objCylinder);
+		gluDeleteQuadric(objDiskBottom);
+		gluDeleteQuadric(objDiskTop);
+	}
 
     void render() override {
         transform();
@@ -42,30 +69,43 @@ public:
 
         const GLfloat radius = 0.5f;
 
-        GLUquadricObj *objCylinder = gluNewQuadric();
+		gluQuadricDrawStyle(objCylinder, GLU_FILL);
+		gluQuadricTexture(objCylinder, GL_TRUE);
+		gluQuadricNormals(objCylinder, GLU_SMOOTH);
+		gluQuadricDrawStyle(objDiskBottom, GLU_FILL);
+		gluQuadricTexture(objDiskBottom, GL_TRUE);
+		gluQuadricNormals(objDiskBottom, GLU_SMOOTH);
+		gluQuadricDrawStyle(objDiskTop, GLU_FILL);
+		gluQuadricTexture(objDiskTop, GL_TRUE);
+		gluQuadricNormals(objDiskTop, GLU_SMOOTH);
+
         gluCylinder(objCylinder, radius, radius, 1.0, 40, 50);
-		gluDeleteQuadric(objCylinder);
-        if (lid) {
-            GLUquadricObj *objDiskBottom = gluNewQuadric();
-            gluDisk(objDiskBottom, 0, radius, 40, 50);
-            glPushMatrix();
-            GLUquadricObj *objDiskTop = gluNewQuadric();
-            glTranslatef(0, 0, 1.0);
-            gluDisk(objDiskTop, 0, radius, 40, 50);
-            glPopMatrix();
-			gluDeleteQuadric(objDiskBottom);
-			gluDeleteQuadric(objDiskTop);
-        }
+        gluDisk(objDiskBottom, 0, radius, 40, 50);
+        glPushMatrix();
+		glTranslatef(0, 0, 1.0);
+		gluDisk(objDiskTop, 0, radius, 40, 50);
+		glPopMatrix();
     }
 };
 
 class cone : public node {
+private:
+	GLUquadricObj *objCylinder;
+	GLUquadricObj *objDiskTop;
+
 public:
     bool lid = true;
 
     cone() {
         center[2] = 0.5f;
+		objCylinder = gluNewQuadric();
+		objDiskTop = gluNewQuadric();
     }
+
+	~cone() {
+		gluDeleteQuadric(objCylinder);
+		gluDeleteQuadric(objDiskTop);
+	}
 
     void render() override {
         transform();
@@ -73,16 +113,19 @@ public:
 
         const GLfloat radius = 0.5f;
 
-        GLUquadricObj *objCylinder = gluNewQuadric();
+		gluQuadricDrawStyle(objCylinder, GLU_FILL);
+		gluQuadricTexture(objCylinder, GL_TRUE);
+		gluQuadricNormals(objCylinder, GLU_SMOOTH);
+		gluQuadricDrawStyle(objDiskTop, GLU_FILL);
+		gluQuadricTexture(objDiskTop, GL_TRUE);
+		gluQuadricNormals(objDiskTop, GLU_SMOOTH);
+
         gluCylinder(objCylinder, 0, radius, 1.0, 40, 50);
-		gluDeleteQuadric(objCylinder);
         if (lid) {
             glPushMatrix();
-            GLUquadricObj *objDiskTop = gluNewQuadric();
             glTranslatef(0, 0, 1.0);
             gluDisk(objDiskTop, 0, radius, 40, 50);
             glPopMatrix();
-			gluDeleteQuadric(objDiskTop);
         }
     }
 };

@@ -53,10 +53,8 @@ void prism::drawPrism() {
     glVertex3f(0.0f, 0.0f, 0.0f);
 	glTexCoord2d(0, 1);
     glVertex3f(0.0f, 1.0f, 0.0f);
-//    glEnd();
 
     // front endcap
-//    glBegin(GL_TRIANGLES);
 	glTexCoord2d(1, 0);
     glVertex3f(1.0f, 0.0f, 1.0f);
 	glTexCoord2d(0, 0);
@@ -75,10 +73,8 @@ void prism::drawPrism() {
     glVertex3f(1.0f, 0.0f, 1.0f);
     glTexCoord2d(0, 1);
     glVertex3f(0.0f, 0.0f, 1.0f);
-//    glEnd();
 
     // back
-//    glBegin(GL_QUADS);
     glTexCoord2d(0, 0);
     glVertex3f(0.0f, 0.0f, 0.0f);
     glTexCoord2d(0, 1);
@@ -87,10 +83,8 @@ void prism::drawPrism() {
     glVertex3f(0.0f, 1.0f, 1.0f);
     glTexCoord2d(1, 0);
     glVertex3f(0.0f, 0.0f, 1.0f);
-//    glEnd();
 
     // top
-//    glBegin(GL_QUADS);
     glTexCoord2d(0, 1);
     glVertex3f(0.0f, 1.0f, 0.0f);
     glTexCoord2d(1, 1);
@@ -111,10 +105,8 @@ void frustum::drawFrustum() {
 	glVertex3f(0.0f, 0.0f, 0.0f);
 	glTexCoord2d(0, 1);
 	glVertex3f(0.0f, 1.0f, 0.0f);
-	//    glEnd();
 
-		// front endcap
-	//    glBegin(GL_TRIANGLES);
+	// front endcap
 	glTexCoord2d(1, 0);
 	glVertex3f(0.5f, 0.0f, 1.0f);
 	glTexCoord2d(0, 0);
@@ -133,10 +125,8 @@ void frustum::drawFrustum() {
 	glVertex3f(0.5f, 0.0f, 1.0f);
 	glTexCoord2d(0, 0);
 	glVertex3f(0.0f, 0.0f, 1.0f);
-	//    glEnd();
 
-		// back
-	//    glBegin(GL_QUADS);
+	// back
 	glTexCoord2d(1, 1);
 	glVertex3f(0.0f, 0.0f, 0.0f);
 	glTexCoord2d(0, 1);
@@ -145,10 +135,8 @@ void frustum::drawFrustum() {
 	glVertex3f(0.0f, 0.5f, 1.0f);
 	glTexCoord2d(1, 0);
 	glVertex3f(0.0f, 0.0f, 1.0f);
-	//    glEnd();
 
-		// top
-	//    glBegin(GL_QUADS);
+	// top
 	glTexCoord2d(0, 0);
 	glVertex3f(0.0f, 1.0f, 0.0f);
 	glTexCoord2d(1, 0);
