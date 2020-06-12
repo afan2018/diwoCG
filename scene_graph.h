@@ -141,6 +141,9 @@ class scene_graph {
 
             // render selection
             if (selected && need_box) {
+                glEnable(GL_BLEND);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
                 glPushMatrix();
                 selected->get_aabb().render(0.04f);
                 glPopMatrix();

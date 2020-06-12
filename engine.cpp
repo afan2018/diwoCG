@@ -60,7 +60,6 @@ void redraw()
         glVertex2f(w_width / 2, w_height / 2 - 10.0f);
         glVertex2f(w_width / 2, w_height / 2 + 10.0f);
         glEnd();
-        glDisable(GL_BLEND);
     }
     else
     {
@@ -124,6 +123,8 @@ int main(int argc, char **argv)
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LINE_SMOOTH);
+    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
     // TODO: more initialization operations
 
     init();
