@@ -2,9 +2,14 @@
 #define ENGINE_H
 
 #include <memory>
+#ifdef _WIN32
 #include <windows.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#else
+#include <OpenGL/gl.h>
+#include <OpenGL/glu.h>
+#endif
 
 #include "listener.h"
 #include "scene_graph.h"

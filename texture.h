@@ -3,7 +3,11 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+#ifdef _WIN32
 #include <GL/gl.h>
+#else
+#include <OpenGL/gl.h>
+#endif
 
 GLuint tex_load(const std::string& filename) {
     int x, y, n;

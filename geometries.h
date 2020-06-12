@@ -2,10 +2,17 @@
 #define GEOMETRIES_H
 
 #include "scene_graph.h"
+
+#ifdef _WIN32
 #include <windows.h>
 #include <GL/GL.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
+#else
+#include <OpenGL/gl.h>
+#include <GLUT/glut.h>
+#include <OpenGL/glu.h>
+#endif
 
 // use this to enable drawing with lists
 // #define USE_LISTS

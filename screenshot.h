@@ -1,7 +1,12 @@
 #pragma once
+#ifdef _WIN32
 #include <windows.h>
 #include <GL/gl.h>
 #include <GL/glut.h>
+#else
+#include <OpenGL/gl.h>
+#include <GLUT/glut.h>
+#endif
 #include <algorithm>
 #include <ctime>
 #include <cstdio>

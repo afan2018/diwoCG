@@ -1,6 +1,10 @@
 #include "obj_mesh.h"
 
+#ifdef _WIN32
 #include <GL/gl.h>
+#else
+#include <OpenGL/gl.h>
+#endif
 #include <iostream>
 #include <fstream>
 #include <cmath>

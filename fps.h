@@ -2,8 +2,12 @@
 #define FPS_H
 
 #include <iostream>
+#ifdef _WIN32
 #include <windows.h>
 #include <gl/glut.h>
+#else
+#include <GLUT/glut.h>
+#endif
 
 class fps {
 private:

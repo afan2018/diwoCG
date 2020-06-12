@@ -4,9 +4,14 @@
 #include <vector>
 #include <memory>
 #include <cmath>
+#ifdef _WIN32
 #include <windows.h>
 #include <GL/gl.h>
 #include <gl/glut.h>
+#else
+#include <OpenGL/gl.h>
+#include <GLUT/glut.h>
+#endif
 
 #include "mat.h"
 

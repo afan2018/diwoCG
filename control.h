@@ -1,10 +1,15 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
+#ifdef _WIN32
 #include <windows.h>
+#include <GL/gl.h>
+#include <gl/glut.h>
+#else
+#include <OpenGL/gl.h>
+#include <GLUT/glut.h>
+#endif
 #include <memory>
-#include <GL/glut.h>
-#include <GL/glu.h>
 
 #include "scene_graph.h"
 #include "listener.h"

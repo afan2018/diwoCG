@@ -1,7 +1,11 @@
 #include "engine.h"
 
+#ifdef _WIN32
 #include <windows.h>
 #include <GL/glut.h>
+#else
+#include <GLUT/glut.h>
+#endif
 
 #include "fps.h"
 
