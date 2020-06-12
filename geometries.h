@@ -38,6 +38,8 @@ public:
 	}
 
 	~sphere() {
+        glDeleteLists(listId, 1);
+
 		gluDeleteQuadric(objSphere);
 	}
 
@@ -90,6 +92,8 @@ public:
 	}
 
 	~cylinder() {
+        glDeleteLists(listId, 1);
+
 		gluDeleteQuadric(objCylinder);
 		gluDeleteQuadric(objDiskBottom);
 		gluDeleteQuadric(objDiskTop);
