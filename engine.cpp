@@ -3,15 +3,17 @@
 #include <windows.h>
 #include <GL/glut.h>
 
+#include "fps.h"
+
 std::vector<std::shared_ptr<listener>> listeners;
 std::shared_ptr<camera> cam;
 std::shared_ptr<control> ctrl;
 std::shared_ptr<screenshot> ss;
 scene_graph sg;
 int w_width, w_height;
+fps f;
 
-void reshape(int width, int height)
-{
+void reshape(int width, int height) {
     if (height == 0)
         height = 1;
     glViewport(0, 0, width, height);
@@ -19,8 +21,7 @@ void reshape(int width, int height)
     w_height = height;
 }
 
-void redraw()
-{
+void redraw() {
     update();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -41,8 +42,7 @@ void redraw()
     glPopMatrix();
 
     // cross
-    if (!ss->get_ss_mode())
-    {
+    if (!ss->get_ss_mode()) {
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         glOrtho(0, w_width, 0, w_height, -1, 1);
@@ -60,57 +60,47 @@ void redraw()
         glVertex2f(w_width / 2, w_height / 2 - 10.0f);
         glVertex2f(w_width / 2, w_height / 2 + 10.0f);
         glEnd();
-    }
-    else
-    {
+    } else {
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         glOrtho(0, w_width, 0, w_height, -1, 1);
         ss->drawRect(w_height);
     }
 
+    f.update();
+
     glutSwapBuffers();
 }
 
-void idle()
-{
+void idle() {
     glutPostRedisplay();
 }
 
-void motion(int x, int y)
-{
-    for (const auto& l : listeners)
-    {
+void motion(int x, int y) {
+    for (const auto &l : listeners) {
         if (l->motion(x, y)) break;
     }
 }
 
-void mouse(int button, int state, int x, int y)
-{
-    for (const auto& l : listeners)
-    {
+void mouse(int button, int state, int x, int y) {
+    for (const auto &l : listeners) {
         if (l->mouse(button, state, x, y)) break;
     }
 }
 
-void keyboard(unsigned char key, int x, int y)
-{
-    for (const auto& l : listeners)
-    {
+void keyboard(unsigned char key, int x, int y) {
+    for (const auto &l : listeners) {
         if (l->keyboard(key, x, y)) break;
     }
 }
 
-void keyboard_up(unsigned char key, int x, int y)
-{
-    for (const auto& l : listeners)
-    {
+void keyboard_up(unsigned char key, int x, int y) {
+    for (const auto &l : listeners) {
         if (l->keyboard_up(key, x, y)) break;
     }
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
     // TODO: enable configuration
@@ -134,6 +124,8 @@ int main(int argc, char **argv)
     glutKeyboardFunc(&keyboard);
     glutKeyboardUpFunc(&keyboard_up);
     glutIgnoreKeyRepeat(true);
+
+    f.init();
 
     glutMainLoop();
 
