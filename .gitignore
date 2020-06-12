@@ -10,3 +10,4 @@ Screenshot*.bmp
 /build/
 /diwoCG.cbp
 /.idea/
+.DS_Store
