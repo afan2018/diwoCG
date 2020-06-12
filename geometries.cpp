@@ -32,13 +32,13 @@ void box::drawBox(GLfloat size) {
     glBegin(GL_QUADS);
     for (i = 5; i >= 0; i--) {
         glNormal3fv(&n[i][0]);
-        glTexCoord2d(0, 0);
-        glVertex3fv(&v[faces[i][0]][0]);
-        glTexCoord2d(0, 1);
-        glVertex3fv(&v[faces[i][1]][0]);
         glTexCoord2d(1, 0);
-        glVertex3fv(&v[faces[i][2]][0]);
+        glVertex3fv(&v[faces[i][0]][0]);
         glTexCoord2d(1, 1);
+        glVertex3fv(&v[faces[i][1]][0]);
+        glTexCoord2d(0, 1);
+        glVertex3fv(&v[faces[i][2]][0]);
+        glTexCoord2d(0, 0);
         glVertex3fv(&v[faces[i][3]][0]);
     }
     glEnd();
@@ -47,15 +47,21 @@ void box::drawBox(GLfloat size) {
 void prism::drawPrism() {
     // back endcap
     glBegin(GL_TRIANGLES);
+	glTexCoord2d(1, 0);
     glVertex3f(1.0f, 0.0f, 0.0f);
+	glTexCoord2d(0, 0);
     glVertex3f(0.0f, 0.0f, 0.0f);
+	glTexCoord2d(0, 1);
     glVertex3f(0.0f, 1.0f, 0.0f);
 //    glEnd();
 
     // front endcap
 //    glBegin(GL_TRIANGLES);
+	glTexCoord2d(1, 0);
     glVertex3f(1.0f, 0.0f, 1.0f);
+	glTexCoord2d(0, 0);
     glVertex3f(0.0f, 0.0f, 1.0f);
+	glTexCoord2d(0, 1);
     glVertex3f(0.0f, 1.0f, 1.0f);
     glEnd();
 
@@ -63,11 +69,11 @@ void prism::drawPrism() {
     glBegin(GL_QUADS);
     glTexCoord2d(0, 0);
     glVertex3f(0.0f, 0.0f, 0.0f);
-    glTexCoord2d(0, 1);
-    glVertex3f(1.0f, 0.0f, 0.0f);
     glTexCoord2d(1, 0);
-    glVertex3f(1.0f, 0.0f, 1.0f);
+    glVertex3f(1.0f, 0.0f, 0.0f);
     glTexCoord2d(1, 1);
+    glVertex3f(1.0f, 0.0f, 1.0f);
+    glTexCoord2d(0, 1);
     glVertex3f(0.0f, 0.0f, 1.0f);
 //    glEnd();
 
@@ -77,21 +83,79 @@ void prism::drawPrism() {
     glVertex3f(0.0f, 0.0f, 0.0f);
     glTexCoord2d(0, 1);
     glVertex3f(0.0f, 1.0f, 0.0f);
-    glTexCoord2d(1, 0);
-    glVertex3f(0.0f, 1.0f, 1.0f);
     glTexCoord2d(1, 1);
+    glVertex3f(0.0f, 1.0f, 1.0f);
+    glTexCoord2d(1, 0);
     glVertex3f(0.0f, 0.0f, 1.0f);
 //    glEnd();
 
     // top
 //    glBegin(GL_QUADS);
-    glTexCoord2d(0, 0);
-    glVertex3f(0.0f, 1.0f, 0.0f);
     glTexCoord2d(0, 1);
+    glVertex3f(0.0f, 1.0f, 0.0f);
+    glTexCoord2d(1, 1);
     glVertex3f(1.0f, 0.0f, 0.0f);
     glTexCoord2d(1, 0);
     glVertex3f(1.0f, 0.0f, 1.0f);
-    glTexCoord2d(1, 1);
+    glTexCoord2d(0, 0);
     glVertex3f(0.0f, 1.0f, 1.0f);
     glEnd();
+}
+
+void frustum::drawFrustum() {
+	// back endcap
+	glBegin(GL_TRIANGLES);
+	glTexCoord2d(1, 0);
+	glVertex3f(1.0f, 0.0f, 0.0f);
+	glTexCoord2d(0, 0);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glTexCoord2d(0, 1);
+	glVertex3f(0.0f, 1.0f, 0.0f);
+	//    glEnd();
+
+		// front endcap
+	//    glBegin(GL_TRIANGLES);
+	glTexCoord2d(1, 0);
+	glVertex3f(0.5f, 0.0f, 1.0f);
+	glTexCoord2d(0, 0);
+	glVertex3f(0.0f, 0.0f, 1.0f);
+	glTexCoord2d(0, 1);
+	glVertex3f(0.0f, 0.5f, 1.0f);
+	glEnd();
+
+	// bottom
+	glBegin(GL_QUADS);
+	glTexCoord2d(0, 0);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glTexCoord2d(0, 1);
+	glVertex3f(1.0f, 0.0f, 0.0f);
+	glTexCoord2d(1, 0);
+	glVertex3f(0.5f, 0.0f, 1.0f);
+	glTexCoord2d(1, 1);
+	glVertex3f(0.0f, 0.0f, 1.0f);
+	//    glEnd();
+
+		// back
+	//    glBegin(GL_QUADS);
+	glTexCoord2d(0, 0);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glTexCoord2d(0, 1);
+	glVertex3f(0.0f, 1.0f, 0.0f);
+	glTexCoord2d(1, 0);
+	glVertex3f(0.0f, 0.5f, 1.0f);
+	glTexCoord2d(1, 1);
+	glVertex3f(0.0f, 0.0f, 1.0f);
+	//    glEnd();
+
+		// top
+	//    glBegin(GL_QUADS);
+	glTexCoord2d(0, 0);
+	glVertex3f(0.0f, 1.0f, 0.0f);
+	glTexCoord2d(0, 1);
+	glVertex3f(1.0f, 0.0f, 0.0f);
+	glTexCoord2d(1, 0);
+	glVertex3f(0.5f, 0.0f, 1.0f);
+	glTexCoord2d(1, 1);
+	glVertex3f(0.0f, 0.5f, 1.0f);
+	glEnd();
 }

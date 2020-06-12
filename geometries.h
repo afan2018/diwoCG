@@ -103,6 +103,19 @@ public:
     }
 };
 
-// TODO: add more geometries
+class frustum : public node {
+private:
+	void drawFrustum();
 
+public:
+	frustum() {
+		center[0] = center[1] = center[2] = 0.5f;
+	}
+
+	void render() override {
+		transform();
+		colorize();
+		drawFrustum();
+	}
+};
 #endif
