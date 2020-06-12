@@ -11,10 +11,7 @@
 #include <OpenGL/glu.h>
 #endif
 
-#include "listener.h"
 #include "scene_graph.h"
-#include "control.h"
-#include "screenshot.h"
 
 class camera {
     public:
@@ -33,10 +30,6 @@ class perspective_camera : public camera {
         }
 };
 
-extern std::vector<std::shared_ptr<listener>> listeners;
-extern std::shared_ptr<camera> cam;
-extern std::shared_ptr<control> ctrl;
-extern std::shared_ptr<screenshot> ss;
 extern scene_graph sg;
 extern int w_width, w_height;
 extern void init();

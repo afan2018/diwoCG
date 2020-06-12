@@ -3,10 +3,20 @@
 #include "obj_mesh.h"
 #include "nurbs_mesh.h"
 #include "texture.h"
+#include "light.h"
+#include "control.h"
+#include "screenshot.h"
 
 #include <memory>
 #include <random>
 #include <vector>
+
+extern std::vector<std::shared_ptr<listener>> listeners;
+extern std::shared_ptr<camera> cam;
+extern std::shared_ptr<control> ctrl;
+extern std::shared_ptr<screenshot> ss;
+
+std::shared_ptr<light_env> lights;
 
 template<typename T>
 std::shared_ptr<node> create() { return std::make_shared<T>(); }
@@ -25,6 +35,11 @@ void init() {
     ctrl = std::make_shared<orbit_control>();
     ss = std::make_shared<screenshot>();
 
+    lights = std::make_shared<light_env>();
+
+    sg.nodes.push_back(lights);
+
+    listeners.push_back(lights);
     listeners.push_back(ss);
     listeners.push_back(ctrl);
 
@@ -46,9 +61,6 @@ void init() {
         p->translate[1] = d_pos(rng);
         p->translate[2] = d_pos(rng);
         p->scale[0] = p->scale[1] = p->scale[2] = d_size(rng) / 2.0f;
-//        p->rotate_axis[0] = d_rot(rng);
-//        p->rotate_axis[1] = d_rot(rng);
-//        p->rotate_axis[2] = d_rot(rng);
         p->texId = d_has_tex(rng) > 0.9 ? texId : 0;
         float rotate_axis[] = { d_rot(rng), d_rot(rng), d_rot(rng) };
         p->ctrl = [rotate_axis](auto& t) {
@@ -83,11 +95,33 @@ void init() {
 			cpts[k + 3] = 1.0f / 25;
 		}
 	}
-	auto p_test_urbs = std::make_unique<nurbs>(cpts, knotsx, knotsy, 4, 4, 3, 3, 0.05f, 0.05f);
-	p_test_urbs->translate[0] = d_pos(rng);
-	p_test_urbs->translate[1] = d_pos(rng);
-	p_test_urbs->translate[2] = d_pos(rng);
-	sg.nodes.push_back(std::move(p_test_urbs));
+	auto p_test_nurbs = std::make_unique<nurbs>(cpts, knotsx, knotsy, 4, 4, 3, 3, 0.05f, 0.05f);
+    p_test_nurbs->translate[0] = d_pos(rng);
+    p_test_nurbs->translate[1] = d_pos(rng);
+    p_test_nurbs->translate[2] = d_pos(rng);
+	sg.nodes.push_back(std::move(p_test_nurbs));
+
+    {
+        auto lp = std::make_shared<point_light>();
+        lp->ambient[0] = 0.5f;
+        lp->ambient[1] = 0.0f;
+        lp->ambient[2] = 0.5f;
+        lp->visible = false;
+        lights->add_light(lp);
+        sg.nodes.push_back(std::move(lp));
+    }
+
+    {
+        auto lp = std::make_shared<point_light>();
+        lp->diffuse[0] = 0.8f;
+        lp->diffuse[1] = 0.8f;
+        lp->diffuse[2] = 0.8f;
+        lp->translate[0] = 6.0f;
+        lp->translate[1] = 4.0f;
+        lp->translate[2] = -8.0f;
+        lights->add_light(lp);
+        sg.nodes.push_back(std::move(lp));
+    }
 }
 
 void update() {

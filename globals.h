@@ -1,0 +1,20 @@
+#ifndef GLOBALS_H
+#define GLOBALS_H
+
+#include "listener.h"
+#include "scene_graph.h"
+#include "control.h"
+#include "screenshot.h"
+#include "light.h"
+
+// THIS FILE IS ONLY INTENDED AS A LIST OF GLOBAL VARIABLES
+// FOR THE FILES TO COMPILE AND LINK CORRECTLY, EVERY FILE
+// USING GLOBAL VARIABLES FROM HERE SHOULD **COPY** THE DEFINITIONS
+// TO THEIR OWN CODE, INSTEAD OF INCLUDING THIS FILE!!!
+
+extern std::vector<std::shared_ptr<listener>> listeners;
+extern std::shared_ptr<camera> cam;
+extern std::shared_ptr<control> ctrl;
+extern std::shared_ptr<screenshot> ss;
+
+#endif

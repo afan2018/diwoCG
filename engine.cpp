@@ -8,6 +8,10 @@
 #endif
 
 #include "fps.h"
+#include "listener.h"
+#include "control.h"
+#include "screenshot.h"
+#include "light.h"
 
 std::vector<std::shared_ptr<listener>> listeners;
 std::shared_ptr<camera> cam;
