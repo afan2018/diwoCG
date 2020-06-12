@@ -10,4 +10,7 @@ SET(EXECUTABLE_NAME main)
 
 add_executable(${EXECUTABLE_NAME} main.cpp engine.cpp control.cpp screenshot.cpp obj_mesh.cpp geometries.cpp nurbs_mesh.cpp)
 set_target_properties(${EXECUTABLE_NAME} PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32")
+IF(APPLE)
+    set_target_properties(${EXECUTABLE_NAME} PROPERTIES COMPILE_FLAGS "-Wno-deprecated-declarations" LINK_FLAGS "-framework OpenGL -framework GLUT")
+ENDIF(APPLE)
 target_link_libraries(${EXECUTABLE_NAME} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
