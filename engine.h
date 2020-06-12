@@ -15,6 +15,7 @@
 #include "scene_graph.h"
 #include "control.h"
 #include "screenshot.h"
+#include "light.h"
 
 class camera {
     public:
@@ -37,6 +38,7 @@ extern std::vector<std::shared_ptr<listener>> listeners;
 extern std::shared_ptr<camera> cam;
 extern std::shared_ptr<control> ctrl;
 extern std::shared_ptr<screenshot> ss;
+extern std::shared_ptr<light_env> lights;
 extern scene_graph sg;
 extern int w_width, w_height;
 extern void init();

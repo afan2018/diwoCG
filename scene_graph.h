@@ -84,6 +84,11 @@ class node {
         }
 
         void colorize() {
+            glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
+            glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
+            glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
+            glMaterialf(GL_FRONT, GL_SHININESS, shininess);
+            glMaterialfv(GL_FRONT, GL_EMISSION, emission);
             if (texId == 0) {
                 glDisable(GL_TEXTURE_2D);
                 glColor3fv(color);
@@ -102,6 +107,12 @@ class node {
         GLuint  texId             = 0;
         GLfloat color[3]          = { 1.0f, 1.0f, 1.0f };
         GLfloat center[3]         = { 0.0f, 0.0f, 0.0f };
+        bool is_lighted           = false;
+        GLfloat ambient[4]        = { 0.2f, 0.2f, 0.2f, 1.0f };
+        GLfloat diffuse[4]        = { 0.8f, 0.8f, 0.8f, 1.0f };
+        GLfloat specular[4]       = { 0.0f, 0.0f, 0.0f, 0.0f };
+        GLfloat emission[4]       = { 0.0f, 0.0f, 0.0f, 1.0f };
+        GLfloat shininess         = 0.0f;
         mat3    rotate_mat        = mat3::identity();
         
         aabb get_aabb() {

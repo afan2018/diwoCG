@@ -24,8 +24,10 @@ void init() {
     cam = std::make_shared<perspective_camera>();
     ctrl = std::make_shared<orbit_control>();
     ss = std::make_shared<screenshot>();
+    lights = std::make_shared<light_env>();
 
     listeners.push_back(ss);
+    listeners.push_back(lights);
     listeners.push_back(ctrl);
 
     GLuint texId = tex_load("lego.png");
@@ -82,6 +84,10 @@ void init() {
 	p_test_urbs->translate[1] = d_pos(rng);
 	p_test_urbs->translate[2] = d_pos(rng);
 	sg.nodes.push_back(std::move(p_test_urbs));
+
+    GLfloat ambient[] = {1.0f, 0.0f, 1.0f};
+    GLfloat position[] = {0.0f, 1.0f, 0.0f};
+    lights->addlight(ambient, NULL, NULL, position);
 }
 
 void update() {
