@@ -50,6 +50,12 @@ void init() {
 //        p->rotate_axis[1] = d_rot(rng);
 //        p->rotate_axis[2] = d_rot(rng);
         p->texId = d_has_tex(rng) > 0.9 ? texId : 0;
+        float rotate_axis[] = { d_rot(rng), d_rot(rng), d_rot(rng) };
+        p->ctrl = [rotate_axis](auto& t) {
+            if (!t.selected) {
+                t.rotate_mat = t.rotate_mat * mat3::rotate(0.5f, rotate_axis[0], rotate_axis[1], rotate_axis[2]);
+            }
+        };
         sg.nodes.push_back(std::move(p));
     }
 
@@ -85,7 +91,4 @@ void init() {
 }
 
 void update() {
-//    for (auto &p : sg.nodes) {
-//        p->rotate_angle += 0.5f;
-//    }
 }
