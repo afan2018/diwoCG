@@ -103,8 +103,6 @@ class node {
     public:
         GLfloat translate[3]      = { 0.0f, 0.0f, 0.0f };
         GLfloat scale[3]          = { 1.0f, 1.0f, 1.0f };
-//        GLfloat rotate_angle      = 0.0f;
-//        GLfloat rotate_axis[3]    = { 0.0f, 1.0f, 0.0f };
         GLuint  texId             = 0;
         GLfloat color[3]          = { 1.0f, 1.0f, 1.0f };
         GLfloat center[3]         = { 0.0f, 0.0f, 0.0f };

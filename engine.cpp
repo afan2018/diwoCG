@@ -8,12 +8,15 @@
 #endif
 
 #include "fps.h"
+#include "listener.h"
+#include "control.h"
+#include "screenshot.h"
+#include "light.h"
 
 std::vector<std::shared_ptr<listener>> listeners;
 std::shared_ptr<camera> cam;
 std::shared_ptr<control> ctrl;
 std::shared_ptr<screenshot> ss;
-std::shared_ptr<light_env> lights;
 scene_graph sg;
 int w_width, w_height;
 fps f;
