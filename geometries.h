@@ -49,12 +49,36 @@ private:
 	GLUquadricObj *objDiskBottom;
 	GLUquadricObj *objDiskTop;
 
+	GLuint listId;
+
 public:
     cylinder() {
         center[2] = 0.5f;
 		objCylinder = gluNewQuadric();
 		objDiskBottom = gluNewQuadric();
 		objDiskTop = gluNewQuadric();
+
+        const GLfloat radius = 0.5f;
+
+        gluQuadricDrawStyle(objCylinder, GLU_FILL);
+        gluQuadricTexture(objCylinder, GL_TRUE);
+        gluQuadricNormals(objCylinder, GLU_SMOOTH);
+        gluQuadricDrawStyle(objDiskBottom, GLU_FILL);
+        gluQuadricTexture(objDiskBottom, GL_TRUE);
+        gluQuadricNormals(objDiskBottom, GLU_SMOOTH);
+        gluQuadricDrawStyle(objDiskTop, GLU_FILL);
+        gluQuadricTexture(objDiskTop, GL_TRUE);
+        gluQuadricNormals(objDiskTop, GLU_SMOOTH);
+
+        listId =  glGenLists(1);
+        glNewList(listId, GL_COMPILE);
+        gluCylinder(objCylinder, radius, radius, 1.0, 40, 5);
+        gluDisk(objDiskBottom, 0, radius, 40, 50);
+
+        glTranslatef(0, 0, 1.0);
+        gluDisk(objDiskTop, 0, radius, 40, 50);
+
+        glEndList();
     }
 
 	~cylinder() {
@@ -67,24 +91,9 @@ public:
         transform();
         colorize();
 
-        const GLfloat radius = 0.5f;
-
-		gluQuadricDrawStyle(objCylinder, GLU_FILL);
-		gluQuadricTexture(objCylinder, GL_TRUE);
-		gluQuadricNormals(objCylinder, GLU_SMOOTH);
-		gluQuadricDrawStyle(objDiskBottom, GLU_FILL);
-		gluQuadricTexture(objDiskBottom, GL_TRUE);
-		gluQuadricNormals(objDiskBottom, GLU_SMOOTH);
-		gluQuadricDrawStyle(objDiskTop, GLU_FILL);
-		gluQuadricTexture(objDiskTop, GL_TRUE);
-		gluQuadricNormals(objDiskTop, GLU_SMOOTH);
-
-        gluCylinder(objCylinder, radius, radius, 1.0, 40, 50);
-        gluDisk(objDiskBottom, 0, radius, 40, 50);
         glPushMatrix();
-		glTranslatef(0, 0, 1.0);
-		gluDisk(objDiskTop, 0, radius, 40, 50);
-		glPopMatrix();
+        glCallList(listId);
+        glPopMatrix();
     }
 };
 
