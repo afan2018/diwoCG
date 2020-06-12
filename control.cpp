@@ -61,7 +61,7 @@ bool orbit_control::keyboard_up(unsigned char key, int mx, int my) {
         case 'd': d_down = false; break;
         case 'c': c_down = false; break;
         case 'z': z_down = false; break;
-        case ' ': {
+        case 'r': {
             // center selection
             if (!sg.selected) break;
             auto a = sg.selected->get_aabb();
@@ -77,6 +77,10 @@ bool orbit_control::keyboard_up(unsigned char key, int mx, int my) {
             break;
         }
         case 'g': g_down = false; break;
+        case ' ': {
+            sg.selected = sg.hovered;
+            break;
+        }
     }
     return false;
 }

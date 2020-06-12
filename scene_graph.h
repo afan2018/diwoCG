@@ -12,6 +12,7 @@
 #include <OpenGL/gl.h>
 #include <GLUT/glut.h>
 #endif
+#include <functional>
 
 #include "mat.h"
 
@@ -114,7 +115,10 @@ class node {
         GLfloat emission[4]       = { 0.0f, 0.0f, 0.0f, 1.0f };
         GLfloat shininess         = 0.0f;
         mat3    rotate_mat        = mat3::identity();
-        
+
+        bool selected = false;
+        std::function<void(node&)> ctrl = [](auto& t){};
+
         aabb get_aabb() {
             return {
                 base_aabb.x0 * scale[0] + translate[0],
@@ -126,28 +130,37 @@ class node {
             };
         }
 
-        virtual void update() {};
+        virtual void update() {
+            ctrl(*this);
+        }
         virtual void render() {};
 };
 
 class scene_graph {
     public:
         std::vector<std::shared_ptr<node>> nodes;
+        std::shared_ptr<node> hovered;
         std::shared_ptr<node> selected;
         scene_graph() = default;
 
         void render(ray &r, bool need_box) {
-            // update selection
-            selected = nullptr;
+            // update hover
+            hovered = nullptr;
             float t_min = NAN;
             for (auto& n : nodes) {
                 aabb box = n->get_aabb();
                 float t = box.intersects(r);
                 if (!std::isnan(t) && !(t >= t_min)) {
-                    selected = n;
+                    hovered = n;
                     t_min = t;
                 }
             }
+
+            // update selection
+            for (auto& n : nodes) {
+                n->selected = false;
+            }
+            if (selected) selected->selected = true;
 
             // update nodes
             for (auto& n : nodes) {
@@ -162,13 +175,21 @@ class scene_graph {
             }
 
             // render selection
-            if (selected && need_box) {
+            if (need_box) {
                 glEnable(GL_BLEND);
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-                glPushMatrix();
-                selected->get_aabb().render(0.04f);
-                glPopMatrix();
+                if (hovered && hovered != selected) {
+                    glLineWidth(1.0f);
+                    glPushMatrix();
+                    hovered->get_aabb().render(0.04f);
+                    glPopMatrix();
+                }
+                if (selected) {
+                    glLineWidth(2.0f);
+                    glPushMatrix();
+                    selected->get_aabb().render(0.04f);
+                    glPopMatrix();
+                }
             }
         }
 };
