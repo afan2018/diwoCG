@@ -7,6 +7,7 @@
 #include "screenshot.h"
 #include "light.h"
 #include "transform.h"
+#include "texture_ctrl.h"
 
 // THIS FILE IS ONLY INTENDED AS A LIST OF GLOBAL VARIABLES
 // FOR THE FILES TO COMPILE AND LINK CORRECTLY, EVERY FILE
@@ -18,5 +19,6 @@ extern std::shared_ptr<camera> cam;
 extern std::shared_ptr<control> ctrl;
 extern std::shared_ptr<screenshot> ss;
 extern std::shared_ptr<trans> tf;
+extern std::shared_ptr<texture_ctrl> texctrl;
 
 #endif

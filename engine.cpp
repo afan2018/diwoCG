@@ -6,6 +6,7 @@
 #include "screenshot.h"
 #include "light.h"
 #include "transform.h"
+#include "texture_ctrl.h"
 
 std::vector<std::shared_ptr<listener>> listeners;
 std::vector<std::shared_ptr<actor>> actors;

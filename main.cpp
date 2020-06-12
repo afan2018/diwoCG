@@ -2,7 +2,7 @@
 #include "geometries.h"
 #include "obj_mesh.h"
 #include "nurbs_mesh.h"
-#include "texture.h"
+#include "texture_ctrl.h"
 #include "light.h"
 #include "material.h"
 
