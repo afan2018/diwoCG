@@ -23,6 +23,8 @@ void light::init(GLenum id, GLfloat* ambient, GLfloat* specular, GLfloat* diffus
     }
     this->position = new GLfloat[3];
     memcpy(this->position, position, sizeof(GLfloat) * 3);
+    base_aabb = {-0.1, 0.1, -0.1, 0.1, -0.1, 0.1};
+    memcpy(center, this->position, sizeof(GLfloat) * 3);
 }
 
 void light::setbasic() {
@@ -81,7 +83,7 @@ bool light_env::keyboard(unsigned char key, int x, int y) {
         if (!in_light_mode) return false;
         int x = key - '1';
         if (x < lights.size()) {
-            lights[x].flip();
+            lights[x]->flip();
         }
     }
     return true;
@@ -107,14 +109,18 @@ bool light_env::motion(int x, int y) {
     return in_light_mode;
 }
 
-void light_env::addlight(GLfloat* ambient, GLfloat* specular, GLfloat* diffuse, GLfloat* position, GLfloat angle, GLfloat exponent, GLfloat* direction) {
+std::shared_ptr<light> light_env::addlight(GLfloat* ambient, GLfloat* specular, GLfloat* diffuse, GLfloat* position, GLfloat angle, GLfloat exponent, GLfloat* direction) {
     if (lights.size() == 8) {
         std::cerr << "No more than 8 lights";
-        return;
+        return nullptr;
     }
     if (direction) {
-        lights.push_back(spotlight(GL_LIGHT0 + lights.size(), ambient, specular, diffuse, position, angle, exponent, direction));
-    } else {
-        lights.push_back(normallight(GL_LIGHT0 + lights.size(), ambient, specular, diffuse, position));
+        auto lp = std::make_shared<spotlight>(GL_LIGHT0 + lights.size(), ambient, specular, diffuse, position, angle, exponent, direction);
+        lights.push_back(lp);
+        return lp;
     }
+
+    auto lp = std::make_shared<normallight>(GL_LIGHT0 + lights.size(), ambient, specular, diffuse, position);
+    lights.push_back(lp);
+    return lp;
 }

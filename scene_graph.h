@@ -83,7 +83,7 @@ class node {
             glTranslatef(-center[0], -center[1], -center[2]);
         }
 
-        void colorize() {
+        virtual void colorize() {
             glMaterialfv(GL_FRONT, GL_AMBIENT, ambient);
             glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
             glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
@@ -126,6 +126,7 @@ class node {
             };
         }
 
+        virtual void update() {};
         virtual void render() {};
 };
 
@@ -146,6 +147,11 @@ class scene_graph {
                     selected = n;
                     t_min = t;
                 }
+            }
+
+            // update nodes
+            for (auto& n : nodes) {
+                n->update();
             }
 
             // render nodes

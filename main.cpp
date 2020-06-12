@@ -86,8 +86,10 @@ void init() {
 	sg.nodes.push_back(std::move(p_test_urbs));
 
     GLfloat ambient[] = {1.0f, 0.0f, 1.0f};
-    GLfloat position[] = {0.0f, 1.0f, 0.0f};
-    lights->addlight(ambient, NULL, NULL, position);
+    GLfloat position[] = {-1.0f, 1.0f, -1.0f};
+    auto newlight = lights->addlight(ambient, NULL, NULL, position);
+    sg.nodes.push_back(std::move(lights));
+    sg.nodes.push_back(std::move(newlight));
 }
 
 void update() {

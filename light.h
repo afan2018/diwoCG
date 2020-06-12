@@ -1,8 +1,13 @@
 #include "listener.h"
 #include <vector>
+#ifdef _WIN32
 #include <GL/gl.h>
+#else
+#include <OpenGL/gl.h>
+#include "scene_graph.h"
+#endif
 
-class light {
+class light : public node{
 protected:
     GLfloat* ambient;
     GLfloat* specular;
@@ -19,6 +24,11 @@ public:
     void reset();
     void flip();
     virtual void set() {setbasic(); glEnable(id);}
+    void render() override {
+        transform();
+        colorize();
+        glutSolidTeapot(0.2);
+    }
 };
 
 class spotlight : public light {
@@ -36,12 +46,11 @@ public:
 };
 
 
-class light_env : public listener
-{
+class light_env : public node, public listener {
 private:
     bool in_light_mode;
     bool lights_on = false;
-    std::vector<light> lights;
+    std::vector<std::shared_ptr<light>> lights;
 
 public:
     light_env() = default;
@@ -50,6 +59,16 @@ public:
     bool keyboard_up(unsigned char key, int x, int y) override;
     bool mouse(int button, int state, int x, int y) override;
     bool motion(int x, int y) override;
+
+    void colorize() override {}
+
+    void update() override {
+        if (lights_on) {
+            glEnable(GL_LIGHTING);
+        } else {
+            glDisable(GL_LIGHTING);
+        }
+    }
     
-    void addlight(GLfloat* ambient, GLfloat* specular, GLfloat* diffuse, GLfloat* position, GLfloat angle=0.0f, GLfloat exponent=0.0f, GLfloat* direction=NULL);
+    std::shared_ptr<light> addlight(GLfloat* ambient, GLfloat* specular, GLfloat* diffuse, GLfloat* position, GLfloat angle=0.0f, GLfloat exponent=0.0f, GLfloat* direction=NULL);
 };
