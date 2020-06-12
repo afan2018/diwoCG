@@ -125,25 +125,25 @@ void frustum::drawFrustum() {
 
 	// bottom
 	glBegin(GL_QUADS);
-	glTexCoord2d(0, 0);
-	glVertex3f(0.0f, 0.0f, 0.0f);
 	glTexCoord2d(0, 1);
-	glVertex3f(1.0f, 0.0f, 0.0f);
-	glTexCoord2d(1, 0);
-	glVertex3f(0.5f, 0.0f, 1.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f);
 	glTexCoord2d(1, 1);
+	glVertex3f(1.0f, 0.0f, 0.0f);
+	glTexCoord2d(0.5, 0);
+	glVertex3f(0.5f, 0.0f, 1.0f);
+	glTexCoord2d(0, 0);
 	glVertex3f(0.0f, 0.0f, 1.0f);
 	//    glEnd();
 
 		// back
 	//    glBegin(GL_QUADS);
-	glTexCoord2d(0, 0);
+	glTexCoord2d(1, 1);
 	glVertex3f(0.0f, 0.0f, 0.0f);
 	glTexCoord2d(0, 1);
 	glVertex3f(0.0f, 1.0f, 0.0f);
-	glTexCoord2d(1, 0);
+	glTexCoord2d(0.5, 0);
 	glVertex3f(0.0f, 0.5f, 1.0f);
-	glTexCoord2d(1, 1);
+	glTexCoord2d(1, 0);
 	glVertex3f(0.0f, 0.0f, 1.0f);
 	//    glEnd();
 
@@ -151,11 +151,11 @@ void frustum::drawFrustum() {
 	//    glBegin(GL_QUADS);
 	glTexCoord2d(0, 0);
 	glVertex3f(0.0f, 1.0f, 0.0f);
-	glTexCoord2d(0, 1);
-	glVertex3f(1.0f, 0.0f, 0.0f);
 	glTexCoord2d(1, 0);
+	glVertex3f(1.0f, 0.0f, 0.0f);
+	glTexCoord2d(0.75, 0.75);
 	glVertex3f(0.5f, 0.0f, 1.0f);
-	glTexCoord2d(1, 1);
+	glTexCoord2d(0.25, 0.75);
 	glVertex3f(0.0f, 0.5f, 1.0f);
 	glEnd();
 }
