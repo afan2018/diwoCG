@@ -44,6 +44,7 @@ public:
 
         GLUquadricObj *objCylinder = gluNewQuadric();
         gluCylinder(objCylinder, radius, radius, 1.0, 40, 50);
+		gluDeleteQuadric(objCylinder);
         if (lid) {
             GLUquadricObj *objDiskBottom = gluNewQuadric();
             gluDisk(objDiskBottom, 0, radius, 40, 50);
@@ -52,6 +53,8 @@ public:
             glTranslatef(0, 0, 1.0);
             gluDisk(objDiskTop, 0, radius, 40, 50);
             glPopMatrix();
+			gluDeleteQuadric(objDiskBottom);
+			gluDeleteQuadric(objDiskTop);
         }
     }
 };
@@ -72,12 +75,14 @@ public:
 
         GLUquadricObj *objCylinder = gluNewQuadric();
         gluCylinder(objCylinder, 0, radius, 1.0, 40, 50);
+		gluDeleteQuadric(objCylinder);
         if (lid) {
             glPushMatrix();
             GLUquadricObj *objDiskTop = gluNewQuadric();
             glTranslatef(0, 0, 1.0);
             gluDisk(objDiskTop, 0, radius, 40, 50);
             glPopMatrix();
+			gluDeleteQuadric(objDiskTop);
         }
     }
 };
