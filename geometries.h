@@ -7,6 +7,9 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 
+// use this to enable drawing with lists
+// #define USE_LISTS
+
 class box : public node {
 private:
 	void drawBox(GLfloat size);
@@ -22,23 +25,35 @@ public:
 class sphere : public node {
 private:
 	GLUquadricObj *objSphere;
+
+#ifdef USE_LISTS
 	GLint listId;
+#endif
+
+	void draw_sphere() {
+        gluSphere(objSphere, 0.5, 40, 50);
+	}
+
 public:
 	sphere() {
 		objSphere = gluNewQuadric();
 
-		gluQuadricDrawStyle(objSphere, GLU_FILL);
-		gluQuadricTexture(objSphere, GL_TRUE);
-		gluQuadricNormals(objSphere, GLU_SMOOTH);
+//		gluQuadricDrawStyle(objSphere, GLU_FILL);
+//		gluQuadricTexture(objSphere, GL_TRUE);
+//		gluQuadricNormals(objSphere, GLU_SMOOTH);
 
+#ifdef USE_LISTS
 		listId = glGenLists(1);
 		glNewList(listId, GL_COMPILE);
-		gluSphere(objSphere, 0.5, 40, 50);
+		draw_sphere();
 		glEndList();
+#endif
 	}
 
 	~sphere() {
+#ifdef USE_LISTS
         glDeleteLists(listId, 1);
+#endif
 
 		gluDeleteQuadric(objSphere);
 	}
@@ -47,8 +62,16 @@ public:
 		transform();
 		colorize();
 
+        gluQuadricDrawStyle(objSphere, GLU_FILL);
+        gluQuadricTexture(objSphere, GL_TRUE);
+        gluQuadricNormals(objSphere, GLU_SMOOTH);
+
 		glPushMatrix();
+#ifdef USE_LISTS
 		glCallList(listId);
+#else
+		draw_sphere();
+#endif
 		glPopMatrix();
 	}
 };
@@ -59,7 +82,18 @@ private:
 	GLUquadricObj *objDiskBottom;
 	GLUquadricObj *objDiskTop;
 
+#ifdef USE_LISTS
 	GLuint listId;
+#endif
+
+	void draw_cylinder() {
+		const GLfloat radius = 0.5f;
+
+        gluCylinder(objCylinder, radius, radius, 1.0, 40, 5);
+        gluDisk(objDiskBottom, 0, radius, 40, 50);
+        glTranslatef(0, 0, 1.0);
+        gluDisk(objDiskTop, 0, radius, 40, 50);
+	}
 
 public:
 	cylinder() {
@@ -68,31 +102,28 @@ public:
 		objDiskBottom = gluNewQuadric();
 		objDiskTop = gluNewQuadric();
 
-		const GLfloat radius = 0.5f;
+//		gluQuadricDrawStyle(objCylinder, GLU_FILL);
+//		gluQuadricTexture(objCylinder, GL_TRUE);
+//		gluQuadricNormals(objCylinder, GLU_SMOOTH);
+//		gluQuadricDrawStyle(objDiskBottom, GLU_FILL);
+//		gluQuadricTexture(objDiskBottom, GL_TRUE);
+//		gluQuadricNormals(objDiskBottom, GLU_SMOOTH);
+//		gluQuadricDrawStyle(objDiskTop, GLU_FILL);
+//		gluQuadricTexture(objDiskTop, GL_TRUE);
+//		gluQuadricNormals(objDiskTop, GLU_SMOOTH);
 
-		gluQuadricDrawStyle(objCylinder, GLU_FILL);
-		gluQuadricTexture(objCylinder, GL_TRUE);
-		gluQuadricNormals(objCylinder, GLU_SMOOTH);
-		gluQuadricDrawStyle(objDiskBottom, GLU_FILL);
-		gluQuadricTexture(objDiskBottom, GL_TRUE);
-		gluQuadricNormals(objDiskBottom, GLU_SMOOTH);
-		gluQuadricDrawStyle(objDiskTop, GLU_FILL);
-		gluQuadricTexture(objDiskTop, GL_TRUE);
-		gluQuadricNormals(objDiskTop, GLU_SMOOTH);
-
+#ifdef USE_LISTS
 		listId = glGenLists(1);
 		glNewList(listId, GL_COMPILE);
-		gluCylinder(objCylinder, radius, radius, 1.0, 40, 5);
-		gluDisk(objDiskBottom, 0, radius, 40, 50);
-
-		glTranslatef(0, 0, 1.0);
-		gluDisk(objDiskTop, 0, radius, 40, 50);
-
+		draw_cylinder();
 		glEndList();
+#endif
 	}
 
 	~cylinder() {
+#ifdef USE_LISTS
         glDeleteLists(listId, 1);
+#endif
 
 		gluDeleteQuadric(objCylinder);
 		gluDeleteQuadric(objDiskBottom);
@@ -103,8 +134,22 @@ public:
 		transform();
 		colorize();
 
+        gluQuadricDrawStyle(objCylinder, GLU_FILL);
+        gluQuadricTexture(objCylinder, GL_TRUE);
+        gluQuadricNormals(objCylinder, GLU_SMOOTH);
+        gluQuadricDrawStyle(objDiskBottom, GLU_FILL);
+        gluQuadricTexture(objDiskBottom, GL_TRUE);
+        gluQuadricNormals(objDiskBottom, GLU_SMOOTH);
+        gluQuadricDrawStyle(objDiskTop, GLU_FILL);
+        gluQuadricTexture(objDiskTop, GL_TRUE);
+        gluQuadricNormals(objDiskTop, GLU_SMOOTH);
+
 		glPushMatrix();
+#ifdef USE_LISTS
 		glCallList(listId);
+#else
+		draw_cylinder();
+#endif
 		glPopMatrix();
 	}
 };
