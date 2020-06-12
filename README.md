@@ -17,4 +17,5 @@ main.exe
 - Hover object (you will see a white frame), and hit `Space` to select it, or hit `Space` without selecting anything to cancel selection
 - Hold `G` while selection to move the object around (keep it unchanged in your view)
 - Hold `P` and drag to take screenshot (of a section of the screen)
+- Hit `R` while selection to zoom to fit
 - FPS is written to console output, once per second
