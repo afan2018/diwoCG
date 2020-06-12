@@ -69,6 +69,6 @@ public:
             glDisable(GL_LIGHTING);
         }
     }
-    
+
     std::shared_ptr<light> addlight(GLfloat* ambient, GLfloat* specular, GLfloat* diffuse, GLfloat* position, GLfloat angle=0.0f, GLfloat exponent=0.0f, GLfloat* direction=NULL);
 };
