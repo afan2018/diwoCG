@@ -72,7 +72,7 @@ void redraw() {
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         glOrtho(0, w_width, 0, w_height, -1, 1);
-        ss->drawRect(w_height);
+        ss->drawRect(w_height, w_width);
     }
 
     f.update();

@@ -19,6 +19,7 @@ private:
     int sx, sy;
     int tx, ty;
     int height;
+    int width;
     bool in_ss_mode;
     void savepic();
 
@@ -32,5 +33,5 @@ public:
     bool mouse(int button, int state, int x, int y) override;
     bool motion(int x, int y) override;
     
-    void drawRect(int height);
+    void drawRect(int height, int width);
 };

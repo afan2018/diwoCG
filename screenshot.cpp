@@ -8,13 +8,13 @@ void screenshot::savepic()
     struct tm *t = gmtime(&now);
     sprintf(filename, "Screenshot_at_%d_%d_%d_%d_%d%d.bmp", t->tm_year + 1900,
             t->tm_mon + 1, t->tm_mday, t->tm_hour, t->tm_min, t->tm_sec); //, ctime(&now));
-    static unsigned char pic[480 * 480 * 4];
     int lx = (std::min)(sx, tx), rx = (std::max)(sx, tx);
     int ly = (std::min)(sy, ty), ry = (std::max)(sy, ty);
     int w = rx - lx, h = ry - ly;
-    w = (std::max)(w - 1, 0);
-    h = (std::max)(h - 1, 0);
-    glReadPixels(lx, height - ry, w, h, GL_RGBA, GL_UNSIGNED_BYTE, pic);
+    w = (std::max)(w - 6, 0);
+    h = (std::max)(h - 6, 0);
+    unsigned char* pic = new unsigned char [w * h * 4];
+    glReadPixels(lx + 3, height - ry + 3, w, h, GL_RGBA, GL_UNSIGNED_BYTE, pic);
     stbi_write_bmp(filename, w, h, 4, pic);
 }
 
@@ -51,6 +51,10 @@ bool screenshot::mouse(int button, int state, int x, int y)
 {
     if (!in_ss_mode)
         return false;
+    x = (std::min)(x, width);
+    x = (std::max)(x, 0);
+    y = (std::min)(y, height);
+    y = (std::max)(y, 0);
     if (state == GLUT_DOWN)
     {
         sx = x;
@@ -70,14 +74,19 @@ bool screenshot::motion(int x, int y)
 {
     if (!in_ss_mode)
         return false;
+    x = (std::min)(x, width);
+    x = (std::max)(x, 0);
+    y = (std::min)(y, height);
+    y = (std::max)(y, 0);
     tx = x;
     ty = y;
     return true;
 }
 
-void screenshot::drawRect(int height)
+void screenshot::drawRect(int height, int width)
 {
     this->height = height;
+    this->width = width;
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     glBegin(GL_POLYGON);
