@@ -21,6 +21,6 @@ main.exe
 - FPS is written to console output, once per second
 - Hit `K` (globally) to enable/disable lighting
 - Hit `L` while selecting a light source (which will appear as a bright white sphere) to enable/disable the light
-- Use arrow keys and ',' '.' for moving a selected object
-- Use 'U' 'I' 'O' to rotate a selected object around x, y and z axis
+- Use arrow keys and `,` `.` for moving a selected object
+- Use `U` `I` `O` to rotate a selected object around x, y and z axis
 - Be careful! The scene will be totally black if you disable all lights!
