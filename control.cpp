@@ -5,6 +5,10 @@
 #define M_PI 3.1415926535
 #endif
 
+#define _x 0
+#define _y 1
+#define _z 2
+
 bool orbit_control::motion(int mx, int my) {
     int dx = mx - down_x;
     int dy = my - down_y;
@@ -33,6 +37,7 @@ bool orbit_control::keyboard(unsigned char key, int mx, int my) {
         case 'd': d_down = true; break;
         case 'c': c_down = true; break;
         case 'z': z_down = true; break;
+        case 'f': f_down = true; break;
         case 'g': {
             g_down = true;
             down_node = sg.selected;
@@ -59,6 +64,7 @@ bool orbit_control::keyboard_up(unsigned char key, int mx, int my) {
         case 'd': d_down = false; break;
         case 'c': c_down = false; break;
         case 'z': z_down = false; break;
+        case 'f': f_down = false; break;
         case 'r': {
             // center selection
             if (!sg.selected) break;
@@ -90,29 +96,60 @@ void orbit_control::move(float angle, float dist) {
 }
 
 void orbit_control::update() {
+    if (f_down && sg.selected) {
+        // first, motion() updates alpha and beta, so we need to modify x, y and z accordingly
+        float dx = sg.selected->translate[_x] - x;
+        float dy = sg.selected->translate[_y] - y;
+        float dz = sg.selected->translate[_z] - z;
+        float dist = std::sqrt(dx * dx + dy * dy + dz * dz);
+        ray r = get_ray();
+        x = sg.selected->translate[_x] - r.xd * dist;
+        y = sg.selected->translate[_y] - r.yd * dist;
+        z = sg.selected->translate[_z] - r.zd * dist;
+    }
+
     if (w_down) move( 90.0f, 0.1f);
     if (s_down) move(270.0f, 0.1f);
     if (a_down) move(180.0f, 0.1f);
     if (d_down) move(  0.0f, 0.1f);
     if (c_down) y += 0.1f;
     if (z_down) y -= 0.1f;
+    if (f_down && sg.selected) {
+        // second, after moving, the ray should still point at the object, where
+        // ray = {
+        //        x, y, z,
+        //        +1.0f * sinf(alpha_rad) * cosf(beta_rad),
+        //        -1.0f                   * sinf(beta_rad),
+        //        -1.0f * cosf(alpha_rad) * cosf(beta_rad)
+        // }
+        float dx = sg.selected->translate[_x] - x;
+        float dy = sg.selected->translate[_y] - y;
+        float dz = sg.selected->translate[_z] - z;
+        float dist = std::sqrt(dx * dx + dy * dy + dz * dz);
+        float beta_rad = asinf(-dy / dist);
+        float ddx = +dx / dist / cosf(beta_rad);
+        float ddz = -dz / dist / cosf(beta_rad);
+        float alpha_rad = atan2f(ddx, ddz);
+        alpha = alpha_rad / (float)M_PI * 180.0f;
+        beta = beta_rad / (float)M_PI * 180.0f;
+    }
 
-    if (g_down && down_node) {
+    if (!f_down && g_down && down_node) {
         ray r = get_ray();
         // world -> ray
         auto ro = mat3::rotate(g_down_beta, 1.0f, 0.0f, 0.0f) * mat3::rotate(g_down_alpha, 0.0f, 1.0f, 0.0f);
         auto rn = mat3::rotate(beta, 1.0f, 0.0f, 0.0f) * mat3::rotate(alpha, 0.0f, 1.0f, 0.0f);
         // dp in world
         vec3 dpo = {
-                down_pos[0] - down_ray.x0,
-                down_pos[1] - down_ray.y0,
-                down_pos[2] - down_ray.z0
+                down_pos[_x] - down_ray.x0,
+                down_pos[_y] - down_ray.y0,
+                down_pos[_z] - down_ray.z0
         };
         vec3 dpn = ~rn * ro * dpo;
         // back to node
-        down_node->translate[0] = r.x0 + dpn.data[0];
-        down_node->translate[1] = r.y0 + dpn.data[1];
-        down_node->translate[2] = r.z0 + dpn.data[2];
+        down_node->translate[_x] = r.x0 + dpn.data[_x];
+        down_node->translate[_y] = r.y0 + dpn.data[_y];
+        down_node->translate[_z] = r.z0 + dpn.data[_z];
         down_node->rotate_mat = (~rn * ro) * down_mat;
     }
 

@@ -40,6 +40,7 @@ class orbit_control : public control {
         bool z_down = false;
         bool c_down = false;
         bool g_down = false;
+        bool f_down = false;
 
         float alpha = 0.0f;
         float beta  = 0.0f;
