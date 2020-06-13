@@ -6,6 +6,7 @@
 #include "light.h"
 #include "control.h"
 #include "screenshot.h"
+#include "transform.h"
 
 #include <memory>
 #include <random>
@@ -15,6 +16,7 @@ extern std::vector<std::shared_ptr<listener>> listeners;
 extern std::shared_ptr<camera> cam;
 extern std::shared_ptr<control> ctrl;
 extern std::shared_ptr<screenshot> ss;
+extern std::shared_ptr<trans> tf;
 
 std::shared_ptr<light_env> lights;
 
@@ -34,6 +36,7 @@ void init() {
     cam = std::make_shared<perspective_camera>();
     ctrl = std::make_shared<orbit_control>();
     ss = std::make_shared<screenshot>();
+    tf = std::make_shared<trans>();
 
     lights = std::make_shared<light_env>();
 
@@ -42,6 +45,7 @@ void init() {
     listeners.push_back(lights);
     listeners.push_back(ss);
     listeners.push_back(ctrl);
+    listeners.push_back(tf);
 
     GLuint texId = tex_load("lego.png");
 

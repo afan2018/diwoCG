@@ -12,11 +12,13 @@
 #include "control.h"
 #include "screenshot.h"
 #include "light.h"
+#include "transform.h"
 
 std::vector<std::shared_ptr<listener>> listeners;
 std::shared_ptr<camera> cam;
 std::shared_ptr<control> ctrl;
 std::shared_ptr<screenshot> ss;
+std::shared_ptr<trans> tf;
 scene_graph sg;
 int w_width, w_height;
 fps f;
@@ -44,6 +46,7 @@ void redraw() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glPushMatrix();
+    tf->update();
     ctrl->update();
     ray r = ctrl->get_ray();
     sg.render(r, !ss->get_ss_mode());
@@ -108,6 +111,18 @@ void keyboard_up(unsigned char key, int x, int y) {
     }
 }
 
+void specialkey(int key, int x, int y)  {
+    for (const auto &l : listeners) {
+        if (l->specialkey(key, x, y)) break;
+    }
+}
+
+void specialkey_up(int key, int x, int y)  {
+    for (const auto &l : listeners) {
+        if (l->specialkey_up(key, x, y)) break;
+    }
+}
+
 int main(int argc, char **argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
@@ -131,6 +146,8 @@ int main(int argc, char **argv) {
     glutMouseFunc(mouse);
     glutKeyboardFunc(&keyboard);
     glutKeyboardUpFunc(&keyboard_up);
+    glutSpecialFunc(specialkey);
+    glutSpecialUpFunc(specialkey_up);
     glutIgnoreKeyRepeat(true);
 
     f.init();

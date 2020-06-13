@@ -6,6 +6,7 @@
 #include "control.h"
 #include "screenshot.h"
 #include "light.h"
+#include "transform.h"
 
 // THIS FILE IS ONLY INTENDED AS A LIST OF GLOBAL VARIABLES
 // FOR THE FILES TO COMPILE AND LINK CORRECTLY, EVERY FILE
@@ -16,5 +17,6 @@ extern std::vector<std::shared_ptr<listener>> listeners;
 extern std::shared_ptr<camera> cam;
 extern std::shared_ptr<control> ctrl;
 extern std::shared_ptr<screenshot> ss;
+extern std::shared_ptr<trans> tf;
 
 #endif
