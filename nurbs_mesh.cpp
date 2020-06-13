@@ -94,15 +94,69 @@ nurbs::nurbs(GLfloat* cpts, GLfloat* knotsx, GLfloat* knotsy, int r, int c, int 
     };
 }
 
-void nurbs::render() {
+void Normal(float norm[], const float *coord1, const float *coord2, const float *coord3)
+{
+    float va[3], vb[3], vr[3], val;
+    va[0] = coord1[0] - coord2[0];
+    va[1] = coord1[1] - coord2[1];
+    va[2] = coord1[2] - coord2[2];
+
+    vb[0] = coord1[0] - coord3[0];
+    vb[1] = coord1[1] - coord3[1];
+    vb[2] = coord1[2] - coord3[2];
+
+    vr[0] = va[1] * vb[2] - vb[1] * va[2];
+    vr[1] = vb[0] * va[2] - va[0] * vb[2];
+    vr[2] = va[0] * vb[1] - vb[0] * va[1];
+
+    val = sqrt(vr[0] * vr[0] + vr[1] * vr[1] + vr[2] * vr[2]);
+
+    norm[0] = vr[0] / val;
+    norm[1] = vr[1] / val;
+    norm[2] = vr[2] / val;
+}
+
+void DrawTriangle(const GLfloat *a, const GLfloat *b, const GLfloat *c)
+{
+    GLfloat norm[3];
+    Normal(norm, a, b, c);
+    glNormal3fv(norm);
+    glVertex3fv(a);
+    glVertex3fv(b);
+    glVertex3fv(c);
+    norm[0] = -norm[0];
+    norm[1] = -norm[1];
+    norm[2] = -norm[2];
+    GLfloat pts[3][3];
+    memcpy(pts[0], a, sizeof(GLfloat) * 3);
+    memcpy(pts[1], b, sizeof(GLfloat) * 3);
+    memcpy(pts[2], c, sizeof(GLfloat) * 3);
+    glNormal3fv(norm);
+    for (int i = 0; i < 3; ++i)
+    {
+        pts[i][1] += 1e-2;
+    }
+    for (int i = 0; i < 3; ++i)
+    {
+        glVertex3fv(pts[i]);
+    }
+}
+
+void nurbs::render()
+{
     transform();
     glColor3fv(color);
-    for (int i = 0; i + 1 < meshsize[0]; i++) {
-        glBegin(GL_QUAD_STRIP);
-        for (int j = 0; j < meshsize[1]; j++) {
-            glVertex3fv(mesh[i][j]);
-            glVertex3fv(mesh[i + 1][j]);
+    GLfloat norm[3];
+    for (int i = 0; i + 1 < meshsize[0]; i++)
+    {
+        //glBegin(GL_QUAD_STRIP);
+        glBegin(GL_TRIANGLES);
+        for (int j = 0; j + 1 < meshsize[1]; j++)
+        {
+            DrawTriangle(mesh[i][j], mesh[i + 1][j], mesh[i][j + 1]);
+            DrawTriangle(mesh[i + 1][j + 1], mesh[i][j + 1], mesh[i + 1][j]);
         }
         glEnd();
+        //glEnd();
     }
 }
