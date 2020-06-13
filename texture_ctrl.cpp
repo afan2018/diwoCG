@@ -7,7 +7,7 @@
 
 std::string texture_ctrl::get_filepath() {
     nfdchar_t *outPath = NULL;
-    nfdresult_t result = NFD_OpenDialog( "png,jpg;pdf", NULL, &outPath );
+    nfdresult_t result = NFD_OpenDialog( "png,jpg", NULL, &outPath );
     if ( result == NFD_OKAY ) {
         return std::string(outPath);
     }
@@ -47,9 +47,13 @@ GLuint texture_ctrl::tex_load(const std::string& filename) {
 bool texture_ctrl::keyboard_up(unsigned char key, int x, int y) {
     if (key == 't' && sg.selected) {
         auto selectedNode = sg.selected;
-        std::string fileName = get_filepath();
-        if (!fileName.empty()) {
-            selectedNode->texId = tex_load(fileName);
+        if (selectedNode->texId == 0) {
+            std::string fileName = get_filepath();
+            if (!fileName.empty()) {
+                selectedNode->texId = tex_load(fileName);
+            }
+        } else {
+            selectedNode->texId = 0;
         }
     }
     return false;

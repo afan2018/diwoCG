@@ -24,4 +24,5 @@ main.exe
 - Hit `L` while selecting a light source (which will appear as a bright white sphere) to enable/disable the light
 - Use arrow keys and `,` `.` for moving a selected object
 - Use `U` `I` `O` to rotate a selected object around x, y and z axis
+- Hit 'T' while selection to choose a PNG as the texture to stick with. Hit again to clean the texture
 - Be careful! The scene will be totally black if you disable all lights!
