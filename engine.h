@@ -30,9 +30,13 @@ class perspective_camera : public camera {
         }
 };
 
+class actor {
+public:
+    virtual void update() {}
+};
+
 extern scene_graph sg;
 extern int w_width, w_height;
 extern void init();
-extern void update();
 
 #endif

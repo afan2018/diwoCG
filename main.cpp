@@ -4,21 +4,12 @@
 #include "nurbs_mesh.h"
 #include "texture.h"
 #include "light.h"
-#include "control.h"
-#include "screenshot.h"
-#include "transform.h"
 
 #include <memory>
 #include <random>
 #include <vector>
 
-extern std::vector<std::shared_ptr<listener>> listeners;
-extern std::shared_ptr<camera> cam;
-extern std::shared_ptr<control> ctrl;
-extern std::shared_ptr<screenshot> ss;
-extern std::shared_ptr<trans> tf;
-
-std::shared_ptr<light_env> lights;
+extern std::shared_ptr<light_env> lights;
 
 template<typename T>
 std::shared_ptr<node> create() { return std::make_shared<T>(); }
@@ -33,20 +24,6 @@ std::vector<std::shared_ptr<node>(*)()> fns = {
 };
 
 void init() {
-    cam = std::make_shared<perspective_camera>();
-    ctrl = std::make_shared<orbit_control>();
-    ss = std::make_shared<screenshot>();
-    tf = std::make_shared<trans>();
-
-    lights = std::make_shared<light_env>();
-
-    sg.nodes.push_back(lights);
-
-    listeners.push_back(lights);
-    listeners.push_back(ss);
-    listeners.push_back(ctrl);
-    listeners.push_back(tf);
-
     GLuint texId = tex_load("lego.png");
 
     std::default_random_engine rng;
@@ -99,7 +76,7 @@ void init() {
 			cpts[k + 3] = 1.0f / 25;
 		}
 	}
-	auto p_test_nurbs = std::make_unique<nurbs>(cpts, knotsx, knotsy, 4, 4, 3, 3, 0.05f, 0.05f);
+	auto p_test_nurbs = std::make_unique<nurbs>(cpts, knotsx, knotsy, 4, 4, 3, 3, 0.005f, 0.005f);
     p_test_nurbs->translate[0] = d_pos(rng);
     p_test_nurbs->translate[1] = d_pos(rng);
     p_test_nurbs->translate[2] = d_pos(rng);
@@ -111,6 +88,7 @@ void init() {
         lp->ambient[1] = 0.0f;
         lp->ambient[2] = 0.5f;
         lp->visible = false;
+        lp->interactive = false;
         lights->add_light(lp);
         sg.nodes.push_back(std::move(lp));
     }
@@ -126,7 +104,4 @@ void init() {
         lights->add_light(lp);
         sg.nodes.push_back(std::move(lp));
     }
-}
-
-void update() {
 }

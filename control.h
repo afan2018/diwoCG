@@ -13,25 +13,25 @@
 
 #include "scene_graph.h"
 #include "listener.h"
+#include "engine.h"
 
-class control : public listener {
+class control : public listener, public actor {
     public:
-        virtual void update() {}
         virtual ray get_ray() = 0;
 };
 
 class orbit_control : public control {
     private:
-        int down_x{};
-        int down_y{};
-        float down_alpha{};
-        float down_beta{};
+        int down_x          = {};
+        int down_y          = {};
+        float down_alpha    = {};
+        float down_beta     = {};
+        ray down_ray        = {};
+        mat3 down_mat       = {};
+        float down_pos[3]   = {};
+        float g_down_alpha  = {};
+        float g_down_beta   = {};
         std::shared_ptr<node> down_node;
-        ray down_ray;
-        mat3 down_mat;
-        float down_pos[3];
-        float g_down_alpha{};
-        float g_down_beta{};
 
         bool w_down = false;
         bool s_down = false;
@@ -42,10 +42,10 @@ class orbit_control : public control {
         bool g_down = false;
 
         float alpha = 0.0f;
-        float beta = 0.0f;
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
+        float beta  = 0.0f;
+        float x     = 0.0f;
+        float y     = 0.0f;
+        float z     = 0.0f;
 
         void move(float angle, float dist);
     public:

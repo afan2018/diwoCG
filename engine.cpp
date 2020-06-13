@@ -15,10 +15,12 @@
 #include "transform.h"
 
 std::vector<std::shared_ptr<listener>> listeners;
+std::vector<std::shared_ptr<actor>> actors;
 std::shared_ptr<camera> cam;
 std::shared_ptr<control> ctrl;
 std::shared_ptr<screenshot> ss;
-std::shared_ptr<trans> tf;
+std::shared_ptr<light_env> lights;
+
 scene_graph sg;
 int w_width, w_height;
 fps f;
@@ -32,8 +34,6 @@ void reshape(int width, int height) {
 }
 
 void redraw() {
-    update();
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glDisable(GL_BLEND);
@@ -41,16 +41,18 @@ void redraw() {
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
+
     cam->transform(w_width, w_height);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    glPushMatrix();
-    tf->update();
-    ctrl->update();
+
+    for (auto& ap : actors) {
+        ap->update();
+    }
+
     ray r = ctrl->get_ray();
     sg.render(r, !ss->get_ss_mode());
-    glPopMatrix();
 
     // cross
     if (!ss->get_ss_mode()) {
@@ -75,6 +77,8 @@ void redraw() {
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         glOrtho(0, w_width, 0, w_height, -1, 1);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
         ss->drawRect(w_height, w_width);
     }
 
@@ -111,22 +115,21 @@ void keyboard_up(unsigned char key, int x, int y) {
     }
 }
 
-void specialkey(int key, int x, int y)  {
+void special_key(int key, int x, int y)  {
     for (const auto &l : listeners) {
-        if (l->specialkey(key, x, y)) break;
+        if (l->special_key(key, x, y)) break;
     }
 }
 
-void specialkey_up(int key, int x, int y)  {
+void special_key_up(int key, int x, int y)  {
     for (const auto &l : listeners) {
-        if (l->specialkey_up(key, x, y)) break;
+        if (l->special_key_up(key, x, y)) break;
     }
 }
 
 int main(int argc, char **argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
-    // TODO: enable configuration
     glutInitWindowSize(480, 480);
     glutCreateWindow("Simple GLUT App");
 
@@ -138,7 +141,22 @@ int main(int argc, char **argv) {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LINE_SMOOTH);
     glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-    // TODO: more initialization operations
+
+    // actors & listeners
+    auto tf = std::make_shared<transformation>();
+    ctrl = std::make_shared<orbit_control>();
+    ss = std::make_shared<screenshot>();
+    lights = std::make_shared<light_env>();
+    cam = std::make_shared<perspective_camera>();
+
+    actors.push_back(tf);
+    actors.push_back(ctrl);
+
+    sg.nodes.push_back(lights);
+
+    listeners.push_back(ss);
+    listeners.push_back(lights);
+    listeners.push_back(ctrl);
 
     init();
 
@@ -146,8 +164,8 @@ int main(int argc, char **argv) {
     glutMouseFunc(mouse);
     glutKeyboardFunc(&keyboard);
     glutKeyboardUpFunc(&keyboard_up);
-    glutSpecialFunc(specialkey);
-    glutSpecialUpFunc(specialkey_up);
+    glutSpecialFunc(special_key);
+    glutSpecialUpFunc(special_key_up);
     glutIgnoreKeyRepeat(true);
 
     f.init();
