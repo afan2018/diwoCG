@@ -45,7 +45,7 @@ void init() {
         p->texId = d_has_tex(rng) > 0.9 ? texId : 0;
         float rotate_axis[] = { d_rot(rng), d_rot(rng), d_rot(rng) };
         p->ctrl = [rotate_axis](auto& t) {
-            if (!t.selected) {
+            if (sg.selected.get() != &t) {
                 t.rotate_mat = t.rotate_mat * mat3::rotate(0.5f, rotate_axis[0], rotate_axis[1], rotate_axis[2]);
             }
         };
@@ -89,7 +89,6 @@ void init() {
         lp->ambient[2] = 0.5f;
         lp->visible = false;
         lp->interactive = false;
-        lights->add_light(lp);
         sg.nodes.push_back(std::move(lp));
     }
 
@@ -101,7 +100,6 @@ void init() {
         lp->translate[0] = 6.0f;
         lp->translate[1] = 4.0f;
         lp->translate[2] = -8.0f;
-        lights->add_light(lp);
         sg.nodes.push_back(std::move(lp));
     }
 }

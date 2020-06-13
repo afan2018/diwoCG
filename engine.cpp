@@ -151,8 +151,7 @@ int main(int argc, char **argv) {
 
     actors.push_back(tf);
     actors.push_back(ctrl);
-
-    sg.nodes.push_back(lights);
+    actors.push_back(lights);
 
     listeners.push_back(ss);
     listeners.push_back(lights);

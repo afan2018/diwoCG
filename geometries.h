@@ -22,6 +22,8 @@ private:
 	void drawBox(GLfloat size);
 
 public:
+    box() : node("geometry/box") {}
+
 	void render() override {
 		transform();
 		colorize();
@@ -36,13 +38,12 @@ private:
 #ifdef USE_LISTS
 	GLint listId;
 #endif
-
 	void draw_sphere() {
         gluSphere(objSphere, 0.5, 40, 50);
 	}
 
 public:
-	sphere() {
+	sphere() : node("geometry/sphere") {
 		objSphere = gluNewQuadric();
 
 		gluQuadricDrawStyle(objSphere, GLU_FILL);
@@ -99,7 +100,7 @@ private:
 	}
 
 public:
-	cylinder() {
+	cylinder() : node("geometry/cylinder") {
 		center[2] = 0.5f;
 		objCylinder = gluNewQuadric();
 		objDiskBottom = gluNewQuadric();
@@ -159,7 +160,7 @@ private:
 public:
 	bool lid = true;
 
-	cone() {
+	cone() : node("geometry/cone") {
 		center[2] = 0.5f;
 		objCylinder = gluNewQuadric();
 		objDiskTop = gluNewQuadric();
@@ -205,7 +206,7 @@ private:
 	void drawPrism();
 
 public:
-	prism() {
+	prism() : node("geometry/prism") {
 		center[0] = center[1] = center[2] = 0.5f;
 	}
 
@@ -221,7 +222,7 @@ private:
 	void drawFrustum();
 
 public:
-	frustum() {
+	frustum() : node("geometry/frustum") {
 		center[0] = center[1] = center[2] = 0.5f;
 	}
 

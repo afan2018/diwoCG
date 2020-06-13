@@ -50,7 +50,8 @@ void nurbs::calc_mesh() {
     }
 }
 
-nurbs::nurbs(GLfloat* cpts, GLfloat* knotsx, GLfloat* knotsy, int r, int c, int p, int q, GLfloat dx, GLfloat dy) {
+nurbs::nurbs(GLfloat* cpts, GLfloat* knotsx, GLfloat* knotsy, int r, int c, int p, int q, GLfloat dx, GLfloat dy)
+    : node("geometry/nurbs") {
     memset(mesh, 0, sizeof(mesh));
     meshlen[0] = dx;
     meshlen[1] = dy;

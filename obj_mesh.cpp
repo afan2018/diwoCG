@@ -35,7 +35,7 @@ void calculateNormal(float norm[], const float *coord1, const float *coord2, con
     norm[2] = vr[2] / val;
 }
 
-obj_mesh::obj_mesh(const std::string& filename) {
+obj_mesh::obj_mesh(const std::string& filename) : node("geometry/obj") {
     base_aabb = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
 
     // load OBJ file

@@ -1,9 +1,12 @@
 #ifndef SCENE_GRAPH_H
 #define SCENE_GRAPH_H
 
+#include <utility>
 #include <vector>
 #include <memory>
 #include <cmath>
+#include <functional>
+#include <string>
 #ifdef _WIN32
 #include <windows.h>
 #include <GL/gl.h>
@@ -12,7 +15,6 @@
 #include <OpenGL/gl.h>
 #include <GLUT/glut.h>
 #endif
-#include <functional>
 
 #include "mat.h"
 
@@ -72,7 +74,6 @@ class node {
 
         void transform() {
             glTranslatef(translate[0], translate[1], translate[2]);
-//            glRotatef(rotate_angle, rotate_axis[0], rotate_axis[1], rotate_axis[2]);
             GLfloat mat[] = {
                     rotate_mat.data[0], rotate_mat.data[3], rotate_mat.data[6], 0.0f,
                     rotate_mat.data[1], rotate_mat.data[4], rotate_mat.data[7], 0.0f,
@@ -113,12 +114,14 @@ class node {
         GLfloat emission[4]       = { 0.0f, 0.0f, 0.0f, 1.0f };
         GLfloat shininess         = 0.0f;
         mat3    rotate_mat        = mat3::identity();
-        bool is_lighted           = false;
 
-        bool selected             = false;
+        const std::string type    = "node";
         bool interactive          = true;
         bool visible              = true;
         std::function<void(node&)> ctrl = [](auto& t){};
+
+        node() = default;
+        explicit node(std::string type) : type(std::move(type)) {}
 
         aabb get_aabb() {
             return {
@@ -157,12 +160,6 @@ class scene_graph {
                     t_min = t;
                 }
             }
-
-            // update selection
-            for (auto& n : nodes) {
-                n->selected = false;
-            }
-            if (selected) selected->selected = true;
 
             // update nodes
             for (auto& n : nodes) {
