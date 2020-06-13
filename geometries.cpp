@@ -34,11 +34,11 @@ void box::drawBox(GLfloat size) {
         glNormal3fv(&n[i][0]);
         glTexCoord2d(1, 0);
         glVertex3fv(&v[faces[i][0]][0]);
-        glTexCoord2d(1, 1);
+        glTexCoord2d(0, 0);
         glVertex3fv(&v[faces[i][1]][0]);
         glTexCoord2d(0, 1);
         glVertex3fv(&v[faces[i][2]][0]);
-        glTexCoord2d(0, 0);
+        glTexCoord2d(1, 1);
         glVertex3fv(&v[faces[i][3]][0]);
     }
     glEnd();
