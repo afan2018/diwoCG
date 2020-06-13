@@ -1,12 +1,5 @@
 #include "engine.h"
 
-#ifdef _WIN32
-#include <windows.h>
-#include <GL/glut.h>
-#else
-#include <GLUT/glut.h>
-#endif
-
 #include "fps.h"
 #include "listener.h"
 #include "control.h"
@@ -79,7 +72,7 @@ void redraw() {
         glOrtho(0, w_width, 0, w_height, -1, 1);
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
-        ss->drawRect(w_height, w_width);
+        ss->drawRect();
     }
 
     f.update();

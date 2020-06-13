@@ -1,6 +1,6 @@
-#pragma once
+#ifndef TRANSFORM_H
+#define TRANSFORM_H
 
-#include "scene_graph.h"
 #include "engine.h"
 #include "listener.h"
 #include "mat.h"
@@ -169,3 +169,5 @@ public:
         return false;
     }
 };
+
+#endif

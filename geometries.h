@@ -19,7 +19,7 @@
 
 class box : public node {
 private:
-	void drawBox(GLfloat size);
+	static void draw_box(GLfloat size);
 
 public:
     box() : node("geometry/box") {}
@@ -27,7 +27,7 @@ public:
 	void render() override {
 		transform();
 		colorize();
-		drawBox(1.0f);
+        draw_box(1.0f);
 	}
 };
 
@@ -203,7 +203,7 @@ public:
 
 class prism : public node {
 private:
-	void drawPrism();
+	static void draw_prism();
 
 public:
 	prism() : node("geometry/prism") {
@@ -213,13 +213,13 @@ public:
 	void render() override {
 		transform();
 		colorize();
-		drawPrism();
+        draw_prism();
 	}
 };
 
 class frustum : public node {
 private:
-	void drawFrustum();
+	static void draw_frustum();
 
 public:
 	frustum() : node("geometry/frustum") {
@@ -229,7 +229,7 @@ public:
 	void render() override {
 		transform();
 		colorize();
-		drawFrustum();
+        draw_frustum();
 	}
 };
 #endif

@@ -1,6 +1,6 @@
 #include "geometries.h"
 
-void box::drawBox(GLfloat size) {
+void box::draw_box(GLfloat size) {
     static GLfloat n[6][3] =
             {
                     {-1.0, 0.0,  0.0},
@@ -44,7 +44,7 @@ void box::drawBox(GLfloat size) {
     glEnd();
 }
 
-void prism::drawPrism() {
+void prism::draw_prism() {
     // back endcap
     glBegin(GL_TRIANGLES);
     glNormal3f(0, 0, -1);
@@ -101,7 +101,7 @@ void prism::drawPrism() {
     glEnd();
 }
 
-void frustum::drawFrustum() {
+void frustum::draw_frustum() {
 	// back endcap
 	glBegin(GL_TRIANGLES);
     glNormal3f(0, 0, -1);

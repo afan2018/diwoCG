@@ -5,8 +5,6 @@
 #define M_PI 3.1415926535
 #endif
 
-#include "engine.h"
-
 bool orbit_control::motion(int mx, int my) {
     int dx = mx - down_x;
     int dy = my - down_y;

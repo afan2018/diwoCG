@@ -1,7 +1,7 @@
 #include "nurbs_mesh.h"
+
 #include <cstring>
 #include <algorithm>
-#include <iostream>
 
 const double eps = 1e-8;
 
@@ -133,13 +133,11 @@ void DrawTriangle(const GLfloat *a, const GLfloat *b, const GLfloat *c)
     memcpy(pts[1], b, sizeof(GLfloat) * 3);
     memcpy(pts[2], c, sizeof(GLfloat) * 3);
     glNormal3fv(norm);
-    for (int i = 0; i < 3; ++i)
-    {
-        pts[i][1] += 1e-2;
+    for (auto & pt : pts) {
+        pt[1] += 1e-2;
     }
-    for (int i = 0; i < 3; ++i)
-    {
-        glVertex3fv(pts[i]);
+    for (auto & pt : pts) {
+        glVertex3fv(pt);
     }
 }
 
@@ -147,7 +145,7 @@ void nurbs::render()
 {
     transform();
     glColor3fv(color);
-    GLfloat norm[3];
+//    GLfloat norm[3];
     for (int i = 0; i + 1 < meshsize[0]; i++)
     {
         //glBegin(GL_QUAD_STRIP);

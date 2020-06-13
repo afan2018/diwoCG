@@ -3,8 +3,7 @@
 
 #include <memory>
 
-class listener : public std::enable_shared_from_this<listener>
-{
+class listener : public std::enable_shared_from_this<listener> {
 public:
     listener() = default;
     virtual bool motion(int x, int y) { return false; }
