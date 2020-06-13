@@ -45,9 +45,9 @@ public:
 	sphere() {
 		objSphere = gluNewQuadric();
 
-//		gluQuadricDrawStyle(objSphere, GLU_FILL);
-//		gluQuadricTexture(objSphere, GL_TRUE);
-//		gluQuadricNormals(objSphere, GLU_SMOOTH);
+		gluQuadricDrawStyle(objSphere, GLU_FILL);
+		gluQuadricTexture(objSphere, GL_TRUE);
+		gluQuadricNormals(objSphere, GLU_SMOOTH);
 
 #ifdef USE_LISTS
 		listId = glGenLists(1);
@@ -68,10 +68,6 @@ public:
 	void render() override {
 		transform();
 		colorize();
-
-        gluQuadricDrawStyle(objSphere, GLU_FILL);
-        gluQuadricTexture(objSphere, GL_TRUE);
-        gluQuadricNormals(objSphere, GLU_SMOOTH);
 
 		glPushMatrix();
 #ifdef USE_LISTS
@@ -109,15 +105,18 @@ public:
 		objDiskBottom = gluNewQuadric();
 		objDiskTop = gluNewQuadric();
 
-//		gluQuadricDrawStyle(objCylinder, GLU_FILL);
-//		gluQuadricTexture(objCylinder, GL_TRUE);
-//		gluQuadricNormals(objCylinder, GLU_SMOOTH);
-//		gluQuadricDrawStyle(objDiskBottom, GLU_FILL);
-//		gluQuadricTexture(objDiskBottom, GL_TRUE);
-//		gluQuadricNormals(objDiskBottom, GLU_SMOOTH);
-//		gluQuadricDrawStyle(objDiskTop, GLU_FILL);
-//		gluQuadricTexture(objDiskTop, GL_TRUE);
-//		gluQuadricNormals(objDiskTop, GLU_SMOOTH);
+		gluQuadricOrientation(objDiskTop, GLU_OUTSIDE);
+		gluQuadricOrientation(objDiskBottom, GLU_INSIDE);
+
+		gluQuadricDrawStyle(objCylinder, GLU_FILL);
+		gluQuadricTexture(objCylinder, GL_TRUE);
+		gluQuadricNormals(objCylinder, GLU_SMOOTH);
+		gluQuadricDrawStyle(objDiskBottom, GLU_FILL);
+		gluQuadricTexture(objDiskBottom, GL_TRUE);
+		gluQuadricNormals(objDiskBottom, GLU_SMOOTH);
+		gluQuadricDrawStyle(objDiskTop, GLU_FILL);
+		gluQuadricTexture(objDiskTop, GL_TRUE);
+		gluQuadricNormals(objDiskTop, GLU_SMOOTH);
 
 #ifdef USE_LISTS
 		listId = glGenLists(1);
@@ -140,16 +139,6 @@ public:
 	void render() override {
 		transform();
 		colorize();
-
-        gluQuadricDrawStyle(objCylinder, GLU_FILL);
-        gluQuadricTexture(objCylinder, GL_TRUE);
-        gluQuadricNormals(objCylinder, GLU_SMOOTH);
-        gluQuadricDrawStyle(objDiskBottom, GLU_FILL);
-        gluQuadricTexture(objDiskBottom, GL_TRUE);
-        gluQuadricNormals(objDiskBottom, GLU_SMOOTH);
-        gluQuadricDrawStyle(objDiskTop, GLU_FILL);
-        gluQuadricTexture(objDiskTop, GL_TRUE);
-        gluQuadricNormals(objDiskTop, GLU_SMOOTH);
 
 		glPushMatrix();
 #ifdef USE_LISTS

@@ -47,6 +47,7 @@ void box::drawBox(GLfloat size) {
 void prism::drawPrism() {
     // back endcap
     glBegin(GL_TRIANGLES);
+    glNormal3f(0, 0, -1);
 	glTexCoord2d(1, 0);
     glVertex3f(1.0f, 0.0f, 0.0f);
 	glTexCoord2d(0, 0);
@@ -55,6 +56,7 @@ void prism::drawPrism() {
     glVertex3f(0.0f, 1.0f, 0.0f);
 
     // front endcap
+    glNormal3f(0, 0, 1);
 	glTexCoord2d(1, 0);
     glVertex3f(1.0f, 0.0f, 1.0f);
 	glTexCoord2d(0, 0);
@@ -65,6 +67,7 @@ void prism::drawPrism() {
 
     // bottom
     glBegin(GL_QUADS);
+    glNormal3f(0, -1, 0);
     glTexCoord2d(0, 0);
     glVertex3f(0.0f, 0.0f, 0.0f);
     glTexCoord2d(1, 0);
@@ -75,6 +78,7 @@ void prism::drawPrism() {
     glVertex3f(0.0f, 0.0f, 1.0f);
 
     // back
+    glNormal3f(-1, 0, 0);
     glTexCoord2d(0, 0);
     glVertex3f(0.0f, 0.0f, 0.0f);
     glTexCoord2d(0, 1);
@@ -85,6 +89,7 @@ void prism::drawPrism() {
     glVertex3f(0.0f, 0.0f, 1.0f);
 
     // top
+    glNormal3f(1, 1, 0);
     glTexCoord2d(0, 1);
     glVertex3f(0.0f, 1.0f, 0.0f);
     glTexCoord2d(1, 1);
@@ -99,6 +104,7 @@ void prism::drawPrism() {
 void frustum::drawFrustum() {
 	// back endcap
 	glBegin(GL_TRIANGLES);
+    glNormal3f(0, 0, -1);
 	glTexCoord2d(1, 0);
 	glVertex3f(1.0f, 0.0f, 0.0f);
 	glTexCoord2d(0, 0);
@@ -107,6 +113,7 @@ void frustum::drawFrustum() {
 	glVertex3f(0.0f, 1.0f, 0.0f);
 
 	// front endcap
+    glNormal3f(0, 0, 1);
 	glTexCoord2d(1, 0);
 	glVertex3f(0.5f, 0.0f, 1.0f);
 	glTexCoord2d(0, 0);
@@ -117,6 +124,7 @@ void frustum::drawFrustum() {
 
 	// bottom
 	glBegin(GL_QUADS);
+    glNormal3f(0, -1, 0);
 	glTexCoord2d(0, 1);
 	glVertex3f(0.0f, 0.0f, 0.0f);
 	glTexCoord2d(1, 1);
@@ -127,6 +135,7 @@ void frustum::drawFrustum() {
 	glVertex3f(0.0f, 0.0f, 1.0f);
 
 	// back
+    glNormal3f(-1, 0, 0);
 	glTexCoord2d(1, 1);
 	glVertex3f(0.0f, 0.0f, 0.0f);
 	glTexCoord2d(0, 1);
@@ -137,6 +146,7 @@ void frustum::drawFrustum() {
 	glVertex3f(0.0f, 0.0f, 1.0f);
 
 	// top
+    glNormal3f(1, 1, 0.5);
 	glTexCoord2d(0, 0);
 	glVertex3f(0.0f, 1.0f, 0.0f);
 	glTexCoord2d(1, 0);
