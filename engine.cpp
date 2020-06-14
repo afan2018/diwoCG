@@ -134,6 +134,7 @@ int main(int argc, char **argv) {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LINE_SMOOTH);
     glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+    glEnable(GL_NORMALIZE);
 
     // actors & listeners
     auto tf = std::make_shared<transformation>();

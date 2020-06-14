@@ -94,12 +94,15 @@ void init() {
 
     {
         auto lp = std::make_shared<point_light>();
-        lp->diffuse[0] = 0.8f;
-        lp->diffuse[1] = 0.8f;
-        lp->diffuse[2] = 0.8f;
+        lp->diffuse[0] = 1.0f;
+        lp->diffuse[1] = 1.0f;
+        lp->diffuse[2] = 1.0f;
         lp->translate[0] = 6.0f;
         lp->translate[1] = 4.0f;
         lp->translate[2] = -8.0f;
+        lp->specular[0] = 0.0f;
+        lp->specular[1] = 0.8f;
+        lp->specular[2] = 0.8f;
         sg.nodes.push_back(std::move(lp));
     }
 }

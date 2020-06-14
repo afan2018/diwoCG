@@ -15,19 +15,43 @@
 #endif
 
 // use this to enable drawing with lists
-// #define USE_LISTS
+#define USE_LISTS
 
 class box : public node {
 private:
+#ifdef USE_LISTS
+    GLint listId;
+#endif
+
 	static void draw_box(GLfloat size);
 
 public:
-    box() : node("geometry/box") {}
+    box() : node("geometry/box") {
+#ifdef USE_LISTS
+        listId = glGenLists(1);
+        glNewList(listId, GL_COMPILE);
+        draw_box(1.0f);
+        glEndList();
+#endif
+    }
+
+    ~box() {
+#ifdef USE_LISTS
+        glDeleteLists(listId, 1);
+#endif
+    }
 
 	void render() override {
 		transform();
 		colorize();
+
+		glPushMatrix();
+#ifdef USE_LISTS
+        glCallList(listId);
+#else
         draw_box(1.0f);
+#endif
+        glPopMatrix();
 	}
 };
 
@@ -93,7 +117,7 @@ private:
 	void draw_cylinder() {
 		const GLfloat radius = 0.5f;
 
-        gluCylinder(objCylinder, radius, radius, 1.0, 40, 5);
+        gluCylinder(objCylinder, radius, radius, 1.0, 40, 50);
         gluDisk(objDiskBottom, 0, radius, 40, 50);
         glTranslatef(0, 0, 1.0);
         gluDisk(objDiskTop, 0, radius, 40, 50);
@@ -155,7 +179,19 @@ class cone : public node {
 private:
 	GLUquadricObj *objCylinder;
 	GLUquadricObj *objDiskTop;
-	GLint listId;
+
+#ifdef USE_LISTS
+    GLint listId;
+#endif
+
+	void draw_cone() {
+        const GLfloat radius = 0.5f;
+
+        gluCylinder(objCylinder, 0, radius, 1.0, 40, 50);
+        glPushMatrix();
+        glTranslatef(0, 0, 1.0);
+        gluDisk(objDiskTop, 0, radius, 40, 50);
+	}
 
 public:
 	bool lid = true;
@@ -172,21 +208,19 @@ public:
 		gluQuadricTexture(objDiskTop, GL_TRUE);
 		gluQuadricNormals(objDiskTop, GLU_SMOOTH);
 
-		const GLfloat radius = 0.5f;
-
-		listId = glGenLists(1);
-		glNewList(listId, GL_COMPILE);
-
-		gluCylinder(objCylinder, 0, radius, 1.0, 40, 50);
-		glPushMatrix();
-		glTranslatef(0, 0, 1.0);
-		gluDisk(objDiskTop, 0, radius, 40, 50);
-		glPopMatrix();
-
-		glEndList();
+#ifdef USE_LISTS
+        listId = glGenLists(1);
+        glNewList(listId, GL_COMPILE);
+        draw_cone();
+        glEndList();
+#endif
 	}
 
 	~cone() {
+#ifdef USE_LISTS
+        glDeleteLists(listId, 1);
+#endif
+
 		gluDeleteQuadric(objCylinder);
 		gluDeleteQuadric(objDiskTop);
 	}
@@ -196,40 +230,91 @@ public:
 		colorize();
 
 		glPushMatrix();
-		glCallList(listId);
-		glPopMatrix();
+#ifdef USE_LISTS
+        glCallList(listId);
+#else
+        draw_cone();
+#endif
+        glPopMatrix();
 	}
 };
 
 class prism : public node {
 private:
+#ifdef USE_LISTS
+    GLint listId;
+#endif
+
 	static void draw_prism();
 
 public:
 	prism() : node("geometry/prism") {
 		center[0] = center[1] = center[2] = 0.5f;
+
+#ifdef USE_LISTS
+        listId = glGenLists(1);
+        glNewList(listId, GL_COMPILE);
+        draw_prism();
+        glEndList();
+#endif
 	}
+
+    ~prism() {
+#ifdef USE_LISTS
+        glDeleteLists(listId, 1);
+#endif
+    }
 
 	void render() override {
 		transform();
 		colorize();
+
+		glPushMatrix();
+#ifdef USE_LISTS
+        glCallList(listId);
+#else
         draw_prism();
+#endif
+        glPopMatrix();
 	}
 };
 
 class frustum : public node {
 private:
+#ifdef USE_LISTS
+    GLint listId;
+#endif
+
 	static void draw_frustum();
 
 public:
 	frustum() : node("geometry/frustum") {
 		center[0] = center[1] = center[2] = 0.5f;
+#ifdef USE_LISTS
+        listId = glGenLists(1);
+        glNewList(listId, GL_COMPILE);
+        draw_frustum();
+        glEndList();
+#endif
 	}
+
+    ~frustum() {
+#ifdef USE_LISTS
+        glDeleteLists(listId, 1);
+#endif
+    }
 
 	void render() override {
 		transform();
 		colorize();
+
+		glPushMatrix();
+#ifdef USE_LISTS
+        glCallList(listId);
+#else
         draw_frustum();
+#endif
+        glPopMatrix();
 	}
 };
 #endif
