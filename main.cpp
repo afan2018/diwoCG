@@ -25,7 +25,7 @@ std::vector<std::shared_ptr<node>(*)()> fns = {
 };
 
 void init() {
-    GLuint texId = tex_load("lego.png");
+    GLuint texId = texture_ctrl::tex_load("lego.png");
 
     auto mtrl = std::make_shared<material>();
 

@@ -14,6 +14,7 @@ std::shared_ptr<camera> cam;
 std::shared_ptr<control> ctrl;
 std::shared_ptr<screenshot> ss;
 std::shared_ptr<light_env> lights;
+std::shared_ptr<texture_ctrl> texctrl;
 
 scene_graph sg;
 int w_width, w_height;
@@ -143,6 +144,7 @@ int main(int argc, char **argv) {
     ss = std::make_shared<screenshot>();
     lights = std::make_shared<light_env>();
     cam = std::make_shared<perspective_camera>();
+    texctrl = std::make_shared<texture_ctrl>();
 
     actors.push_back(tf);
     actors.push_back(ctrl);
@@ -152,6 +154,7 @@ int main(int argc, char **argv) {
     listeners.push_back(tf);
     listeners.push_back(lights);
     listeners.push_back(ctrl);
+    listeners.push_back(texctrl);
 
     init();
 
