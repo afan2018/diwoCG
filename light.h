@@ -33,6 +33,7 @@ public:
     GLfloat diffuse [4] = { 0.0f, 0.0f, 0.0f, 1.0f };
     GLfloat specular[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
     GLenum  light_id{};
+    GLfloat attenuation = 0.0f;
     bool is_on = true;
 
     explicit light(std::string type = "light");

@@ -84,9 +84,9 @@ void init() {
 
     {
         auto lp = std::make_shared<point_light>();
-        lp->ambient[0] = 0.5f;
+        lp->ambient[0] = 0.0f;
         lp->ambient[1] = 0.0f;
-        lp->ambient[2] = 0.5f;
+        lp->ambient[2] = 0.0f;
         lp->visible = false;
         lp->interactive = false;
         sg.nodes.push_back(std::move(lp));
@@ -101,8 +101,9 @@ void init() {
         lp->translate[1] = 4.0f;
         lp->translate[2] = -8.0f;
         lp->specular[0] = 0.0f;
-        lp->specular[1] = 0.8f;
-        lp->specular[2] = 0.8f;
+        lp->specular[1] = 3.0f;
+        lp->specular[2] = 3.0f;
+        lp->attenuation = 0.14f;
         sg.nodes.push_back(std::move(lp));
     }
 }

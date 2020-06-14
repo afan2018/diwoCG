@@ -60,6 +60,7 @@ void light::update() {
     glLightfv(light_id, GL_AMBIENT, ambient);
     glLightfv(light_id, GL_DIFFUSE, diffuse);
     glLightfv(light_id, GL_SPECULAR, specular);
+    glLightf(light_id, GL_LINEAR_ATTENUATION, attenuation);
 }
 
 spotlight::spotlight() : light("light/spotlight") {}
