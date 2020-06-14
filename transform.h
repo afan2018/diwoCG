@@ -68,16 +68,16 @@ public:
             }
         }
         if (add_down) {
-            selected->scale[0] += 0.05f;
-            selected->scale[1] += 0.05f;
-            selected->scale[2] += 0.05f;
+            selected->scale[0] += 0.005f;
+            selected->scale[1] += 0.005f;
+            selected->scale[2] += 0.005f;
         }
         if (sub_down) {
-            selected->scale[0] -= 0.05f;
+            selected->scale[0] -= 0.005f;
             if (selected->scale[0] < 1e-5) selected->scale[0] = 0;
-            selected->scale[1] -= 0.05f;
+            selected->scale[1] -= 0.005f;
             if (selected->scale[1] < 1e-5) selected->scale[1] = 0;
-            selected->scale[2] -= 0.05f;
+            selected->scale[2] -= 0.005f;
             if (selected->scale[2] < 1e-5) selected->scale[2] = 0;
         }
         if (xrot_down) {
