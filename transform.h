@@ -30,7 +30,6 @@ public:
         float cosa = -r.zd / cosb;
         float nx[3] = {cosa, 0, sina};
         float ny[3] = {sina * sinb, cosb, -cosa * sinb};
-        std::cerr << ny[0] << ' ' << ny[1] << ' ' << ny[2] << std::endl;
         float nz[3] = {
             ny[1] * nx[2] - ny[2] * nx[1],
             ny[2] * nx[0] - ny[0] * nx[2],
