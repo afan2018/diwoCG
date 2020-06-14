@@ -23,11 +23,11 @@ public:
         if (!sg.selected) return;
         auto selected = sg.selected;
         if (front_down) selected->translate[2] -= 0.05f;
-        if (back_down) selected->translate[2] += 0.05f;
-        if (left_down) selected->translate[0] -= 0.05f;
+        if (back_down)  selected->translate[2] += 0.05f;
+        if (left_down)  selected->translate[0] -= 0.05f;
         if (right_down) selected->translate[0] += 0.05f;
-        if (up_down) selected->translate[1] += 0.05;
-        if (down_down) selected->translate[1] -= 0.05f;
+        if (up_down)    selected->translate[1] += 0.05;
+        if (down_down)  selected->translate[1] -= 0.05f;
         if (add_down) {
             selected->scale[0] += 0.05f;
             selected->scale[1] += 0.05f;

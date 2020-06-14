@@ -147,6 +147,7 @@ int main(int argc, char **argv) {
     actors.push_back(lights);
 
     listeners.push_back(ss);
+    listeners.push_back(tf);
     listeners.push_back(lights);
     listeners.push_back(ctrl);
 
