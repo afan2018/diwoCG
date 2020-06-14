@@ -5,6 +5,8 @@
 #include "listener.h"
 #include "mat.h"
 
+extern std::shared_ptr<control> ctrl;
+
 class transformation : public listener, public actor {
     bool front_down = false;
     bool back_down  = false;
@@ -21,13 +23,51 @@ class transformation : public listener, public actor {
 public:
     void update() override {
         if (!sg.selected) return;
+        ray r = ctrl->get_ray();
+        float sinb = -r.yd;
+        float cosb = sqrtf(1 - sinb * sinb);
+        float sina = r.xd / cosb; // WHAT IF cosb = 0 ???
+        float cosa = -r.zd / cosb;
+        float nx[3] = {cosa, 0, sina};
+        float ny[3] = {sina * sinb, cosb, -cosa * sinb};
+        std::cerr << ny[0] << ' ' << ny[1] << ' ' << ny[2] << std::endl;
+        float nz[3] = {
+            ny[1] * nx[2] - ny[2] * nx[1],
+            ny[2] * nx[0] - ny[0] * nx[2],
+            ny[0] * nx[1] - ny[1] * nx[0]
+        };
         auto selected = sg.selected;
-        if (front_down) selected->translate[2] -= 0.05f;
-        if (back_down)  selected->translate[2] += 0.05f;
-        if (left_down)  selected->translate[0] -= 0.05f;
-        if (right_down) selected->translate[0] += 0.05f;
-        if (up_down)    selected->translate[1] += 0.05;
-        if (down_down)  selected->translate[1] -= 0.05f;
+        float* vec = NULL;
+        float coef;
+        if (front_down) {
+            vec = nz;
+            coef = 0.05;
+        }
+        if (back_down) {
+            vec = nz;
+            coef = -0.05;
+        }
+        if (left_down) {
+            vec = nx;
+            coef = -0.05;
+        }
+        if (right_down) {
+            vec = nx;
+            coef = 0.05;
+        }
+        if (up_down) {
+            vec = ny;
+            coef = 0.05;
+        }
+        if (down_down) {
+            vec = ny;
+            coef = -0.05;
+        }
+        if (vec) {
+            for (int i = 0; i < 3; ++i) {
+                selected->translate[i] += vec[i] *coef;
+            }
+        }
         if (add_down) {
             selected->scale[0] += 0.05f;
             selected->scale[1] += 0.05f;
@@ -42,27 +82,15 @@ public:
             if (selected->scale[2] < 1e-5) selected->scale[2] = 0;
         }
         if (xrot_down) {
-            mat3 rot{
-                    1, 0, 0,
-                    0, cosf(0.1), -sinf(0.1),
-                    0, sinf(0.1), cosf(0.1)
-            };
+            mat3 rot = mat3::rotate(5, nz[0], nz[1], nz[2]);
             selected->rotate_mat = rot * selected->rotate_mat;
         }
         if (yrot_down) {
-            mat3 rot{
-                    cosf(0.1), 0, sinf(0.1),
-                    0, 1, 0,
-                    -sinf(0.1), 0, cosf(0.1)
-            };
+            mat3 rot = mat3::rotate(5, ny[0], ny[1], ny[2]);
             selected->rotate_mat = rot * selected->rotate_mat;
         }
         if (zrot_down) {
-            mat3 rot{
-                    cosf(0.1), -sinf(0.1), 0,
-                    sinf(0.1), cosf(0.1), 0,
-                    0, 0, 1
-            };
+            mat3 rot = mat3::rotate(5, nx[0], nx[1], nx[2]);
             selected->rotate_mat = rot * selected->rotate_mat;
         }
     }
