@@ -13,8 +13,21 @@
 
 #include "listener.h"
 #include "engine.h"
+#include "material.h"
 
 #define MAX_LIGHTS 8
+
+class light_material : public material, public std::enable_shared_from_this<light_material> {
+public:
+    light_material() {
+        diffuse[0] = 0.0f;
+        diffuse[1] = 0.0f;
+        diffuse[2] = 0.0f;
+        emission[0] = 1.0f;
+        emission[1] = 1.0f;
+        emission[2] = 1.0f;
+    }
+};
 
 class light_env : public actor, public listener {
 private:

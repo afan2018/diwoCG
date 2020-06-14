@@ -2,6 +2,8 @@
 
 extern std::shared_ptr<light_env> lights;
 
+auto light_mtrl = std::make_shared<light_material>();
+
 bool light_env::keyboard_up(unsigned char key, int x, int y) {
     switch (key) {
         case 'k':
@@ -40,6 +42,7 @@ GLenum light_env::get_light_id() {
 }
 
 light::light(std::string type) : node(std::move(type)) {
+    mtrl = light_mtrl;
     scale[0] = 0.1f;
     scale[1] = 0.1f;
     scale[2] = 0.1f;
@@ -72,11 +75,4 @@ void spotlight::update() {
     glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, exponent);
 }
 
-point_light::point_light() : light("light/point_light") {
-    diffuse[0] = 0.0f;
-    diffuse[1] = 0.0f;
-    diffuse[2] = 0.0f;
-    emission[0] = 1.0f;
-    emission[1] = 1.0f;
-    emission[2] = 1.0f;
-}
+point_light::point_light() : light("light/point_light") {}

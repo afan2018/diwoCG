@@ -144,6 +144,8 @@ void DrawTriangle(const GLfloat *a, const GLfloat *b, const GLfloat *c)
 void nurbs::render()
 {
     transform();
+    colorize();
+
     glColor3fv(color);
 //    GLfloat norm[3];
     for (int i = 0; i + 1 < meshsize[0]; i++)

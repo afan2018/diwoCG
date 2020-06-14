@@ -17,6 +17,7 @@
 #endif
 
 #include "mat.h"
+#include "material.h"
 
 class ray {
     public:
@@ -86,11 +87,7 @@ class node {
         }
 
         virtual void colorize() {
-            glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
-            glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, diffuse);
-            glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, specular);
-            glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess);
-            glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emission);
+            if (mtrl) mtrl->colorize();
 
             if (texId == 0) {
                 glDisable(GL_TEXTURE_2D);
@@ -114,11 +111,7 @@ class node {
         GLfloat color[3]          = { 1.0f, 1.0f, 1.0f };
 
         // material
-        GLfloat ambient[4]        = { 0.2f, 0.2f, 0.2f, 1.0f };
-        GLfloat diffuse[4]        = { 0.4f, 0.4f, 0.4f, 1.0f };
-        GLfloat specular[4]       = { 1.0f, 1.0f, 1.0f, 1.0f };
-        GLfloat emission[4]       = { 0.0f, 0.0f, 0.0f, 1.0f };
-        GLfloat shininess         = 32.0f;
+        std::shared_ptr<material> mtrl;
 
         // scene
         const std::string type    = "node";
@@ -182,6 +175,7 @@ class scene_graph {
 
             // render selection
             if (need_box) {
+                glDisable(GL_LIGHTING);
                 glEnable(GL_BLEND);
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
                 if (hovered && hovered != selected) {
