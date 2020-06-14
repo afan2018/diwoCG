@@ -97,10 +97,10 @@ public:
     bool keyboard(unsigned char key, int x, int y) override {
         switch (key) {
             case ',':
-                up_down = true;
+                front_down = true;
                 break;
             case '.':
-                down_down = true;
+                back_down = true;
                 break;
             case '=':
             case '+':
@@ -128,10 +128,10 @@ public:
     bool keyboard_up(unsigned char key, int x, int y) override {
         switch (key) {
             case ',':
-                up_down = false;
+                front_down = false;
                 break;
             case '.':
-                down_down = false;
+                back_down = false;
                 break;
             case '=':
             case '+':
@@ -159,10 +159,10 @@ public:
     bool special_key(int key, int x, int y) override {
         switch (key) {
             case GLUT_KEY_UP:
-                front_down = true;
+                up_down = true;
                 break;
             case GLUT_KEY_DOWN:
-                back_down = true;
+                down_down = true;
                 break;
             case GLUT_KEY_LEFT:
                 left_down = true;
@@ -179,10 +179,10 @@ public:
     bool special_key_up(int key, int x, int y) override {
         switch (key) {
             case GLUT_KEY_UP:
-                front_down = false;
+                up_down = false;
                 break;
             case GLUT_KEY_DOWN:
-                back_down = false;
+                down_down = false;
                 break;
             case GLUT_KEY_LEFT:
                 left_down = false;
