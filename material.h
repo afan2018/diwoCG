@@ -1,7 +1,11 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
+#ifdef _WIN32
 #include <GL/gl.h>
+#else
+#include <OpenGL/gl.h>
+#endif
 
 class material {
 public:

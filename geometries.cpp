@@ -8,6 +8,7 @@
 #endif
 
 #include <cstring>
+#include <array>
 
 GLenum mode;
 GLfloat normal[3]   = {};
