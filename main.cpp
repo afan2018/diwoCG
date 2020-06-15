@@ -24,6 +24,12 @@ std::vector<std::shared_ptr<node>(*)()> fns = {
         &create<frustum>
 };
 
+GLfloat make_distant(GLfloat f) {
+    if (f > 0) f += 3;
+    else f -= 3;
+    return f;
+}
+
 void init() {
     GLuint texId = texture_ctrl::tex_load("lego.png");
     auto mtrl = std::make_shared<material>();
@@ -111,21 +117,22 @@ void init() {
         sg.nodes.push_back(std::move(p));
     }
 
-/*        std::uniform_real_distribution<float> d_color(0.0f, 1.0f);
+    {    
+        std::uniform_real_distribution<float> d_color(0.0f, 1.0f);
         std::uniform_real_distribution<float> d_pos(-10.0f, 10.0f);
         std::uniform_real_distribution<float> d_size(0.5f, 2.0f);
         std::uniform_int_distribution<int> d_fn(0, fns.size() - 1);
         std::uniform_real_distribution<float> d_rot(-1.0f, 1.0f);
         std::uniform_real_distribution<float> d_has_tex(0.0f, 1.0f);
-        for (int i = 0; i < 6; ++i) {
-            auto p = fns[i]();
+        for (int i = 0; i < 100; ++i) {
+            auto p = fns[d_fn(rng)]();
             p->mtrl = mtrl;
             p->color[0] = d_color(rng);
             p->color[1] = d_color(rng);
             p->color[2] = d_color(rng);
-            p->translate[0] = d_pos(rng);
-            p->translate[1] = d_pos(rng);
-            p->translate[2] = d_pos(rng);
+            p->translate[0] = make_distant(d_pos(rng));
+            p->translate[1] = make_distant(d_pos(rng));
+            p->translate[2] = make_distant(d_pos(rng));
             p->scale[0] = p->scale[1] = p->scale[2] = d_size(rng) / 2.0f;
             p->texId = d_has_tex(rng) > 0.9 ? texId : 0;
             float rotate_axis[] = {d_rot(rng), d_rot(rng), d_rot(rng)};
@@ -134,8 +141,9 @@ void init() {
                     t.rotate_mat = t.rotate_mat * mat3::rotate(0.5f, rotate_axis[0], rotate_axis[1], rotate_axis[2]);
                 }
             };
+            sg.nodes.push_back(std::move(p));
         }
-    }*/
+    }
 
     {
         auto p = std::make_shared<obj_mesh>("teddy.obj");
