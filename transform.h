@@ -19,6 +19,12 @@ class transformation : public listener, public actor {
     bool xrot_down  = false;
     bool yrot_down  = false;
     bool zrot_down  = false;
+    bool v_down     = false;
+    bool b_down     = false;
+    bool n_down     = false;
+    bool m_down     = false;
+    bool h_down     = false;
+    bool j_down     = false;
     
 public:
     void update() override {
@@ -36,35 +42,37 @@ public:
             ny[0] * nx[1] - ny[1] * nx[0]
         };
         auto selected = sg.selected;
-        float* vec = NULL;
-        float coef;
+        std::vector<float*> vecs;
+        std::vector<float> coefs;
         if (front_down) {
-            vec = nz;
-            coef = 0.05;
+            vecs.push_back(nz);
+            coefs.push_back(0.05f);
         }
         if (back_down) {
-            vec = nz;
-            coef = -0.05;
+            vecs.push_back(nz);
+            coefs.push_back(-0.05);
         }
         if (left_down) {
-            vec = nx;
-            coef = -0.05;
+            vecs.push_back(nx);
+            coefs.push_back(-0.05f);
         }
         if (right_down) {
-            vec = nx;
-            coef = 0.05;
+            vecs.push_back(nx);
+            coefs.push_back(0.05f);
         }
         if (up_down) {
-            vec = ny;
-            coef = 0.05;
+            vecs.push_back(ny);
+            coefs.push_back(0.05f);
         }
         if (down_down) {
-            vec = ny;
-            coef = -0.05;
+            vecs.push_back(ny);
+            coefs.push_back(-0.05f);
         }
-        if (vec) {
-            for (int i = 0; i < 3; ++i) {
-                selected->translate[i] += vec[i] *coef;
+        if (! vecs.empty()) {
+            for (int t = 0; t <  vecs.size();++t){
+                for (int i = 0; i < 3; ++i) {
+                    selected->translate[i] += vecs[t][i] * coefs[t];
+                }
             }
         }
         if (add_down) {
@@ -92,6 +100,42 @@ public:
             mat3 rot = mat3::rotate(5, nx[0], nx[1], nx[2]);
             selected->rotate_mat = rot * selected->rotate_mat;
         }
+        if (v_down)  {
+            GLfloat *d = selected->mtrl->diffuse;
+            for (int i = 0; i < 3; ++i) {
+                d[i] = (std::min)(d[i] + 0.05f, 1.0f);
+            }
+        }
+        if (b_down) {
+            GLfloat *d = selected->mtrl->diffuse;
+            for (int i = 0; i < 3; ++i) {
+                d[i] = (std::max)(d[i] - 0.05f, 0.0f);
+            }
+        }
+        if (n_down) {
+            GLfloat *d = selected->mtrl->ambient;
+            for (int i = 0; i < 3; ++i) {
+                d[i] = (std::max)(d[i] + 0.05f, 0.0f);
+            }
+        }
+        if (m_down) {
+            GLfloat *d = selected->mtrl->ambient;
+            for (int i = 0; i < 3; ++i) {
+                d[i] = (std::max)(d[i] - 0.05f, 0.0f);
+            }
+        }
+        if (h_down) {
+            GLfloat *d = selected->mtrl->specular;
+            for (int i = 0; i < 3; ++i) {
+                d[i] = (std::max)(d[i] + 0.05f, 0.0f);
+            }
+        }
+        if (h_down) {
+            GLfloat *d = selected->mtrl->specular;
+            for (int i = 0; i < 3; ++i) {
+                d[i] = (std::max)(d[i] - 0.05f, 0.0f);
+            }
+        }
     }
 
     bool keyboard(unsigned char key, int x, int y) override {
@@ -118,6 +162,24 @@ public:
                 break;
             case 'o':
                 zrot_down = true;
+                break;
+            case 'v':
+                v_down = true;
+                break;
+            case 'b':
+                b_down = true;
+                break;
+            case 'n':
+                n_down = true;
+                break;
+            case 'm':
+                m_down = true;
+                break;
+            case 'h':
+                h_down = true;
+                break;
+            case 'j':
+                j_down = true;
                 break;
             default:
                 break;
@@ -149,6 +211,24 @@ public:
                 break;
             case 'o':
                 zrot_down = false;
+                break;
+            case 'v':
+                v_down = false;
+                break;
+            case 'b':
+                b_down = false;
+                break;
+            case 'n':
+                n_down = false;
+                break;
+            case 'm':
+                m_down = false;
+                break;
+            case 'h':
+                h_down = false;
+                break;
+            case 'j':
+                j_down = false;
                 break;
             default:
                 break;

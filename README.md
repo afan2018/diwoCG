@@ -43,5 +43,8 @@ Ugly as it might show, it's already the simplest solution we can find, and hopef
 - Hit `K` (globally) to enable/disable lighting
 - Hit `L` while selecting a light source (which will appear as a bright white sphere) to enable/disable the light
 - Use arrow keys and `,` `.` for moving a selected object
+- Hit `V` `B` to increase / decrease diffuse of a selected object
+- Hit `N` `M` to increase / decrease ambient of a selected object
+- Hit `H` `J` to increase / decrease specular of a selected object
 - Use `U` `I` `O` to rotate a selected object around x, y and z axis
 - Hit `T` while selection to open a dialog and choose an image as texture. Hit again to clear it.
