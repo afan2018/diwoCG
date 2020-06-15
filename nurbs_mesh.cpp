@@ -6,9 +6,18 @@
 const double eps = 1e-8;
 
 void nurbs::calc_basis(int dim, std::vector<GLfloat>& basis, GLfloat u) {
-    int k = std::upper_bound(knots[dim], knots[dim] + ctrlsize[dim] + deg[dim] + 1, u) - knots[dim] - 1;
+    int k = std::upper_bound(knots[dim], knots[dim] + ctrlsize[dim] + deg[dim] + 2, u) - knots[dim] - 1;
     int p = deg[dim];
-    if (k < p || k > ctrlsize[dim] + 1) return;
+    
+    /*if (k <= p) {
+        basis[0] = 1;
+        return;
+    }
+    if (k > ctrlsize[dim] + 1) {
+        basis[ctrlsize[dim]] = 1;
+        return;
+    }*/
+     
     
     GLfloat* knot = knots[dim];
     int n = 2 * deg[dim] + 1;
@@ -39,8 +48,8 @@ void nurbs::calc_mesh() {
             std::vector<GLfloat> by(100, 0);
             calc_basis(0, bx, u);
             calc_basis(1, by, v);
-            for (int k = 0; k < deg[0]; ++k) {
-                for (int l = 0; l < deg[1]; ++l) {
+            for (int k = 0; k <= deg[0]; ++k) {
+                for (int l = 0; l <= deg[1]; ++l) {
                     for (int m = 0; m < 4; ++m) {
                         mesh[i][j][m] += control_pts[k][l][m] * bx[k] * by[l];
                     }
@@ -64,6 +73,9 @@ nurbs::nurbs(GLfloat* cpts, GLfloat* knotsx, GLfloat* knotsy, int r, int c, int 
     for (int i = 0, k = 0; i <= r; i++) {
         for (int j = 0; j <= c; j++, k += 4) {
             memcpy(control_pts[i][j], cpts + k, sizeof(GLfloat) * 4);
+            for (int t = 0; t < 3; ++t) {
+                control_pts[i][j][t] *= control_pts[i][j][3];
+            }
         }
     }
     memcpy(knots[0], knotsx, sizeof(GLfloat) * (r + p + 2));
