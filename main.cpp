@@ -5,12 +5,14 @@
 #include "texture_ctrl.h"
 #include "light.h"
 #include "material.h"
+#include "obj_export.h"
 
 #include <memory>
 #include <random>
 #include <vector>
 
 extern std::shared_ptr<light_env> lights;
+extern std::shared_ptr<obj_export> obj_ex;
 
 template<typename T>
 std::shared_ptr<node> create() { return std::make_shared<T>(); }
@@ -199,6 +201,25 @@ void init() {
             sg.nodes.push_back(std::move(p));
         }
     }
+#define READ
+#ifndef READ
+    {
+        std::uniform_real_distribution<float> d_mat(0.2f, 1.0f);
+        auto mtrl = std::make_shared<material>();
+        float tmp = d_mat(rng);
+        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = tmp;
+        tmp = d_mat(rng);
+        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = tmp;
+        tmp = d_mat(rng);
+        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = tmp;
+        auto p = std::make_shared<obj_mesh>("teddy.txt");
+        p->mtrl = mtrl;
+        p->translate[2] = -5.0f;
+        p->scale[0] = p->scale[1] = p->scale[2] = 0.05f;
+        p->prescale = 0.05f;
+        obj_ex->objs.push_back(p);
+        sg.nodes.push_back(std::move(p));
+    }
 
     {
         std::uniform_real_distribution<float> d_mat(0.2f, 1.0f);
@@ -209,12 +230,35 @@ void init() {
         mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = tmp;
         tmp = d_mat(rng);
         mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = tmp;
-        auto p = std::make_shared<obj_mesh>("teddy.obj");
+        auto p = std::make_shared<obj_mesh>("teddy.txt");
         p->mtrl = mtrl;
-        p->translate[2] = -5.0f;
+        p->translate[2] = -2.0f;
         p->scale[0] = p->scale[1] = p->scale[2] = 0.05f;
+        p->prescale = 0.05f;
+        obj_ex->objs.push_back(p);
         sg.nodes.push_back(std::move(p));
     }
+#endif
+
+#ifdef READ
+    {
+        std::uniform_real_distribution<float> d_mat(0.2f, 1.0f);
+        auto mtrl = std::make_shared<material>();
+        float tmp = d_mat(rng);
+        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = tmp;
+        tmp = d_mat(rng);
+        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = tmp;
+        tmp = d_mat(rng);
+        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = tmp;
+        auto p = std::make_shared<obj_mesh>("export.txt");
+        p->mtrl = mtrl;
+        // p->translate[2] = -2.0f;
+        // p->scale[0] = p->scale[1] = p->scale[2] = 0.05f;
+        p->prescale = 1.0f;
+        obj_ex->objs.push_back(p);
+        sg.nodes.push_back(std::move(p));
+    }
+#endif
 
     {
         std::uniform_real_distribution<GLfloat> d_alt(-0.5f, 0.5f);

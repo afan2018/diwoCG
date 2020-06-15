@@ -4,14 +4,18 @@
 #include "scene_graph.h"
 #include <string>
 
+#define POINTS_PER_VERTEX 3
+#define TOTAL_FLOATS_IN_TRIANGLE 9
+
 class obj_mesh : public node {
-private:
+public:
     float *normals;
     float *vertices;
     long nVertices = 0;
     long nTriangles = 0;
 
-public:
+    float prescale = 1;
+
     explicit obj_mesh(const std::string& filename);
     ~obj_mesh();
 

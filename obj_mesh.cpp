@@ -9,9 +9,6 @@
 #include <fstream>
 #include <cmath>
 
-#define POINTS_PER_VERTEX 3
-#define TOTAL_FLOATS_IN_TRIANGLE 9
-
 using namespace std;
 
 void calculateNormal(float norm[], const float *coord1, const float *coord2, const float *coord3) {

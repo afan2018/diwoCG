@@ -7,6 +7,7 @@
 #include "light.h"
 #include "transform.h"
 #include "texture_ctrl.h"
+#include "obj_export.h"
 
 std::vector<std::shared_ptr<listener>> listeners;
 std::vector<std::shared_ptr<actor>> actors;
@@ -15,6 +16,7 @@ std::shared_ptr<control> ctrl;
 std::shared_ptr<screenshot> ss;
 std::shared_ptr<light_env> lights;
 std::shared_ptr<texture_ctrl> texctrl;
+std::shared_ptr<obj_export> obj_ex;
 
 scene_graph sg;
 int w_width, w_height;
@@ -145,6 +147,7 @@ int main(int argc, char **argv) {
     lights = std::make_shared<light_env>();
     cam = std::make_shared<perspective_camera>();
     texctrl = std::make_shared<texture_ctrl>();
+    obj_ex = std::make_shared<obj_export>();
 
     actors.push_back(tf);
     actors.push_back(ctrl);
@@ -155,6 +158,7 @@ int main(int argc, char **argv) {
     listeners.push_back(lights);
     listeners.push_back(ctrl);
     listeners.push_back(texctrl);
+    listeners.push_back(obj_ex);
 
     init();
 
