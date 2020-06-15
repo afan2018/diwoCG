@@ -241,6 +241,13 @@ void init() {
         p->translate[0] = -3;
         p->translate[1] = -3;
         p->translate[2] = -3;
+        p->is_on = false;
         sg.nodes.push_back(std::move(p));
+    }
+
+    for (auto &p : sg.nodes) {
+        p->translate[0] -= 10;
+        p->translate[1] -= 10;
+        p->translate[2] -= 10;
     }
 }
