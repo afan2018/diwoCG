@@ -105,7 +105,7 @@ void init() {
         p->color[0] = 0.3;
         p->color[1] = 0.6;
         p->color[2] = 0.2;
-        p->translate[0] = 2;
+        p->translate[0] = 3;
         p->translate[1] = -3;
         p->translate[2] = -6;
         sg.nodes.push_back(std::move(p));
