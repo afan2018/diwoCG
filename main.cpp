@@ -214,11 +214,11 @@ void init() {
         mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = tmp;
         auto p = std::make_shared<obj_mesh>("teddy.txt");
         p->mtrl = mtrl;
-        p->translate[2] = -5.0f;
+        p->translate[2] = -2.0f;
         p->scale[0] = p->scale[1] = p->scale[2] = 0.05f;
         p->prescale = 0.05f;
         obj_ex->objs.push_back(p);
-        sg.nodes.push_back(std::move(p));
+        sg.nodes.push_back(p);
     }
 
     {
@@ -232,11 +232,11 @@ void init() {
         mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = tmp;
         auto p = std::make_shared<obj_mesh>("teddy.txt");
         p->mtrl = mtrl;
-        p->translate[2] = -2.0f;
+        p->translate[2] = -5.0f;
         p->scale[0] = p->scale[1] = p->scale[2] = 0.05f;
         p->prescale = 0.05f;
         obj_ex->objs.push_back(p);
-        sg.nodes.push_back(std::move(p));
+        sg.nodes.push_back(p);
     }
 #endif
 
@@ -313,9 +313,9 @@ void init() {
         mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = tmp;
         auto p = std::make_unique<nurbs>(cpts, knotsx, knotsy, 5, 5, 3, 3, 0.005f, 0.005f);
         p->mtrl = mtrl;
-        p->translate[0] = d_pos(rng);
-        p->translate[1] = d_pos(rng);
-        p->translate[2] = d_pos(rng);
+        p->translate[0] = -1;
+        p->translate[1] = -1;
+        p->translate[2] = -1;
         sg.nodes.push_back(std::move(p));
     }
 

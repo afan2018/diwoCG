@@ -9,16 +9,19 @@ void obj_export::export_objs() {
         for (int tCounter = 0; tCounter < obj->nTriangles; tCounter += TOTAL_FLOATS_IN_TRIANGLE) {
             for (int i = 0; i < POINTS_PER_VERTEX; i++) {
                 vec3 v = {
-                    (obj->vertices[tCounter + i * 3] * obj->scale[0] + obj->translate[0] + 10),
-                    (obj->vertices[tCounter + i * 3 + 1] * obj->scale[1] + obj->translate[1] + 10),
-                    (obj->vertices[tCounter + i * 3 + 2] * obj->scale[2] + obj->translate[2] + 10)
+                    (obj->vertices[tCounter + i * 3] * obj->scale[0]),
+                    (obj->vertices[tCounter + i * 3 + 1] * obj->scale[1]),
+                    (obj->vertices[tCounter + i * 3 + 2] * obj->scale[2])
                 };
                 v = obj->rotate_mat * v;
+                v.data[0] += obj->translate[0] + 10;
+                v.data[1] += obj->translate[1] + 10;
+                v.data[2] += obj->translate[2] + 10;
                 fout << "v " << v.data[0] << ' ' << v.data[1] << ' ' << v.data[2] << endl;
             }
             fout << "f " << offset + tCounter / POINTS_PER_VERTEX + 1 << " " << offset + tCounter / POINTS_PER_VERTEX + 2 << " " << offset + tCounter / POINTS_PER_VERTEX + 3 << endl;
         }
-        offset += obj->nVertices;
+        offset += obj->nTriangles / POINTS_PER_VERTEX;
     }
     fout.close();
     cout << "export finished." << endl;
