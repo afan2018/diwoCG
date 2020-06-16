@@ -188,7 +188,7 @@ void init() {
         auto mtrl = std::make_shared<material>();
         mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = 0.4;
         mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = 0.2;
-        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = 1.0
+        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = 1.0;
         auto p = std::make_shared<obj_mesh>("teddy.txt");
         p->mtrl = mtrl;
         p->translate[2] = -2.0f;
