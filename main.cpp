@@ -37,134 +37,6 @@ void init() {
 
     std::default_random_engine rng;
 
-    {
-        std::uniform_real_distribution<float> d_mat(0.2f, 1.0f);
-        auto mtrl = std::make_shared<material>();
-        float tmp = d_mat(rng);
-        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = tmp;
-        tmp = d_mat(rng);
-        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = tmp;
-        tmp = d_mat(rng);
-        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = tmp;
-        auto p = fns[0]();
-        p->mtrl = mtrl;
-        p->color[0] = 1.0;
-        p->color[1] = 0.5;
-        p->color[2] = 0.2;
-        p->translate[0] = 2;
-        p->translate[1] = -3;
-        p->translate[2] = -3;
-        p->scale[1] = 1;
-        p->texId = texId;
-        p->rotate_mat = mat3::rotate(20, 0.5, 0.5, 0.5);
-        sg.nodes.push_back(std::move(p));
-    }
-
-    {
-        std::uniform_real_distribution<float> d_mat(0.2f, 1.0f);
-        auto mtrl = std::make_shared<material>();
-        float tmp = d_mat(rng);
-        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = tmp;
-        tmp = d_mat(rng);
-        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = tmp;
-        tmp = d_mat(rng);
-        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = tmp;
-        auto p = fns[1]();
-        p->mtrl = mtrl;
-        p->color[0] = 1.0;
-        p->color[1] = 0.5;
-        p->color[2] = 0.2;
-        p->translate[0] = 2;
-        p->translate[1] = -3;
-        p->translate[2] = 0;
-        p->texId = texId;
-        sg.nodes.push_back(std::move(p));
-    }
-
-    {
-        std::uniform_real_distribution<float> d_mat(0.2f, 1.0f);
-        auto mtrl = std::make_shared<material>();
-        float tmp = d_mat(rng);
-        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = tmp;
-        tmp = d_mat(rng);
-        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = tmp;
-        tmp = d_mat(rng);
-        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = tmp;
-        auto p = fns[2]();
-
-        p->mtrl = mtrl;
-        p->color[0] = 1.0;
-        p->color[1] = 0.5;
-        p->color[2] = 0.2;
-        p->translate[0] = 2;
-        p->translate[1] = 0;
-        p->translate[2] = -3;
-        sg.nodes.push_back(std::move(p));
-    }
-
-    {
-        std::uniform_real_distribution<float> d_mat(0.2f, 1.0f);
-        auto mtrl = std::make_shared<material>();
-        float tmp = d_mat(rng);
-        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = tmp;
-        tmp = d_mat(rng);
-        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = tmp;
-        tmp = d_mat(rng);
-        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = tmp;
-        auto p = fns[3]();
-
-        p->mtrl = mtrl;
-        p->color[0] = 0.6;
-        p->color[1] = 0.4;
-        p->color[2] = 0.1;
-        p->translate[0] = 2;
-        p->translate[1] = 0;
-        p->translate[2] = 0;
-        sg.nodes.push_back(std::move(p));
-    }
-
-    {
-        std::uniform_real_distribution<float> d_mat(0.2f, 1.0f);
-        auto mtrl = std::make_shared<material>();
-        float tmp = d_mat(rng);
-        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = tmp;
-        tmp = d_mat(rng);
-        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = tmp;
-        tmp = d_mat(rng);
-        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = tmp;
-        auto p = fns[4]();
-
-        p->mtrl = mtrl;
-        p->color[0] = 0.1;
-        p->color[1] = 0.4;
-        p->color[2] = 0.6;
-        p->translate[0] = 2;
-        p->translate[1] = -6;
-        p->translate[2] = -6;
-        sg.nodes.push_back(std::move(p));
-    }
-
-    {
-        std::uniform_real_distribution<float> d_mat(0.2f, 1.0f);
-        auto mtrl = std::make_shared<material>();
-        float tmp = d_mat(rng);
-        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = tmp;
-        tmp = d_mat(rng);
-        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = tmp;
-        tmp = d_mat(rng);
-        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = tmp;
-        auto p = fns[5]();
-
-        p->mtrl = mtrl;
-        p->color[0] = 0.3;
-        p->color[1] = 0.6;
-        p->color[2] = 0.2;
-        p->translate[0] = 3;
-        p->translate[1] = -3;
-        p->translate[2] = -6;
-        sg.nodes.push_back(std::move(p));
-    }
-
     {    
         std::uniform_real_distribution<float> d_color(0.0f, 1.0f);
         std::uniform_real_distribution<float> d_pos(-10.0f, 10.0f);
@@ -176,12 +48,9 @@ void init() {
         {
             std::uniform_real_distribution<float> d_mat(0.2f, 1.0f);
             auto mtrl = std::make_shared<material>();
-            float tmp = d_mat(rng);
-            mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = tmp;
-            tmp = d_mat(rng);
-            mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = tmp;
-            tmp = d_mat(rng);
-            mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = tmp;
+            mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = d_mat(rng);
+            mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = d_mat(rng);
+            mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = d_mat(rng);
             auto p = fns[d_fn(rng)]();
             p->mtrl = mtrl;
             p->color[0] = d_color(rng);
@@ -201,17 +70,125 @@ void init() {
             sg.nodes.push_back(std::move(p));
         }
     }
+
+    {
+        std::uniform_real_distribution<float> d_mat(0.2f, 1.0f);
+        auto mtrl = std::make_shared<material>();
+        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = 0.5;
+        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = 0.3;
+        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = 1.0;
+        auto p = fns[0]();
+        p->mtrl = mtrl;
+        p->color[0] = 1.0;
+        p->color[1] = 0.5;
+        p->color[2] = 0.2;
+        p->translate[0] = 2;
+        p->translate[1] = -3;
+        p->translate[2] = -3;
+        p->scale[1] = 1;
+        p->texId = texId;
+        p->rotate_mat = mat3::rotate(20, 0.5, 0.5, 0.5);
+        sg.nodes.push_back(std::move(p));
+    }
+
+    {
+        std::uniform_real_distribution<float> d_mat(0.2f, 1.0f);
+        auto mtrl = std::make_shared<material>();
+        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = 0.1;
+        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = 0.4;
+        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = 1.0;
+        auto p = fns[1]();
+        p->mtrl = mtrl;
+        p->color[0] = 1.0;
+        p->color[1] = 0.5;
+        p->color[2] = 0.2;
+        p->translate[0] = 2;
+        p->translate[1] = -3;
+        p->translate[2] = 0;
+        p->texId = texId;
+        sg.nodes.push_back(std::move(p));
+    }
+
+    {
+        std::uniform_real_distribution<float> d_mat(0.2f, 1.0f);
+        auto mtrl = std::make_shared<material>();
+        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = 0.6;
+        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = 0.2;
+        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = 1.0;
+        auto p = fns[2]();
+
+        p->mtrl = mtrl;
+        p->color[0] = 1.0;
+        p->color[1] = 0.5;
+        p->color[2] = 0.2;
+        p->translate[0] = 2;
+        p->translate[1] = 0;
+        p->translate[2] = -3;
+        sg.nodes.push_back(std::move(p));
+    }
+
+    {
+        std::uniform_real_distribution<float> d_mat(0.2f, 1.0f);
+        auto mtrl = std::make_shared<material>();
+        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = 0.5;
+        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = 0.3;
+        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = 1.0;
+        auto p = fns[3]();
+
+        p->mtrl = mtrl;
+        p->color[0] = 0.6;
+        p->color[1] = 0.4;
+        p->color[2] = 0.1;
+        p->translate[0] = 2;
+        p->translate[1] = 0;
+        p->translate[2] = 0;
+        sg.nodes.push_back(std::move(p));
+    }
+
+    {
+        std::uniform_real_distribution<float> d_mat(0.2f, 1.0f);
+        auto mtrl = std::make_shared<material>();
+        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = 0.2;
+        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = 0.4;
+        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = 1.0;
+        auto p = fns[4]();
+
+        p->mtrl = mtrl;
+        p->color[0] = 0.1;
+        p->color[1] = 0.4;
+        p->color[2] = 0.6;
+        p->translate[0] = 2;
+        p->translate[1] = -6;
+        p->translate[2] = -6;
+        sg.nodes.push_back(std::move(p));
+    }
+
+    {
+        std::uniform_real_distribution<float> d_mat(0.2f, 1.0f);
+        auto mtrl = std::make_shared<material>();
+        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = 0.4;
+        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = 0.7;
+        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = 1.0;
+        auto p = fns[5]();
+
+        p->mtrl = mtrl;
+        p->color[0] = 0.3;
+        p->color[1] = 0.6;
+        p->color[2] = 0.2;
+        p->translate[0] = 3;
+        p->translate[1] = -3;
+        p->translate[2] = -6;
+        sg.nodes.push_back(std::move(p));
+    }
+
 #define READ
 #ifndef READ
     {
         std::uniform_real_distribution<float> d_mat(0.2f, 1.0f);
         auto mtrl = std::make_shared<material>();
-        float tmp = d_mat(rng);
-        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = tmp;
-        tmp = d_mat(rng);
-        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = tmp;
-        tmp = d_mat(rng);
-        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = tmp;
+        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = 0.4;
+        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = 0.2;
+        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = 1.0
         auto p = std::make_shared<obj_mesh>("teddy.txt");
         p->mtrl = mtrl;
         p->translate[2] = -2.0f;
@@ -224,12 +201,9 @@ void init() {
     {
         std::uniform_real_distribution<float> d_mat(0.2f, 1.0f);
         auto mtrl = std::make_shared<material>();
-        float tmp = d_mat(rng);
-        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = tmp;
-        tmp = d_mat(rng);
-        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = tmp;
-        tmp = d_mat(rng);
-        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = tmp;
+        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = 0.6;
+        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = 0.3;
+        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = 1.0;
         auto p = std::make_shared<obj_mesh>("teddy.txt");
         p->mtrl = mtrl;
         p->translate[2] = -5.0f;
@@ -244,12 +218,9 @@ void init() {
     {
         std::uniform_real_distribution<float> d_mat(0.2f, 1.0f);
         auto mtrl = std::make_shared<material>();
-        float tmp = d_mat(rng);
-        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = tmp;
-        tmp = d_mat(rng);
-        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = tmp;
-        tmp = d_mat(rng);
-        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = tmp;
+        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = 0.4;
+        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = 0.3;
+        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = 1.0;
         auto p = std::make_shared<obj_mesh>("export.txt");
         p->mtrl = mtrl;
         // p->translate[2] = -2.0f;
@@ -305,12 +276,8 @@ void init() {
 
         std::uniform_real_distribution<float> d_mat(0.2f, 1.0f);
         auto mtrl = std::make_shared<material>();
-        float tmp = d_mat(rng);
-        mtrl->ambient[0] = mtrl->ambient[1] = mtrl->ambient[2] = tmp;
-        tmp = d_mat(rng);
-        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = tmp;
-        tmp = d_mat(rng);
-        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = tmp;
+        mtrl->diffuse[0] = mtrl->diffuse[1] = mtrl->diffuse[2] = 0.4;
+        mtrl->specular[0] = mtrl->specular[1] = mtrl->specular[2] = 1.0;
         auto p = std::make_unique<nurbs>(cpts, knotsx, knotsy, 5, 5, 3, 3, 0.005f, 0.005f);
         p->mtrl = mtrl;
         p->translate[0] = -1;
