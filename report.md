@@ -158,7 +158,26 @@ down_node->rotate_mat = ~rn * ro * down_mat;
 
 #### 体素构建
 
-fad
+根据要求，我们需要建出立方体、球、圆柱、圆锥、多面棱柱、多面棱台这六种基本体素。如前一部分所属，以上所有体素都是 `node` 类的子类。因此对于每一个体素类，只需要重载 `node` 类中的 `render()` 方法即可实现体素的构建与渲染。代码的形式如下。
+
+```cpp
+class someGeometry : public node {
+  	someGeometry() {
+      	// do some initialization here
+    }
+  	void render() override {
+      	transform();
+      	colorize();
+      	// render this geometry
+    }
+}
+```
+
+对于每一种体素，在渲染时首先需要调用父类方法 `transform()` 与 `colorize()`。`transform()` 使用 OpenGL API `glTranslate` `glScale` `glMultMatrixf` 等进行（此处我们手工实现了矩阵旋转，故使用 `glMultMatrixf` 将旋转矩阵乘在体素坐标上）。注意顺序是先平移、再旋转，最后缩放。`colorize()` 处理纹理、颜色、材质的设置。如果体素具有某种属性，则调用 OpenGL API 进行相应设置，例如使用 `glBindTexture` 将纹理与体素绑定。
+
+此后就可以开始绘制当前体素。由于我们需要让每种体素支持贴图，不能使用 glut 提供的绘制 API （`glutSolid*` 没有提供纹理坐标）。对于立方体、棱柱、棱台，我们使用 `glVertex` API 指定端点来进行绘制。绘制时同时指定纹理坐标与平面法向（确保光照正确）。对于球、圆柱、圆锥，我们使用 `gluQuadric` API 进行绘制，这些 API 提供的体素带有纹理坐标。使用这一套 API，首先需要在体素的构造函数中调用 `gluNewQuadric() `申请绘制体素每一个面的内存空间，随后调用 API 设置体素每一个面的法向、纹理、绘制方式等。渲染时调用 API 将体素绘制出即可，例如，绘制圆柱时，首先使用 `gluCylinder` 绘制圆柱面，然后使用 `gluDisk` 绘制圆柱顶面与底面。在体素对象析构的时候，需要释放申请过的体素内存空间。
+
+对于每一个体素类，由于需要不停重复绘制，我们可以使用显示列表技术来加速渲染。只需在构造函数中建立显示列表，渲染时调用显示列表，对象析构时删除显示列表即可。
 
 #### 曲面细分
 
@@ -273,11 +292,19 @@ void tessellate(int a, int b, int c) {/* omitted */}
 
 #### OBJ 网格导入与导出
 
-fad
+OBJ 网格导入逻辑参考了[这份代码](http://openglsamples.sourceforge.net/files/glut_obj.cpp)。原理也较为简单，即解析 `v` 开头的一行读入端点坐标，解析 `f` 开头的一行将端点坐标按照面片的顺序紧密排列在数组中，同时计算面片的法向。最后调用 OpenGL API 以这些数组内的点作为顶点进行绘制即可。实现上，由于 OBJ 对象依然是一种“体素”，OBJ 类因此继承了 `node` 类。在 OBJ 类构造时即可执行 OBJ 文件解析的逻辑，将面片顶点数据储存在内存中。然后重载 `render()` 方法，调用 API 绘制即可。
 
-#### 材质与纹理显示与编辑
+OBJ 网格的导出需要保留场景中所有 OBJ 网格体素的位置与变换情况。因此，在输出内存中的 OBJ 对象面片数据之前，需要以当前 OBJ 对象的变换情况对顶点进行变换再输出，注意此处应为先缩放、再旋转，最后平移。
 
-fad
+接受键盘消息，修改
+
+#### 材质、纹理显示与编辑
+
+物体的材质信息在对应的类中被保存。只需要在 `render()` 方法内使用 `glMaterial` API 对物体材质进行设置即可。对于材质的编辑，只需要接受键盘消息，调整对应的材质信息即可。
+
+对于纹理的显示，我们首先需要按 PNG 文件的位置导入图片。导入图片使用了 STBI 库。随后调用 API，将导入的图片数据生成纹理，并将纹理的编号设置给物体对象。这样物体在渲染前就可以与纹理绑定，从而实现纹理的显示。
+
+对于纹理的编辑，我们使用了 [Native File Dialog](https://github.com/mlabbe/nativefiledialog) 这一跨平台文件选择库（支持 Windows、macOS、Linux），使用库获取用户指定 PNG 文件的路径，并以该路径对应的图片生成纹理，将物体对象的纹理编号修改即可。
 
 #### 几何变换
 
